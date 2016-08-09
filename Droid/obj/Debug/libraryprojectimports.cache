@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Paths>
+  <Jars></Jars>
+  <ResolvedResourceDirectories>
+    <ResolvedResourceDirectory>/Users/mww121/Desktop/FlushArcade/PACKT Publishing/Xamarin Blueprints/Chapters/Chapter 8/Camera/Droid/obj/Debug/__library_projects__/ModernHttpClient/library_project_imports/res</ResolvedResourceDirectory>
+    <ResolvedResourceDirectory>/Users/mww121/Desktop/FlushArcade/PACKT Publishing/Xamarin Blueprints/Chapters/Chapter 8/Camera/Droid/obj/Debug/__library_projects__/Xamarin.Forms.Platform.Android/library_project_imports/res</ResolvedResourceDirectory>
+    <ResolvedResourceDirectory>/Users/mww121/Desktop/FlushArcade/PACKT Publishing/Xamarin Blueprints/Chapters/Chapter 8/Camera/Droid/obj/Debug/__library_projects__/Xamarin.Forms.Platform/library_project_imports/res</ResolvedResourceDirectory>
+    <ResolvedResourceDirectory>/Users/mww121/Desktop/FlushArcade/PACKT Publishing/Xamarin Blueprints/Chapters/Chapter 8/Camera/Droid/obj/Debug/__library_projects__/SQLite.Net.Platform.XamarinAndroid/library_project_imports/res</ResolvedResourceDirectory>
+  </ResolvedResourceDirectories>
+  <ResolvedAssetDirectories>
+    <ResolvedAssetDirectory>/Users/mww121/Desktop/FlushArcade/PACKT Publishing/Xamarin Blueprints/Chapters/Chapter 8/Camera/Droid/obj/Debug/__library_projects__/ModernHttpClient/library_project_imports/assets</ResolvedAssetDirectory>
+    <ResolvedAssetDirectory>/Users/mww121/Desktop/FlushArcade/PACKT Publishing/Xamarin Blueprints/Chapters/Chapter 8/Camera/Droid/obj/Debug/__library_projects__/Xamarin.Forms.Platform.Android/library_project_imports/assets</ResolvedAssetDirectory>
+    <ResolvedAssetDirectory>/Users/mww121/Desktop/FlushArcade/PACKT Publishing/Xamarin Blueprints/Chapters/Chapter 8/Camera/Droid/obj/Debug/__library_projects__/Xamarin.Forms.Platform/library_project_imports/assets</ResolvedAssetDirectory>
+    <ResolvedAssetDirectory>/Users/mww121/Desktop/FlushArcade/PACKT Publishing/Xamarin Blueprints/Chapters/Chapter 8/Camera/Droid/obj/Debug/__library_projects__/SQLite.Net.Platform.XamarinAndroid/library_project_imports/assets</ResolvedAssetDirectory>
+  </ResolvedAssetDirectories>
+  <ResolvedEnvironmentFiles />
+  <ResolvedResourceDirectoryStamps>
+    <ResolvedResourceDirectoryStamp>/Users/mww121/Desktop/FlushArcade/PACKT Publishing/Xamarin Blueprints/Chapters/Chapter 8/Camera/Droid/obj/Debug/__library_projects__/ModernHttpClient.stamp</ResolvedResourceDirectoryStamp>
+    <ResolvedResourceDirectoryStamp>/Users/mww121/Desktop/FlushArcade/PACKT Publishing/Xamarin Blueprints/Chapters/Chapter 8/Camera/Droid/obj/Debug/__library_projects__/Xamarin.Forms.Platform.Android.stamp</ResolvedResourceDirectoryStamp>
+    <ResolvedResourceDirectoryStamp>/Users/mww121/Desktop/FlushArcade/PACKT Publishing/Xamarin Blueprints/Chapters/Chapter 8/Camera/Droid/obj/Debug/__library_projects__/Xamarin.Forms.Platform.stamp</ResolvedResourceDirectoryStamp>
+    <ResolvedResourceDirectoryStamp>/Users/mww121/Desktop/FlushArcade/PACKT Publishing/Xamarin Blueprints/Chapters/Chapter 8/Camera/Droid/obj/Debug/__library_projects__/SQLite.Net.Platform.XamarinAndroid.stamp</ResolvedResourceDirectoryStamp>
+  </ResolvedResourceDirectoryStamps>
+</Paths>
