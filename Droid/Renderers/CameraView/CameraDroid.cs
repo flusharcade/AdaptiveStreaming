@@ -304,7 +304,16 @@ namespace Camera.Droid.Renderers.CameraView
 				Handler backgroundHandler = new Handler(thread.Looper);
 				reader.SetOnImageAvailableListener(readerListener, backgroundHandler);
 
-				var captureListener = new CameraCaptureListener() { Camera = this, File = file };
+				var captureListener = new CameraCaptureListener() 
+				{ 
+					File = file 
+				};
+
+				captureListener.Photo += (sender, e) =>
+				{
+					Photo?.Invoke(this, e);
+					StartPreview();
+				};
 
 				mCameraDevice.CreateCaptureSession(outputSurfaces, new CameraCaptureStateListener()
 				{

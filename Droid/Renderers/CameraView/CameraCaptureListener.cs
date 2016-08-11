@@ -3,10 +3,11 @@
 //   Copyright (c) 2016 Flush Arcade Pty Ltd. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-using System;
 
 namespace Camera.Droid.Renderers.CameraView
 {
+	using System;
+
 	using Java.IO;
 
 	using Android.Hardware.Camera2;
@@ -18,22 +19,20 @@ namespace Camera.Droid.Renderers.CameraView
 	/// </summary>
 	public class CameraCaptureListener : CameraCaptureSession.CaptureCallback
 	{
-		public CameraDroid Camera;
-
 		public File File;
 
-		public event EventHandler<File> Photo;
+		public event EventHandler<byte[]> Photo;
 
 		public override void OnCaptureCompleted(CameraCaptureSession session, CaptureRequest request, 
 		                                        TotalCaptureResult result)
 		{
-			if (Camera != null && File != null)
+			if (File != null)
 			{
-				var activity = Camera.Context;
-				if (activity != null)
-				{
-					Camera.StartPreview();
-				}
+				var randomAccessFile = new RandomAccessFile(File.AbsolutePath, "r");
+				byte[] bytes = new byte[(int)randomAccessFile.Length()];
+				randomAccessFile.ReadFully(bytes);
+
+				Photo?.Invoke(this, bytes);
 			}
 		}
 	}
