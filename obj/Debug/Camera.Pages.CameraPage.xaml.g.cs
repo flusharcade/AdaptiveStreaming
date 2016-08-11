@@ -38,9 +38,6 @@ namespace Camera.Pages {
         private global::Camera.Controls.CustomImage FlashImagePortrait;
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
-        private global::Camera.Controls.LoadingView LoadingView;
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
         private global::Xamarin.Forms.Grid CameraButtonContainerLandscape;
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
@@ -74,7 +71,6 @@ namespace Camera.Pages {
             CameraButtonPortrait = this.FindByName <global::Camera.Controls.CustomImage>("CameraButtonPortrait");
             FlashLabelPortrait = this.FindByName <global::Xamarin.Forms.Label>("FlashLabelPortrait");
             FlashImagePortrait = this.FindByName <global::Camera.Controls.CustomImage>("FlashImagePortrait");
-            LoadingView = this.FindByName <global::Camera.Controls.LoadingView>("LoadingView");
             CameraButtonContainerLandscape = this.FindByName <global::Xamarin.Forms.Grid>("CameraButtonContainerLandscape");
             CameraButtonLandscape = this.FindByName <global::Camera.Controls.CustomImage>("CameraButtonLandscape");
             FlashLabelLandscape = this.FindByName <global::Xamarin.Forms.Label>("FlashLabelLandscape");

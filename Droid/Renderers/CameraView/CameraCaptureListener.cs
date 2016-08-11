@@ -3,6 +3,7 @@
 //   Copyright (c) 2016 Flush Arcade Pty Ltd. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+using System;
 
 namespace Camera.Droid.Renderers.CameraView
 {
@@ -17,17 +18,21 @@ namespace Camera.Droid.Renderers.CameraView
 	/// </summary>
 	public class CameraCaptureListener : CameraCaptureSession.CaptureCallback
 	{
-		public Camera2BasicFragment Fragment;
+		public CameraDroid Camera;
+
 		public File File;
-		public override void OnCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result)
+
+		public event EventHandler<File> Photo;
+
+		public override void OnCaptureCompleted(CameraCaptureSession session, CaptureRequest request, 
+		                                        TotalCaptureResult result)
 		{
-			if (Fragment != null && File != null)
+			if (Camera != null && File != null)
 			{
-				var activity = Fragment.Activity;
+				var activity = Camera.Context;
 				if (activity != null)
 				{
-					Toast.MakeText(activity, "Saved: " + File.ToString(), ToastLength.Short).Show();
-					//Fragment.StartPreview();
+					Camera.StartPreview();
 				}
 			}
 		}

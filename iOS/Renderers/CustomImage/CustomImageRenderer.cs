@@ -12,6 +12,7 @@ namespace Camera.iOS.Renderers.CustomImage
 	using System;
 	using System.Threading.Tasks;
 	using System.IO;
+	using System.Diagnostics;
 
 	using Foundation;
 
@@ -23,6 +24,8 @@ namespace Camera.iOS.Renderers.CustomImage
 	using Camera.Controls;
 	using Camera.iOS.Extensions;
 	using Camera.iOS.Helpers;
+	using Camera.Portable.Logging;
+	using Camera.Portable.Ioc;
 
 	/// <summary>
 	/// Custom image renderer.
@@ -30,6 +33,16 @@ namespace Camera.iOS.Renderers.CustomImage
 	[Preserve(AllMembers = true)]
 	public class CustomImageRenderer : ViewRenderer<CustomImage, UIView>
 	{
+		/// <summary>
+		/// The tag.
+		/// </summary>
+		private readonly string _tag;
+
+		/// <summary>
+		/// The log.
+		/// </summary>
+		private ILogger _log;
+
 		/// <summary>
 		/// The image view.
 		/// </summary>
@@ -41,11 +54,12 @@ namespace Camera.iOS.Renderers.CustomImage
 		private int _systemVersion = Convert.ToInt16 (UIDevice.CurrentDevice.SystemVersion.Split ('.') [0]);
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:LogIt.iOS.Renderers.CustomImageRenderer"/> class.
+		/// Initializes a new instance of the <see cref="LogIt.Droid.Renderers.CustomImageRenderer"/> class.
 		/// </summary>
 		public CustomImageRenderer()
 		{
-			_imageView = new UIImageView();
+			_log = IoC.Resolve<ILogger>();
+			_tag = string.Format("{0} ", GetType());
 		}
 
 		/// <summary>
@@ -56,66 +70,26 @@ namespace Camera.iOS.Renderers.CustomImage
 		{
 			base.OnElementChanged (e);
 
-			if (Element != null) 
+			if (Control == null)
 			{
-				// make sure we only set native control once
-				if (Control == null)
-				{
-					base.SetNativeControl(_imageView);
-				}
+				_imageView = new UIImageView();
 
-				loadImage ();
-
-				if (Element.CircleOn)
-				{
-					createCircle();
-				}
-
-				Element.CustomPropertyChanged -= handleCustomPropertyChanged;
-				Element.CustomPropertyChanged += handleCustomPropertyChanged;
+				// Instantiate the native control
+				SetNativeControl(_imageView);
 			}
-		}
 
-		/// <summary>
-		/// Raises the element property changed event.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
-		protected override void OnElementPropertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			base.OnElementPropertyChanged (sender, e);
-
-			if (Element != null && _imageView != null && Element.CircleOn)
+			if (e.OldElement != null)
 			{
-				if (e.PropertyName == VisualElement.HeightProperty.PropertyName ||
-					e.PropertyName == VisualElement.WidthProperty.PropertyName ||
-					e.PropertyName == CustomImage.BorderColorProperty.PropertyName ||
-					e.PropertyName == CustomImage.BorderThicknessProperty.PropertyName ||
-					e.PropertyName == CustomImage.FillColorProperty.PropertyName)
-				{
-					createCircle();
-				}
+				// Unsubscribe from event handlers and cleanup any resources
+				e.OldElement.CustomPropertyChanged -= HandleCustomPropertyChanged;
 			}
-		}
 
-		/// <summary>
-		/// Creates the circle.
-		/// </summary>
-		private void createCircle()
-		{
-			try
+			if (e.NewElement != null)
 			{
-				double min = Math.Min(Element.Width, Element.Height);
+				LoadImage();
 
-				Control.Layer.CornerRadius = (float)(min / 2.0);
-				Control.Layer.MasksToBounds = false;
-				Control.Layer.BorderColor = Element.BorderColor.ToCGColor();
-				Control.Layer.BorderWidth = Element.BorderThickness;
-				Control.BackgroundColor = Element.FillColor.ToUIColor();
-				Control.ClipsToBounds = true;
-			}
-			catch (Exception ex)
-			{
+				e.NewElement.CustomPropertyChanged += HandleCustomPropertyChanged;
+				// Configure the control and subscribe to event handlers
 			}
 		}
 
@@ -124,20 +98,16 @@ namespace Camera.iOS.Renderers.CustomImage
 		/// </summary>
 		/// <param name="sender">Sender.</param>
 		/// <param name="propertyName">Property name.</param>
-		private void handleCustomPropertyChanged (object sender, string propertyName)
+		private void HandleCustomPropertyChanged (object sender, string propertyName)
 		{
 			switch (propertyName)
 			{
 				case "TintColorString":
 				case "TintOn":
-					updateControlColor();
+					UpdateControlColor();
 					break;
 				case "Path":
-					InvokeOnMainThread(() => loadImage());
-					break;
-				case "UseData":
-				case "Data":
-					InvokeOnMainThread(() => updateData());
+					InvokeOnMainThread(() => LoadImage());
 					break;
 			}
 		}
@@ -145,7 +115,7 @@ namespace Camera.iOS.Renderers.CustomImage
 		/// <summary>
 		/// Loads the image.
 		/// </summary>
-		private async void loadImage()
+		private void LoadImage()
 		{
 			try 
 			{
@@ -153,7 +123,7 @@ namespace Camera.iOS.Renderers.CustomImage
 				{
 					if (!string.IsNullOrEmpty(Element.Path))
 					{
-						_imageView.Image = await ReadBitmapImageFromStorage (Element.Path);
+						_imageView.Image = ReadBitmapImageFromStorage (Element.Path);
 
 						if (_imageView.Image != null)
 						{
@@ -162,15 +132,21 @@ namespace Camera.iOS.Renderers.CustomImage
 								_imageView.Image = _imageView.Image.ImageWithRenderingMode (UIImageRenderingMode.AlwaysTemplate);
 							}
 
-							updateControlColor();
+							UpdateControlColor();
 
-							_imageView.ContentMode = setAspect();
+							_imageView.ContentMode = SetAspect();
 						}
 					}
 				}
 			}
-			catch (Exception e) 
+			catch (Exception error)
 			{
+				_log.WriteLineTime(_tag + "\n" +
+					"LoadAsync() Failed to load view model.  \n " +
+					"ErrorMessage: \n" +
+					error.Message + "\n" +
+					"Stacktrace: \n " +
+					error.StackTrace);
 			}
 		}
 
@@ -178,20 +154,20 @@ namespace Camera.iOS.Renderers.CustomImage
 		/// Sets the aspect.
 		/// </summary>
 		/// <returns>The aspect.</returns>
-		private UIViewContentMode setAspect()
+		private UIViewContentMode SetAspect()
 		{
 			if (Element != null)
 			{
 				switch (Element.Aspect) 
 				{
-				case Aspect.AspectFill:
-					return UIViewContentMode.ScaleAspectFill;
-				case Aspect.AspectFit:
-					return UIViewContentMode.ScaleAspectFit;
-				case Aspect.Fill:
-					return UIViewContentMode.ScaleToFill;
-				default:
-					return UIViewContentMode.ScaleAspectFit;
+					case Aspect.AspectFill:
+						return UIViewContentMode.ScaleAspectFill;
+					case Aspect.AspectFit:
+						return UIViewContentMode.ScaleAspectFit;
+					case Aspect.Fill:
+						return UIViewContentMode.ScaleToFill;
+					default:
+						return UIViewContentMode.ScaleAspectFit;
 				}
 			}
 
@@ -203,10 +179,10 @@ namespace Camera.iOS.Renderers.CustomImage
 		/// </summary>
 		/// <returns>The bitmap image from storage.</returns>
 		/// <param name="fn">Fn.</param>
-		public async Task<UIImage> ReadBitmapImageFromStorage(string fn)
+		public UIImage ReadBitmapImageFromStorage(string fn)
 		{
 			var docsPath = Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
-			string filePath = Element.UseCustomDirectory ? Path.Combine (docsPath, fn) : Path.Combine (Environment.CurrentDirectory, fn);
+			string filePath = Path.Combine(Environment.CurrentDirectory, fn);
 
 			try 
 			{
@@ -216,30 +192,14 @@ namespace Camera.iOS.Renderers.CustomImage
 					return UIImage.LoadFromData (data);
 				}
 			}
-			catch (Exception e) 
+			catch (Exception error)
 			{
-			}
-
-			return UIImage.FromFile (Path.Combine (Environment.CurrentDirectory, "loading.png"));
-		}
-
-		/// <summary>
-		/// Reads the bitmap image from storage.
-		/// </summary>
-		/// <returns>The bitmap image from storage.</returns>
-		/// <param name="imageData">Image data.</param>
-		public async Task<UIImage> ReadBitmapImageFromStorage(byte[] imageData)
-		{
-			try 
-			{
-				using (Stream stream = new MemoryStream(imageData))
-				{
-					NSData data = NSData.FromStream (stream);
-					return UIImage.LoadFromData (data);
-				}
-			}
-			catch (Exception e) 
-			{
+				_log.WriteLineTime(_tag + "\n" +
+					"LoadAsync() Failed to load view model.  \n " +
+					"ErrorMessage: \n" +
+					error.Message + "\n" +
+					"Stacktrace: \n " +
+					error.StackTrace);
 			}
 
 			return UIImage.FromFile (Path.Combine (Environment.CurrentDirectory, "loading.png"));
@@ -248,50 +208,14 @@ namespace Camera.iOS.Renderers.CustomImage
 		/// <summary>
 		/// Updates the color of the control.
 		/// </summary>
-		private void updateControlColor()
+		private void UpdateControlColor()
 		{
 			if (Element.TintOn && !string.IsNullOrEmpty(Element.TintColorString)) 
 			{
 				var color = UIColor.Clear.FromHex (Element.TintColorString, 1.0f);
 
-				if (_systemVersion >= 7)
-				{
-					Control.TintColor = color;
-				}
-				else
-				{
-					_imageView.Image = UIImageEffects.GetColoredImage (_imageView.Image, color);
-				}
+				_imageView.Image = UIImageEffects.GetColoredImage(_imageView.Image, color);
 			}
-		}
-
-		/// <summary>
-		/// Handles the use data property changed.
-		/// </summary>
-		private async void updateData()
-		{
-			if (Element.UseData) 
-			{
-				_imageView.Image = await ReadBitmapImageFromStorage (Element.Data ?? new byte[]{});
-			}
-			else
-			{
-				_imageView.Image = await ReadBitmapImageFromStorage (Element.Path ?? string.Empty);
-			}
-		}
-
-		/// <summary>
-		/// Dispose the specified disposing.
-		/// </summary>
-		/// <param name="disposing">If set to <c>true</c> disposing.</param>
-		protected override void Dispose (bool disposing)
-		{
-			if (Element != null) 
-			{
-				Element.CustomPropertyChanged -= handleCustomPropertyChanged;
-			}
-
-			base.Dispose (disposing);
 		}
 	}
 }

@@ -20,7 +20,7 @@ namespace Camera.Droid.Renderers.CameraView
 			{
 				Camera.mCameraDevice = camera;
 				Camera.StartPreview();
-				Camera.mOpeningCamera = false;
+				Camera.OpeningCamera = false;
 			}
 		}
 
@@ -30,7 +30,7 @@ namespace Camera.Droid.Renderers.CameraView
 			{
 				camera.Close();
 				Camera.mCameraDevice = null;
-				Camera.mOpeningCamera = false;
+				Camera.OpeningCamera = false;
 			}
 		}
 
@@ -41,7 +41,7 @@ namespace Camera.Droid.Renderers.CameraView
 			{
 				Camera.mCameraDevice = null;
 				//Activity activity = Camera.Activity;
-				Camera.mOpeningCamera = false;
+				Camera.OpeningCamera = false;
 				//if (activity != null)
 				//{
 				//	activity.Finish();

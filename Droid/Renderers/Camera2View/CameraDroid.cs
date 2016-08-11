@@ -356,7 +356,7 @@ namespace Camera.Droid.Renderers.CameraView
 				//This listener is called when the capture is completed
 				// Note that the JPEG data is not available in this listener, but in the ImageAvailableListener we created above
 				// Right click on CameraCaptureListener in your IDE and go to its definition
-				CameraCaptureListener captureListener = new CameraCaptureListener() { Fragment = this, File = file };
+				//CameraCaptureListener captureListener = new CameraCaptureListener() { Camera = this, File = file };
 
 				mCameraDevice.CreateCaptureSession(outputSurfaces, new CameraCaptureStateListener()
 				{
@@ -364,7 +364,7 @@ namespace Camera.Droid.Renderers.CameraView
 					{
 						try
 						{
-							session.Capture(captureBuilder.Build(), captureListener, backgroundHandler);
+							//session.Capture(captureBuilder.Build(), captureListener, backgroundHandler);
 						}
 						catch (CameraAccessException ex)
 						{

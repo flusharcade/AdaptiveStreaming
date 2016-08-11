@@ -103,16 +103,16 @@ namespace Camera.Droid.Renderers.CameraView
 		/// </summary>
 		/// <param name="widthMeasureSpec">Width measure spec.</param>
 		/// <param name="heightMeasureSpec">Height measure spec.</param>
-		protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
-		{
-			// We purposely disregard child measurements because act as a
-			// wrapper to a SurfaceView that centers the camera preview instead
-			// of stretching it.
-			int width = ResolveSize(SuggestedMinimumWidth, widthMeasureSpec);
-			int height = ResolveSize(SuggestedMinimumHeight, heightMeasureSpec);
+		//protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
+		//{
+		//	// We purposely disregard child measurements because act as a
+		//	// wrapper to a SurfaceView that centers the camera preview instead
+		//	// of stretching it.
+		//	int width = ResolveSize(SuggestedMinimumWidth, widthMeasureSpec);
+		//	int height = ResolveSize(SuggestedMinimumHeight, heightMeasureSpec);
 
-			SetMeasuredDimension(width, height);
-		}
+		//	SetMeasuredDimension(width, height);
+		//}
 
 		/// <summary>
 		/// Handles the orientation change.

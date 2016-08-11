@@ -3,6 +3,7 @@
 //    Copyright (c) 2016 Flush Arcade Pty Ltd. All rights reserved.
 //  </copyright>
 // --------------------------------------------------------------------------------------------------
+using System.Threading.Tasks;
 
 namespace Camera.Controls
 {
@@ -96,7 +97,7 @@ namespace Camera.Controls
 		{
 			get
 			{
-				return this._focalTarget.Height / 2;
+				return _focalTarget.Height / 2;
 			}
 		}
 
@@ -108,7 +109,7 @@ namespace Camera.Controls
 		{
 			get
 			{
-				return this._focalTarget.Width / 2;
+				return _focalTarget.Width / 2;
 			}
 		}
 
@@ -127,15 +128,26 @@ namespace Camera.Controls
 		/// <param name="touchPoint">Touch point.</param>
 		private async void AnimateFocalTarget(Point touchPoint)
 		{
-			await _focalTarget.LayoutTo(new Rectangle(touchPoint.X - (IMG_TARGET_BOUND / 2), touchPoint.Y - (IMG_TARGET_BOUND / 2), IMG_TARGET_BOUND, IMG_TARGET_BOUND), 0);
+			_focalTarget.TintColorString = "#007F00";
+
+			await _focalTarget.LayoutTo(new Rectangle(touchPoint.X - (IMG_TARGET_BOUND / 2), 
+			                                          touchPoint.Y - (IMG_TARGET_BOUND / 2), 
+			                                          IMG_TARGET_BOUND, IMG_TARGET_BOUND), 0);
 
 			// fade in
 			await _focalTarget.FadeTo(0.7f, 25);
 
 			// animate scale
-			await _focalTarget.LayoutTo(new Rectangle(touchPoint.X - (IMG_TARGET_BOUND / 4), touchPoint.Y - (IMG_TARGET_BOUND / 4), (IMG_TARGET_BOUND / 2), (IMG_TARGET_BOUND / 2)), 250);
+			await _focalTarget.LayoutTo(new Rectangle(touchPoint.X - (IMG_TARGET_BOUND / 4), 
+			                                          touchPoint.Y - (IMG_TARGET_BOUND / 4),
+			                                          (IMG_TARGET_BOUND / 2), (IMG_TARGET_BOUND / 2)), 250);
 
 			_focalTarget.TintOn = true;
+
+			await Task.Delay(1000);
+
+			_focalTarget.TintColorString = "#FFFFFF";
+
 			_isAnimating = false;
 		}
 
@@ -199,7 +211,7 @@ namespace Camera.Controls
 		/// </summary>
 		public void Clear()
 		{
-			this.Children.Clear();
+			Children.Clear();
 		}
 
 		/// <summary>
@@ -219,7 +231,7 @@ namespace Camera.Controls
 		/// <param name="touchPoint">Touch point.</param>
 		public void AddFocualTargetImg(Point touchPoint)
 		{
-			this.AnimateFocalTarget(touchPoint);
+			AnimateFocalTarget(touchPoint);
 		}
 
 
@@ -236,12 +248,12 @@ namespace Camera.Controls
 			{
 				Path = "photo_focus.png",
 				BackgroundColor = Color.Transparent,
-				TintColorString = "#007F00",
+				TintColorString = "#FFFFFFF",
 				Opacity = 0.0f,
 				TintOn = false
 			} ;
 
-			this.Children.Add(_focalTarget,
+			Children.Add(_focalTarget,
 				Constraint.RelativeToParent((parent) =>
 					{
 						return parent.X;

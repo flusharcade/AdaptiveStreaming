@@ -108,7 +108,12 @@ namespace Camera.Droid.Renderers.CameraView
 		/// <summary>
 		/// The camera open.
 		/// </summary>
-		private bool cameraOpen = false;
+		private bool _cameraOpen = false;
+
+		/// <summary>
+		/// The size of the camera preview.
+		/// </summary>
+		private Android.Util.Size mPreviewSize;
 
 		/// <summary>
 		/// The context.
@@ -121,17 +126,14 @@ namespace Camera.Droid.Renderers.CameraView
 		public bool CameraBusy = true;
 
 		/// <summary>
+		/// The opening camera.
+		/// </summary>
+		public bool OpeningCamera;
+
+		/// <summary>
 		/// The reference to the opened CameraDevice.
 		/// </summary>
 		public CameraDevice mCameraDevice;
-
-		/// <summary>
-		/// The m opening camera.
-		/// </summary>
-		public bool mOpeningCamera;
-
-		// The size of the camera preview
-		private Android.Util.Size mPreviewSize;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Android_Shared.Controls.CameraDroid"/> class.
@@ -140,7 +142,7 @@ namespace Camera.Droid.Renderers.CameraView
 		public CameraDroid (Context context) : base (context)
 		{
 			_context = context;
-			_mediaSoundLoaded = loadShutterSound ();
+			_mediaSoundLoaded = LoadShutterSound ();
 
 			var inflater = LayoutInflater.FromContext (context);
 			if (inflater == null)
@@ -165,7 +167,7 @@ namespace Camera.Droid.Renderers.CameraView
 		/// Loads the shutter sound.
 		/// </summary>
 		/// <returns><c>true</c>, if shutter sound was loaded, <c>false</c> otherwise.</returns>
-		private bool loadShutterSound()
+		private bool LoadShutterSound()
 		{
 			try 
 			{
@@ -185,13 +187,15 @@ namespace Camera.Droid.Renderers.CameraView
 		/// </summary>
 		public void OpenCamera()
 		{
-			if (_context== null || mOpeningCamera)
+			if (_context== null || OpeningCamera)
 			{
 				return;
 			}
 
-			mOpeningCamera = true;
-			CameraManager manager = (CameraManager)_context.GetSystemService(Context.CameraService);
+			OpeningCamera = true;
+
+			var manager = (CameraManager)_context.GetSystemService(Context.CameraService);
+
 			try
 			{
 				string cameraId = manager.GetCameraIdList()[0];
@@ -213,12 +217,12 @@ namespace Camera.Droid.Renderers.CameraView
 
 				// We are opening the camera with a listener. When it is ready, OnOpened of mStateListener is called.
 				manager.OpenCamera(cameraId, mStateListener, null);
+
+				Available?.Invoke(this, true);
 			}
-			catch (CameraAccessException ex)
+			catch (Java.Lang.Exception ex)
 			{
-			}
-			catch (NullPointerException)
-			{
+				Available?.Invoke(this, false);
 			}
 		}
 
@@ -227,21 +231,18 @@ namespace Camera.Droid.Renderers.CameraView
 		/// </summary>
 		public void TakePhoto ()
 		{
-			if (!CameraBusy)
+			try
 			{
-				try
+				if (_mediaSoundLoaded)
 				{
-					if (_mediaSoundLoaded)
-					{
-						mediaSound.Play(MediaActionSoundType.ShutterClick);
-					}
+					mediaSound.Play(MediaActionSoundType.ShutterClick);
+				}
 
-					TakePicture();
-				}
-				catch (Java.Lang.Exception e)
-				{
-					IoC.Resolve<ILogger>().WriteLineTime("CameraDroid: Error taking photo " + e);
-				}
+				TakePicture();
+			}
+			catch (Java.Lang.Exception e)
+			{
+				IoC.Resolve<ILogger>().WriteLineTime("CameraDroid: Error taking photo " + e);
 			}
 		}
 
@@ -286,8 +287,9 @@ namespace Camera.Droid.Renderers.CameraView
 				captureBuilder.Set(CaptureRequest.ControlMode, new Java.Lang.Integer((int)ControlMode.Auto));
 
 				// Orientation
-				//SurfaceOrientation rotation = _context.WindowManager.DefaultDisplay.Rotation;
-				//captureBuilder.Set(CaptureRequest.JpegOrientation, new Java.Lang.Integer(ORIENTATIONS.Get((int)rotation)));
+				var windowManager = _context.GetSystemService(Context.WindowService).JavaCast<IWindowManager>();
+				SurfaceOrientation rotation = windowManager.DefaultDisplay.Rotation;
+				captureBuilder.Set(CaptureRequest.JpegOrientation, new Java.Lang.Integer(ORIENTATIONS.Get((int)rotation)));
 
 				// Output file
 				File file = new File(_context.GetExternalFilesDir(null), "pic.jpg");
@@ -302,11 +304,7 @@ namespace Camera.Droid.Renderers.CameraView
 				Handler backgroundHandler = new Handler(thread.Looper);
 				reader.SetOnImageAvailableListener(readerListener, backgroundHandler);
 
-				//This listener is called when the capture is completed
-				// Note that the JPEG data is not available in this listener, but in the ImageAvailableListener we created above
-				// Right click on CameraCaptureListener in your IDE and go to its definition
-
-				//var captureListener = new CameraCaptureListener() { Fragment = this, File = file };
+				var captureListener = new CameraCaptureListener() { Camera = this, File = file };
 
 				mCameraDevice.CreateCaptureSession(outputSurfaces, new CameraCaptureStateListener()
 				{
@@ -314,7 +312,7 @@ namespace Camera.Droid.Renderers.CameraView
 					{
 						try
 						{
-							//session.Capture(captureBuilder.Build(), captureListener, backgroundHandler);
+							session.Capture(captureBuilder.Build(), captureListener, backgroundHandler);
 						}
 						catch (CameraAccessException ex)
 						{
@@ -360,11 +358,6 @@ namespace Camera.Droid.Renderers.CameraView
 					{
 						OnConfigureFailedAction = (CameraCaptureSession session) =>
 						{
-							/*Activity activity = Activity;
-							if (activity != null)
-							{
-								Toast.MakeText(activity, "Failed", ToastLength.Short).Show();
-							}*/
 						},
 						OnConfiguredAction = (CameraCaptureSession session) =>
 						{
@@ -382,21 +375,27 @@ namespace Camera.Droid.Renderers.CameraView
 			}
 		}
 
+		/// <summary>
+		/// Configures the transform.
+		/// </summary>
+		/// <param name="viewWidth">View width.</param>
+		/// <param name="viewHeight">View height.</param>
 		private void ConfigureTransform(int viewWidth, int viewHeight)
 		{
-			/*Activity activity = Activity;
-
-			if (mTextureView == null || mPreviewSize == null || activity == null)
+			if (_viewSurface == null || mPreviewSize == null || _context == null)
 			{
 				return;
 			}
 
-			SurfaceOrientation rotation = activity.WindowManager.DefaultDisplay.Rotation;
+			var windowManager = _context.GetSystemService(Context.WindowService).JavaCast<IWindowManager>();
+
+			SurfaceOrientation rotation = windowManager.DefaultDisplay.Rotation;
 			Matrix matrix = new Matrix();
 			RectF viewRect = new RectF(0, 0, viewWidth, viewHeight);
 			RectF bufferRect = new RectF(0, 0, mPreviewSize.Width, mPreviewSize.Height);
 			float centerX = viewRect.CenterX();
 			float centerY = viewRect.CenterY();
+
 			if (rotation == SurfaceOrientation.Rotation90 || rotation == SurfaceOrientation.Rotation270)
 			{
 				bufferRect.Offset(centerX - bufferRect.CenterX(), centerY - bufferRect.CenterY());
@@ -405,7 +404,8 @@ namespace Camera.Droid.Renderers.CameraView
 				matrix.PostScale(scale, scale, centerX, centerY);
 				matrix.PostRotate(90 * ((int)rotation - 2), centerX, centerY);
 			}
-			mTextureView.SetTransform(matrix);*/
+
+			_cameraTexture.SetTransform(matrix);
 		}
 
 		/// <summary>

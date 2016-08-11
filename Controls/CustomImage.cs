@@ -79,126 +79,6 @@ namespace Camera.Controls
 		}
 
 		/// <summary>
-		/// The circle on property.
-		/// </summary>
-		public static readonly BindableProperty CircleOnProperty = BindableProperty.Create ((CustomImage o) => o.CircleOn, false,
-			propertyChanged: (bindable, oldvalue, newValue) => 
-			{
-				var eh = ((CustomImage)bindable).CustomPropertyChanged;
-
-				if (eh != null)
-				{
-					eh (bindable, CircleOnProperty.PropertyName);
-				}
-			});
-
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="MyCareManager.XamForms.Controls.CustomImage"/> use main thread.
-		/// </summary>
-		/// <value><c>true</c> if use main thread; otherwise, <c>false</c>.</value>
-		public bool UseMainThread 
-		{
-			get 
-			{
-				return (bool)GetValue (UseMainThreadProperty);
-			}
-			set 
-			{				 
-				SetValue (UseMainThreadProperty, value);
-			}
-		}
-
-		/// <summary>
-		/// The use main thread property.
-		/// </summary>
-		public static readonly BindableProperty UseMainThreadProperty = BindableProperty.Create ((CustomImage o) => o.UseMainThread, false,
-			propertyChanged: (bindable, oldvalue, newValue) => 
-			{
-				var eh = ((CustomImage)bindable).CustomPropertyChanged;
-
-				if (eh != null)
-				{
-					eh (bindable, CircleOnProperty.PropertyName);
-				}
-			});
-
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="MyCareManager.XamForms.Controls.CustomImage"/> circle on.
-		/// </summary>
-		/// <value><c>true</c> if circle on; otherwise, <c>false</c>.</value>
-		public bool CircleOn
-		{
-			get 
-			{
-				return (bool)GetValue (CircleOnProperty);
-			}
-			set 
-			{				 
-				SetValue (CircleOnProperty, value);
-			}
-		}
-
-		/// <summary>
-		/// The use custom directory property.
-		/// </summary>
-		public static readonly BindableProperty UseCustomDirectoryProperty = BindableProperty.Create ((CustomImage o) => o.UseCustomDirectory, default(bool),
-			propertyChanged: (bindable, oldvalue, newValue) => 
-			{
-				var eh = ((CustomImage)bindable).CustomPropertyChanged;
-
-				if (eh != null)
-				{
-					eh (bindable, UseCustomDirectoryProperty.PropertyName);
-				}
-			});
-
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="MyCareManager.XamForms.Controls.CustomImage"/> use custom directory.
-		/// </summary>
-		/// <value><c>true</c> if use custom directory; otherwise, <c>false</c>.</value>
-		public bool UseCustomDirectory 
-		{
-			get 
-			{
-				return (bool)GetValue (UseCustomDirectoryProperty);
-			}
-			set 
-			{
-				SetValue (UseCustomDirectoryProperty, value);
-			}
-		}
-
-		/// <summary>
-		/// The image source property.
-		/// </summary>
-		public static readonly BindableProperty ImageSourceProperty = BindableProperty.Create((CustomImage o) => o.Source, default(ImageSource),
-			propertyChanged: (bindable, oldvalue, newValue) => 
-			{
-				var eh = ((CustomImage)bindable).CustomPropertyChanged;
-
-				if (eh != null)
-				{
-					eh (bindable, ImageSourceProperty.PropertyName);
-				}
-			});
-
-		/// <summary>
-		/// Gets or sets the source.
-		/// </summary>
-		/// <value>The source.</value>
-		public ImageSource Source
-		{
-			get
-			{
-				return (ImageSource)GetValue(ImageSourceProperty);
-			}
-			set
-			{
-				SetValue(ImageSourceProperty, value);
-			}
-		}
-
-		/// <summary>
 		/// The path property.
 		/// </summary>
 		public static readonly BindableProperty PathProperty = BindableProperty.Create((CustomImage o) => o.Path, default(string),
@@ -238,7 +118,7 @@ namespace Camera.Controls
 
 				if (eh != null)
 				{
-					eh (bindable, AspectProperty.PropertyName);
+					eh(bindable, AspectProperty.PropertyName);
 				}
 			});
 
@@ -259,126 +139,6 @@ namespace Camera.Controls
 		}
 
 		/// <summary>
-		/// The data property.
-		/// </summary>
-		public static readonly BindableProperty DataProperty = BindableProperty.Create((CustomImage o) => o.Data, default(byte[]), 
-			propertyChanged: (bindable, oldvalue, newValue) => 
-			{
-				var eh = ((CustomImage)bindable).CustomPropertyChanged;
-
-				if (eh != null)
-				{
-					eh (bindable, DataProperty.PropertyName);
-				}
-			});
-
-		/// <summary>
-		/// Gets or sets the data.
-		/// </summary>
-		/// <value>The data.</value>
-		public byte[] Data 
-		{
-			get 
-			{
-				return (byte[])GetValue (DataProperty);
-			}
-			set 
-			{
-				SetValue (DataProperty, value);
-			}
-		}
-
-		/// <summary>
-		/// The use data property.
-		/// </summary>
-		public static readonly BindableProperty UseDataProperty = BindableProperty.Create((CustomImage o) => o.UseData, default(bool),
-			propertyChanged: (bindable, oldvalue, newValue) => 
-			{
-				var eh = ((CustomImage)bindable).CustomPropertyChanged;
-
-				if (eh != null)
-				{
-					eh (bindable, UseDataProperty.PropertyName);
-				}
-			});
-
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="MyCareManager.XamForms.Controls.CustomImage"/> use data.
-		/// </summary>
-		/// <value><c>true</c> if use data; otherwise, <c>false</c>.</value>
-		public bool UseData
-		{
-			get
-			{
-				return (bool)GetValue(UseDataProperty);
-			}
-			set
-			{
-				SetValue(UseDataProperty, value);
-			}
-		}
-
-		/// <summary>
-		/// Thickness property of border
-		/// </summary>
-		public static readonly BindableProperty BorderThicknessProperty = BindableProperty.Create<CustomImage, int>(p => p.BorderThickness, 0);
-
-		/// <summary>
-		/// Border thickness of circle image
-		/// </summary>
-		public int BorderThickness
-		{
-			get 
-			{ 
-				return (int)GetValue(BorderThicknessProperty); 
-			}
-			set 
-			{ 
-				SetValue(BorderThicknessProperty, value); 
-			}
-		}
-
-		/// <summary>
-		/// Color property of border
-		/// </summary>
-		public static readonly BindableProperty BorderColorProperty = BindableProperty.Create<CustomImage, Color>(p => p.BorderColor, Color.White);
-
-		/// <summary>
-		/// Border Color of circle image
-		/// </summary>
-		public Color BorderColor
-		{
-			get 
-			{ 
-				return (Color)GetValue(BorderColorProperty); 
-			}
-			set 
-			{ 
-				SetValue(BorderColorProperty, value);
-			}
-		}
-
-		/// <summary>
-		/// Color property of fill
-		/// </summary>
-		public static readonly BindableProperty FillColorProperty = BindableProperty.Create<CustomImage, Color>(p => p.FillColor, Color.Transparent);
-
-		/// <summary>
-		/// Fill color of circle image
-		/// </summary>
-		public Color FillColor
-		{
-			get
-			{ 
-				return (Color)GetValue(FillColorProperty); 
-			}
-			set 
-			{ 
-				SetValue(FillColorProperty, value); 
-			}
-		}
-
-		/// <summary>
 		/// Occurs when custom property changed.
 		/// </summary>
 		public event EventHandler<string> CustomPropertyChanged;
@@ -392,14 +152,8 @@ namespace Camera.Controls
 			base.OnPropertyChanged (propertyName);
 
 			if (propertyName == CustomImage.TintColorStringProperty.PropertyName ||
-				propertyName == CustomImage.CircleOnProperty.PropertyName ||
 				propertyName == CustomImage.TintOnProperty.PropertyName || 
-				propertyName == CustomImage.UseCustomDirectoryProperty.PropertyName ||
-				propertyName == CustomImage.ImageSourceProperty.PropertyName ||
-				propertyName == CustomImage.PathProperty.PropertyName ||
-				propertyName == CustomImage.AspectProperty.PropertyName ||
-				propertyName == CustomImage.DataProperty.PropertyName ||
-				propertyName == CustomImage.UseDataProperty.PropertyName)
+			    propertyName == CustomImage.AspectProperty.PropertyName)
 			{
 				if (CustomPropertyChanged != null) 
 				{

@@ -3,7 +3,6 @@
 //   Copyright (c) 2016 Flush Arcade Pty Ltd. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-using Camera.Portable.Ioc;
 
 namespace Camera.iOS.Renderers.CameraView
 {
@@ -19,8 +18,10 @@ namespace Camera.iOS.Renderers.CameraView
 	using CoreGraphics;
 
 	using Camera.iOS.Hardware;
+
 	using Camera.Portable.Enums;
 	using Camera.Portable.Logging;
+	using Camera.Portable.Ioc;
 
 	/// <summary>
 	/// Camera ios.
@@ -248,7 +249,7 @@ namespace Camera.iOS.Renderers.CameraView
 		/// <returns>The image with metadata.</returns>
 		/// <param name="captureStillImageOutput">Capture still image output.</param>
 		/// <param name="connection">Connection.</param>
-		private async Task captureImageWithMetadata(AVCaptureStillImageOutput captureStillImageOutput, AVCaptureConnection connection)
+		private async Task CaptureImageWithMetadata(AVCaptureStillImageOutput captureStillImageOutput, AVCaptureConnection connection)
 		{
 			var sampleBuffer = await captureStillImageOutput.CaptureStillImageTaskAsync(connection);
 			var imageData = AVCaptureStillImageOutput.JpegStillToNSData(sampleBuffer);
@@ -303,7 +304,7 @@ namespace Camera.iOS.Renderers.CameraView
 
 					var connection = _output.Connections[0];
 
-					await captureImageWithMetadata(_output, connection);
+					await CaptureImageWithMetadata(_output, connection);
 
 					SetBusy(false);
 				}

@@ -45,8 +45,8 @@
 			</Button>
 			
 			<Button x:Name="ExitButton" Text="{Binding ExitTitle}" 
-				Command="{Binding ExitCommand}" Style="{StaticResource ButtonStyleWithTrigger}" Grid.Row="3" Grid.Column="0"/>
-			
+				Command="{Binding ExitCommand}" Style="{StaticResource ButtonStyleWithTrigger}" 
+				Grid.Row="3" Grid.Column="0"/>
 		</Grid>
 	</ui:ExtendedContentPage.Content>
 </ui:ExtendedContentPage>

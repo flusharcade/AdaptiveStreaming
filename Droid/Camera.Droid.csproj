@@ -148,12 +148,11 @@
     <Compile Include="Renderers\FocusView\FocusViewGestureDetector.cs" />
     <Compile Include="Renderers\FocusView\FocusViewRenderer.cs" />
     <Compile Include="Renderers\Camera2View\CameraDroid.cs" />
-    <Compile Include="Renderers\Camera2View\AutoFitTextureView.cs" />
-    <Compile Include="Renderers\Camera\CameraDroid.cs" />
     <Compile Include="Renderers\CameraView\CameraCaptureStateListener.cs" />
     <Compile Include="Renderers\CameraView\CameraCaptureListener.cs" />
     <Compile Include="Renderers\CameraView\ImageAvailableListener.cs" />
     <Compile Include="Renderers\CameraView\CameraStateListener.cs" />
+    <Compile Include="Renderers\CameraView\AutoFitTextureView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -171,7 +170,6 @@
     <Folder Include="Renderers\Camera2View\" />
     <Folder Include="Resources\drawable\" />
     <Folder Include="Resources\drawable-hdpi\" />
-    <Folder Include="Renderers\Camera\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\EntryAlertView.xml" />
@@ -182,12 +180,13 @@
     <AndroidResource Include="Resources\drawable\photo_camera_button.png" />
     <AndroidResource Include="Resources\drawable\photo_check.png" />
     <AndroidResource Include="Resources\drawable\photo_focus.png" />
-    <AndroidResource Include="Resources\drawable\photo_light.png" />
     <AndroidResource Include="Resources\drawable-hdpi\photo_camera_button.png" />
     <AndroidResource Include="Resources\drawable-hdpi\photo_check.png" />
     <AndroidResource Include="Resources\drawable-hdpi\photo_focus.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\photo_light.png" />
     <AndroidResource Include="Resources\drawable-hdpi\photo_trash.png" />
+    <AndroidResource Include="Resources\drawable\photo_light.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\photo_light.png" />
+    <AndroidResource Include="Resources\drawable\photo_trash.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Camera.csproj">

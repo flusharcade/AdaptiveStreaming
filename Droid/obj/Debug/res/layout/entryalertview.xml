@@ -1,1 +1,0 @@
-<EditText android:id="@+id/textEntry" android:layout_height="wrap_content" android:layout_width="250px" android:layout_centerHorizontal="true" android:singleLine="true" xmlns:android="http://schemas.android.com/apk/res/android" />

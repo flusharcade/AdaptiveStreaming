@@ -94,7 +94,7 @@ namespace Camera.Pages
 
 			_model.CameraLoading = false;
 
-			LoadingView.SetBinding(VisualElement.IsVisibleProperty, new Binding("CameraLoading"));
+			//LoadingView.SetBinding(VisualElement.IsVisibleProperty, new Binding("CameraLoading"));
 
 			_model.CanCapture = CameraView.CameraAvailable;
 
@@ -304,7 +304,6 @@ namespace Camera.Pages
 		/// Captures the image.
 		/// </summary>
 		/// <param name="data">Data.</param>
-		/// <param name="orientation">Orientation.</param>
 		private void CaptureImage(byte[] data)
 		{
 			_log.WriteLineTime("CameraPage: Image taken");

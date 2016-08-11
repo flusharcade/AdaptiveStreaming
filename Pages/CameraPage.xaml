@@ -6,15 +6,6 @@
 	x:Class="Camera.Pages.CameraPage"
 	BackgroundColor="#F2F2F2">
 
-	<ui:ExtendedContentPage.Resources>
-		<ResourceDictionary>
-			<OnPlatform x:Key="colCategoryLandscape" x:TypeArguments="GridLength"
-				iOS="60"
-				Android="70"
-				WinPhone="100" />
-		</ResourceDictionary>
-	</ui:ExtendedContentPage.Resources>
-
 	<Grid x:Name="MainLayout" BackgroundColor="Black" RowSpacing="0" ColumnSpacing="0">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
@@ -57,8 +48,7 @@
 				<ColumnDefinition Width="35"/>
 			</Grid.ColumnDefinitions>
 
-			<ContentView BackgroundColor="Black" VerticalOptions="FillAndExpand" 
-				HorizontalOptions="FillAndExpand" 
+			<ContentView BackgroundColor="Black" 
 				Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"/>
 
 			<controls:CustomImage x:Name="CameraButtonPortrait" Path="photo_camera_button.png" 
@@ -69,7 +59,7 @@
 				</controls:CustomImage.GestureRecognizers>
 			</controls:CustomImage>
 
-			<Label x:Name="FlashLabelPortrait" 
+			<Label x:Name="FlashLabelPortrait"
 				Text="{Binding IsFlashOn, Converter={StaticResource boolToStringConverter}, ConverterParameter='On, Off'}"
 				TextColor="#0ca6df" XAlign="Start" YAlign="Center" 
 				Grid.Row="0" Grid.Column="1">
@@ -78,21 +68,20 @@
 				</Label.GestureRecognizers>
 			</Label>
 
-			<ContentView Padding="10, 0, 0, 0" 
-					VerticalOptions="Center" 
-					Grid.Row="0" Grid.Column="0" >
-				<controls:CustomImage x:Name="FlashImagePortrait" Path="photo_light.png" 
-						TintOn="false" WidthRequest="20" 
-						HeightRequest="35">
-					<controls:CustomImage.GestureRecognizers>
-						<TapGestureRecognizer Tapped="HandleFlash"/>
-					</controls:CustomImage.GestureRecognizers>
-				</controls:CustomImage>
-			</ContentView>
+			<controls:CustomImage x:Name="FlashImagePortrait" Path="photo_light.png" 
+					Margin="10, 0, 0, 0" 
+					VerticalOptions="Center"
+					TintOn="false" WidthRequest="20" 
+					HeightRequest="35"
+					Grid.Row="0" Grid.Column="0">
+				<controls:CustomImage.GestureRecognizers>
+					<TapGestureRecognizer Tapped="HandleFlash"/>
+				</controls:CustomImage.GestureRecognizers>
+			</controls:CustomImage>
 		</Grid>
 
-		<controls:LoadingView x:Name="LoadingView" 
-			Grid.Row="0" Grid.RowSpan="7" Grid.Column="0" Grid.ColumnSpan="6"/>
+		<!--<controls:LoadingView x:Name="LoadingView" 
+			Grid.Row="0" Grid.RowSpan="7" Grid.Column="0" Grid.ColumnSpan="6"/>-->
 
 		<Grid x:Name="CameraButtonContainerLandscape" RowSpacing="5" 
 				IsEnabled="{Binding PageOrientation, Converter={StaticResource orientationToBoolConverter}, ConverterParameter='true, false'}}" 
@@ -123,7 +112,7 @@
 				</controls:CustomImage.GestureRecognizers>
 			</controls:CustomImage>
 
-			<Label x:Name="FlashLabelLandscape"
+			<Label x:Name="FlashLabelLandscape" 
 					Text="{Binding IsFlashOn, Converter={StaticResource boolToStringConverter}, ConverterParameter='On, Off'}" 
 					TextColor="#0ca6df"
 					XAlign="Center" YAlign="Start" Grid.Row="1" Grid.Column="0">
@@ -132,16 +121,15 @@
 				</Label.GestureRecognizers>
 			</Label>
 
-			<ContentView Padding="0, 10, 0, 0" HorizontalOptions="Center" 
+			<controls:CustomImage x:Name="FlashImageLandscape" Path="photo_light.png"
+					Margin="0, 10, 0, 0" HorizontalOptions="Center" 
+					TintOn="false" WidthRequest="30" 
+					HeightRequest="30"
 					Grid.Row="0" Grid.Column="0">
-				<controls:CustomImage x:Name="FlashImageLandscape" Path="photo_light.png" 
-						TintOn="false" WidthRequest="30" 
-						HeightRequest="30">
-					<controls:CustomImage.GestureRecognizers>
-						<TapGestureRecognizer Tapped="HandleFlash"/>
-					</controls:CustomImage.GestureRecognizers>
-				</controls:CustomImage>
-			</ContentView>
+				<controls:CustomImage.GestureRecognizers>
+					<TapGestureRecognizer Tapped="HandleFlash"/>
+				</controls:CustomImage.GestureRecognizers>
+			</controls:CustomImage>
 		</Grid>
 
 		<Grid x:Name="PhotoEditLayout" IsEnabled="{Binding PhotoEditOn}" BackgroundColor="White" 

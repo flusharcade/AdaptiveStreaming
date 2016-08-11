@@ -1,41 +1,14 @@
 ﻿<Properties StartupItem="Droid/Camera.Droid.csproj" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Droid/Renderers/CameraView/CameraDroid.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Pages/MainPage.xaml">
     <Files>
-      <File FileName="Droid/Renderers/Camera2View/AutoFitTextureView.cs" Line="14" Column="15" />
-      <File FileName="Droid/Renderers/Camera2View/CameraDroid.cs" Line="100" Column="68" />
-      <File FileName="Droid/Renderers/CameraView/CameraRenderer.cs" Line="63" Column="34" />
-      <File FileName="Droid/Renderers/CameraView/CameraDroid.cs" Line="251" Column="27" />
-      <File FileName="Droid/Renderers/Camera/CameraDroid.cs" Line="144" Column="1" />
-      <File FileName="Droid/Renderers/CameraView/CameraCaptureStateListener.cs" Line="22" Column="41" />
-      <File FileName="Droid/Renderers/CameraView/ImageAvailableListener.cs" Line="2" Column="43" />
-      <File FileName="Droid/Renderers/CameraView/CameraCaptureListener.cs" Line="20" Column="30" />
-      <File FileName="Droid/Renderers/CameraView/CameraStateListener.cs" Line="50" Column="1" />
+      <File FileName="Controls/CameraView.cs" Line="1" Column="1" />
+      <File FileName="Pages/CameraPage.xaml" Line="116" Column="25" />
+      <File FileName="Pages/MainPage.xaml" Line="1" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="Camera" expanded="True">
-            <Node name="Camera.Droid" expanded="True" selected="True">
-              <Node name="Renderers" expanded="True">
-                <Node name="Camera" expanded="True" />
-                <Node name="Camera2View" expanded="True" />
-                <Node name="CameraView" expanded="True" />
-              </Node>
-              <Node name="Resources" expanded="True">
-                <Node name="layout" expanded="True" />
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/mww121/Desktop/FlushArcade/PACKT Publishing/Xamarin Blueprints/Chapters/Chapter 8/Camera/Droid/Renderers/CameraView/CameraDroid.cs" line="352" column="1" />
-      <Breakpoint file="/Users/mww121/Desktop/FlushArcade/PACKT Publishing/Xamarin Blueprints/Chapters/Chapter 8/Camera/Droid/Renderers/CameraView/CameraDroid.cs" line="346" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="../../Desktop/Development/Telstra/HealthConnex/MyCareManager/MyCareManager.Portable/Repositories/AccountRepository/AccountRepository.cs" line="214" offsetX="986" offsetY="3195" expression="this.webServiceUrl.AbsoluteUri" liveUpdate="False" />
