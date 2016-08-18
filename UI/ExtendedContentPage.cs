@@ -3,7 +3,6 @@
 //   Copyright (c) 2016 Flush Arcade Pty Ltd. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-using Camera.Portable;
 
 namespace Camera.UI
 {
@@ -13,6 +12,7 @@ namespace Camera.UI
 
 	using Camera.Portable.ViewModels;
 	using Camera.Portable.Enums;
+	using Camera.Portable;
 
 	/// <summary>
 	/// Extended content page.

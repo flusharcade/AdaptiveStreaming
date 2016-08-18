@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#000000">
     <Camera.Droid.Renderers.CameraView.AutoFitTextureView
         android:id="@+id/CameraTexture"
         android:layout_width="wrap_content"

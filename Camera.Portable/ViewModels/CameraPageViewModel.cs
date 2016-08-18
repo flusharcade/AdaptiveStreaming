@@ -14,7 +14,6 @@ namespace Camera.Portable.ViewModels
 	using Camera.Portable.Resources;
 	using Camera.Portable.Enums;
 	using Camera.Portable.UI;
-	using Camera.Portable.DataAccess.Storage;
 	using Camera.Portable.Extras;
 
 	/// <summary>
@@ -23,15 +22,6 @@ namespace Camera.Portable.ViewModels
 	public sealed class CameraPageViewModel : ViewModelBase
 	{
 		#region Private Properties
-
-		/// <summary>
-		/// The storage.
-		/// </summary>
-		private readonly ISQLiteStorage _storage;
-
-		/// <summary>
-		/// </summary>
-		private readonly Func<PhotoItemViewModel> _photoFactory;
 
 		/// <summary>
 		/// </summary>
@@ -76,14 +66,8 @@ namespace Camera.Portable.ViewModels
 		/// <param name="navigation">Navigation.</param>
 		/// <param name="commandFactory">Command factory.</param>
 		/// <param name="methods">Methods.</param>
-		/// <param name="photoFactory">Photo factory.</param>
-		/// <param name="storage">Storage.</param>
-		public CameraPageViewModel(INavigationService navigation, Func<Action, ICommand> commandFactory,
-			IMethods methods, Func<PhotoItemViewModel> photoFactory, ISQLiteStorage storage) 
-			: base (navigation, methods)
+		public CameraPageViewModel(INavigationService navigation, Func<Action, ICommand> commandFactory) : base (navigation)
 		{
-			_storage = storage;
-			_photoFactory = photoFactory;
 		}
 
 		#endregion
@@ -137,8 +121,8 @@ namespace Camera.Portable.ViewModels
 		/// <value><c>true</c> if is flash on; otherwise, <c>false</c>.</value>
 		public bool IsFlashOn
 		{
-			get { return _cameraLoading; }
-			set { SetProperty(nameof(IsFlashOn), ref _cameraLoading, value); }
+			get { return _isFlashOn; }
+			set { SetProperty(nameof(IsFlashOn), ref _isFlashOn, value); }
 		}
 
 		/// <summary>
@@ -179,10 +163,10 @@ namespace Camera.Portable.ViewModels
 		/// <summary>
 		/// Updates the photo to edit.
 		/// </summary>
-		/// <param name="imageData">Image data.</param>
-		public void AddPhoto(byte[] imageData)
+		/// <param name="data">Image data.</param>
+		public void AddPhoto(byte[] data)
 		{
-			PhotoData = imageData;
+			PhotoData = data;
 			PhotoEditOn = true;
 		}
 
@@ -211,19 +195,6 @@ namespace Camera.Portable.ViewModels
 			FocusShowing = false;
 			CameraLoading = true;
 			ResetEditPhoto();
-		}
-
-		#endregion
-
-		#region Protected Methods
-
-		/// <summary>
-		/// Loads the async.
-		/// </summary>
-		/// <returns>The async.</returns>
-		/// <param name="parameters">Parameters.</param>
-		protected override async Task LoadAsync(IDictionary<string, object> parameters)
-		{
 		}
 
 		#endregion

@@ -19,21 +19,21 @@ namespace Camera.Droid.Renderers.CameraView
 	/// </summary>
 	public class CameraCaptureListener : CameraCaptureSession.CaptureCallback
 	{
-		public File File;
+		/// <summary>
+		/// Occurs when photo complete.
+		/// </summary>
+		public event EventHandler PhotoComplete;
 
-		public event EventHandler<byte[]> Photo;
-
+		/// <summary>
+		/// Ons the capture completed.
+		/// </summary>
+		/// <param name="session">Session.</param>
+		/// <param name="request">Request.</param>
+		/// <param name="result">Result.</param>
 		public override void OnCaptureCompleted(CameraCaptureSession session, CaptureRequest request, 
 		                                        TotalCaptureResult result)
 		{
-			if (File != null)
-			{
-				var randomAccessFile = new RandomAccessFile(File.AbsolutePath, "r");
-				byte[] bytes = new byte[(int)randomAccessFile.Length()];
-				randomAccessFile.ReadFully(bytes);
-
-				Photo?.Invoke(this, bytes);
-			}
+			PhotoComplete?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }

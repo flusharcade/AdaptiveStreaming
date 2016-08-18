@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Camera2BasicFragment.cs" company="Flush Arcade Pty Ltd.">
+// <copyright file="AutoFitTextureView.cs" company="Flush Arcade Pty Ltd.">
 //   Copyright (c) 2016 Flush Arcade Pty Ltd. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------

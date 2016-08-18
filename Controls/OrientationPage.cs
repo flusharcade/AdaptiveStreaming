@@ -17,6 +17,8 @@ namespace Camera.Controls
 	/// </summary>
 	public class OrientationPage : ContentPage
 	{
+		#region Static Properties
+
 		/// <summary>
 		/// The page orientation.
 		/// </summary>
@@ -31,6 +33,10 @@ namespace Camera.Controls
 		/// Occurs when touch handler.
 		/// </summary>
 		public static event EventHandler<Point> TouchHandler;
+
+		#endregion
+
+		#region Static Methods
 
 		/// <summary>
 		/// Notifies the orientation change.
@@ -55,5 +61,7 @@ namespace Camera.Controls
 				TouchHandler(null, touchPoint);
 			}
 		}
+
+		#endregion
 	}
 }

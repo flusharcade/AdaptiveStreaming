@@ -18,6 +18,8 @@ namespace Camera.Controls
 	/// </summary>
 	public sealed class CameraView : ContentView
 	{
+		#region Events
+
 		/// <summary>
 		/// Occurs when orientation change.
 		/// </summary>
@@ -26,7 +28,7 @@ namespace Camera.Controls
 		/// <summary>
 		/// Occurs when focus.
 		/// </summary>
-		public event EventHandler<Point> FocusChange;
+		public event EventHandler<Point> Focus;
 
 		/// <summary>
 		/// Occurs when availability change.
@@ -73,40 +75,14 @@ namespace Camera.Controls
 		/// </summary>
 		public event EventHandler Shutter;
 
-		/// <summary>
-		/// The image rotation angle.
-		/// </summary>
-		public int ImgRotationAngle = 0;
+		#endregion
 
-		/// <summary>
-		/// The width of the target.
-		/// </summary>
-		public int TargetWidth = 0;
-
-		/// <summary>
-		/// The height of the target.
-		/// </summary>
-		public int TargetHeight = 0;
-
-		/// <summary>
-		/// The combo showing.
-		/// </summary>
-		public bool ComboShowing = false;
-
-		/// <summary>
-		/// The camera busy.
-		/// </summary>
-		public bool CameraBusy = false;
+		#region Public Properties
 
 		/// <summary>
 		/// The camera available.
 		/// </summary>
-		public bool CameraAvailable = false;
-
-		/// <summary>
-		/// The camera focused.
-		/// </summary>
-		public bool CameraFocused = false;
+		public bool CameraAvailable;
 
 		/// <summary>
 		/// The orientation.
@@ -118,15 +94,16 @@ namespace Camera.Controls
 		/// </summary>
 		public float CameraButtonContainerWidth = 0f;
 
+		#endregion
+
+		#region Public Methods
+
 		/// <summary>
 		/// Notifies the shutter.
 		/// </summary>
 		public void NotifyShutter()
 		{
-			if (Shutter != null) 
-			{
-				Shutter (this, EventArgs.Empty);
-			}
+			Shutter?.Invoke(this, EventArgs.Empty);
 		}
 
 		/// <summary>
@@ -135,10 +112,7 @@ namespace Camera.Controls
 		/// <param name="open">If set to <c>true</c> open.</param>
 		public void NotifyOpenCamera(bool open)
 		{
-			if (OpenCamera != null) 
-			{
-				OpenCamera (this, open);
-			}
+			OpenCamera?.Invoke(this, open);
 		}
 
 		/// <summary>
@@ -147,10 +121,7 @@ namespace Camera.Controls
 		/// <param name="touchPoint">Touch point.</param>
 		public void NotifyFocus(Point touchPoint)
 		{
-			if (FocusChange != null) 
-			{
-				FocusChange (this, touchPoint);
-			}
+			Focus?.Invoke(this, touchPoint);
 		}
 
 		/// <summary>
@@ -160,10 +131,7 @@ namespace Camera.Controls
 		/// <param name="busy">If set to <c>true</c> busy.</param>
 		public void NotifyBusy(object sender, bool busy)
 		{
-			if (Busy != null) 
-			{
-				Busy (this, busy);
-			}
+			Busy?.Invoke(this, busy);
 		}
 
 		/// <summary>
@@ -174,10 +142,7 @@ namespace Camera.Controls
 		{
 			Orientation = orientation;
 
-			if (OrientationChange != null)
-			{
-				OrientationChange (this, orientation);
-			}
+			OrientationChange?.Invoke(this, orientation);
 		}
 
 		/// <summary>
@@ -189,10 +154,7 @@ namespace Camera.Controls
 		{
 			CameraAvailable = isAvailable;
 
-			if (AvailabilityChange != null) 
-			{
-				AvailabilityChange (this, isAvailable);
-			}
+			AvailabilityChange?.Invoke(this, isAvailable);
 		}
 
 		/// <summary>
@@ -202,10 +164,7 @@ namespace Camera.Controls
 		/// <param name="imageData">Image data.</param>
 		public void NotifyPhoto(object sender, byte[] imageData)
 		{
-			if (Photo != null) 
-			{
-				Photo (this, imageData);
-			}
+			Photo?.Invoke(this, imageData);
 		}
 		/// <summary>
 		/// Notifies the flash.
@@ -213,10 +172,7 @@ namespace Camera.Controls
 		/// <param name="flashOn">If set to <c>true</c> flash on.</param>
 		public void NotifyFlash(bool flashOn)
 		{
-			if (Flash != null)
-			{
-				Flash (this, flashOn);
-			}
+			Flash?.Invoke(this, flashOn);
 		}
 
 		/// <summary>
@@ -225,10 +181,7 @@ namespace Camera.Controls
 		/// <param name="torchOn">If set to <c>true</c> torch on.</param>
 		public void NotifyTorch(bool torchOn)
 		{
-			if (Torch != null)
-			{
-				Torch (this, torchOn);
-			}
+			Torch?.Invoke(this, torchOn);
 		}
 
 		/// <summary>
@@ -238,10 +191,7 @@ namespace Camera.Controls
 		/// <param name="loading">If set to <c>true</c> loading.</param>
 		public void NotifyLoading(object sender, bool loading)
 		{
-			if (this.Loading != null) 
-			{
-				this.Loading (this, loading);
-			}
+			Loading?.Invoke(this, loading);
 		}
 
 		/// <summary>
@@ -250,11 +200,14 @@ namespace Camera.Controls
 		/// <param name="cameraButtonContainerWidth">Camera button container width.</param>
 		public void NotifyWidths(float cameraButtonContainerWidth)
 		{
-			this.CameraButtonContainerWidth = cameraButtonContainerWidth;
+			CameraButtonContainerWidth = cameraButtonContainerWidth;
 
-			if (this.Widths != null)
-				this.Widths (this, cameraButtonContainerWidth);
+			Widths?.Invoke (this, cameraButtonContainerWidth);
 		}
+
+		#endregion
+
+		#region Constructors
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:Camera.Controls.CameraView"/> class.
@@ -263,5 +216,7 @@ namespace Camera.Controls
 		{
 			BackgroundColor = Color.Black;
 		}
+
+		#endregion
 	}
 }

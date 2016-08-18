@@ -8,14 +8,10 @@ namespace Camera.Portable.ViewModels
 {
 	using System;
 	using System.Windows.Input;
-	using System.Threading.Tasks;
-	using System.Threading;
 
 	using Camera.Portable.Enums;
 	using Camera.Portable.UI;
 	using Camera.Portable.Extras;
-	using Camera.Portable.DataAccess.Storage;
-	using Camera.Portable.DataAccess.Storable;
 
 	/// <summary>
 	/// Main page view model.
@@ -23,7 +19,12 @@ namespace Camera.Portable.ViewModels
 	public class MainPageViewModel : ViewModelBase
 	{
 		#region Private Properties
-	
+
+		/// <summary>
+		/// The methods.
+		/// </summary>
+		private readonly IMethods _methods;
+
 		/// <summary>
 		/// The description message.
 		/// </summary>
@@ -48,11 +49,6 @@ namespace Camera.Portable.ViewModels
 		/// The exit command.
 		/// </summary>
 		private ICommand _exitCommand;
-
-		/// <summary>
-		/// The storage.
-		/// </summary>
-		private ISQLiteStorage _storage;
 
 		#endregion
 
@@ -119,34 +115,20 @@ namespace Camera.Portable.ViewModels
 		/// <param name="commandFactory">Command factory.</param>
 		/// <param name="methods">Methods.</param>
 		public MainPageViewModel (INavigationService navigation, Func<Action, ICommand> commandFactory,
-			IMethods methods, ISQLiteStorage storage) : base (navigation, methods)
+			IMethods methods) : base (navigation)
 		{
+			_methods = methods;
+
 			_exitCommand = commandFactory (async () =>
 			{
 				await NotifyAlert("GoodBye!!");
 
-				methods.Exit();
+				_methods.Exit();
 			});
+
 			_cameraCommand = commandFactory (async () => await Navigation.Navigate(PageNames.CameraPage, null));
-
-			_storage = storage;
-
-			SetupSQLite().ConfigureAwait(false);
 		}
 
 		#endregion
-
-		/// <summary>
-		/// Setups the SQL ite.
-		/// </summary>
-		/// <returns>The SQL ite.</returns>
-		private async Task SetupSQLite()
-		{
-			// create Sqlite connection
-			_storage.CreateSQLiteAsyncConnection();
-
-			// create DB tables
-			await _storage.CreateTable<FileStorable>(CancellationToken.None);
-		}
 	}
 }

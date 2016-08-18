@@ -6,7 +6,8 @@
 	x:Class="Camera.Pages.CameraPage"
 	BackgroundColor="#F2F2F2">
 
-	<Grid x:Name="MainLayout" BackgroundColor="Black" RowSpacing="0" ColumnSpacing="0">
+	<Grid x:Name="MainLayout" BackgroundColor="Black" 
+			RowSpacing="0" ColumnSpacing="0">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="40" />
@@ -80,8 +81,8 @@
 			</controls:CustomImage>
 		</Grid>
 
-		<!--<controls:LoadingView x:Name="LoadingView" 
-			Grid.Row="0" Grid.RowSpan="7" Grid.Column="0" Grid.ColumnSpan="6"/>-->
+		<controls:LoadingView x:Name="LoadingView" 
+			Grid.Row="0" Grid.RowSpan="7" Grid.Column="0" Grid.ColumnSpan="6"/>
 
 		<Grid x:Name="CameraButtonContainerLandscape" RowSpacing="5" 
 				IsEnabled="{Binding PageOrientation, Converter={StaticResource orientationToBoolConverter}, ConverterParameter='true, false'}}" 
@@ -163,15 +164,6 @@
 					Grid.Row="1" Grid.Column="1">
 				<controls:CustomImage.GestureRecognizers>
 					<TapGestureRecognizer Tapped="HandleDelete"/>
-				</controls:CustomImage.GestureRecognizers>
-			</controls:CustomImage>
-
-			<controls:CustomImage x:Name="ExitImage" Path="photo_check.png"
-					TintColorString="#FFFFFF" TintOn="true" 
-					HorizontalOptions="Center" WidthRequest="40" HeightRequest="40" 
-					Grid.Row="1" Grid.Column="3">
-				<controls:CustomImage.GestureRecognizers>
-					<TapGestureRecognizer Tapped="HandleSave"/>
 				</controls:CustomImage.GestureRecognizers>
 			</controls:CustomImage>
 		</Grid>

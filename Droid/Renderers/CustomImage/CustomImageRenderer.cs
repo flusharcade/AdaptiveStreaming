@@ -94,7 +94,11 @@ namespace Camera.Droid.Renderers
 
 				SetAspect();
 
-				UpdateControlColor();
+				Android.App.Application.SynchronizationContext.Post(state =>
+				{
+					UpdateControlColor();
+				}, null);
+
 				LoadImage().ConfigureAwait(false);
 
 				e.NewElement.CustomPropertyChanged += HandleCustomPropertyChanged;
@@ -138,7 +142,10 @@ namespace Camera.Droid.Renderers
 			{
 				case "TintColorString":
 				case "TintOn":
-					UpdateControlColor();
+					Android.App.Application.SynchronizationContext.Post(state =>
+					{
+						UpdateControlColor();
+					}, null);
 					break;
 				case "Path":
 					LoadImage().ConfigureAwait(false);

@@ -6,13 +6,16 @@
 
 namespace Camera.Portable
 {
+	using System;
 	using System.Threading.Tasks;
 
 	/// <summary>
 	/// Alert arguments.
 	/// </summary>
-	public class AlertArgs
+	public class AlertArgs : EventArgs
 	{
+		#region Public Properties
+
 		/// <summary>
 		/// Gets or sets the message.
 		/// </summary>
@@ -24,5 +27,7 @@ namespace Camera.Portable
 		/// </summary>
 		/// <value>The tcs.</value>
 		public TaskCompletionSource<bool> Tcs { get; set; }
+
+		#endregion
 	}
 }

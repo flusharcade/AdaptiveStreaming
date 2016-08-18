@@ -8,7 +8,6 @@
 
 namespace Camera.Droid.Renderers.CameraView
 {
-	using System.Reactive.Linq;
 	using System;
 
 	using Xamarin.Forms;
@@ -26,7 +25,7 @@ namespace Camera.Droid.Renderers.CameraView
 		/// <summary>
 		/// The bodyshop camera droid.
 		/// </summary>
-		private CameraDroid BodyshopCameraDroid;
+		private CameraDroid Camera;
 
 		/// <summary>
 		/// Raises the element changed event.
@@ -36,20 +35,37 @@ namespace Camera.Droid.Renderers.CameraView
 		{
 			base.OnElementChanged(e);
 
-			if (Element != null)
+			if (Control == null)
 			{
-				BodyshopCameraDroid = new CameraDroid (Context);
+				Camera = new CameraDroid(Context);
 
-				BodyshopCameraDroid.Available += Element.NotifyAvailability;
-				BodyshopCameraDroid.Photo += Element.NotifyPhoto;
-				BodyshopCameraDroid.Busy += Element.NotifyBusy;
+				Camera.Available += Element.NotifyAvailability;
+				Camera.Photo += Element.NotifyPhoto;
+				Camera.Busy += Element.NotifyBusy;
 
-				Element.Flash += HandleFlashChange;
-				Element.OpenCamera += HandleCameraInitialisation;
-				//Element.Focus += HandleFocus;
-				Element.Shutter += HandleShutter;
+				SetNativeControl(Camera);
+			}
 
-				SetNativeControl(BodyshopCameraDroid);
+			if (e.OldElement != null)
+			{
+				Camera.Available -= Element.NotifyAvailability;
+				Camera.Photo -= Element.NotifyPhoto;
+				Camera.Busy -= Element.NotifyBusy;
+
+				Camera.Dispose();
+
+				e.NewElement.Flash -= HandleFlashChange;
+				e.NewElement.OpenCamera -= HandleCameraInitialisation;
+				e.NewElement.Focus -= HandleFocus;
+				e.NewElement.Shutter -= HandleShutter;
+			}
+
+			if (e.NewElement != null)
+			{
+				e.NewElement.Flash += HandleFlashChange;
+				e.NewElement.OpenCamera += HandleCameraInitialisation;
+				e.NewElement.Focus += HandleFocus;
+				e.NewElement.Shutter += HandleShutter;
 			}
 		}
 
@@ -58,14 +74,9 @@ namespace Camera.Droid.Renderers.CameraView
 		/// </summary>
 		/// <param name="sender">Sender.</param>
 		/// <param name="args">If set to <c>true</c> arguments.</param>
-		protected async void HandleCameraInitialisation (object sender, bool args)
+		protected void HandleCameraInitialisation (object sender, bool args)
 		{
-			BodyshopCameraDroid.OpenCamera();
-			//await BodyshopCameraDroid.InitializeCamera();
-			// set orientation handler after initalization
-			//Element.OrientationChange += HandleOrientationChange;
-			// set starting orientation
-			HandleOrientationChange (null, Element.Orientation);
+			Camera.OpenCamera();
 		}
 
 		/// <summary>
@@ -75,7 +86,7 @@ namespace Camera.Droid.Renderers.CameraView
 		/// <param name="args">If set to <c>true</c> arguments.</param>
 		protected void HandleFlashChange (object sender, bool args)
 		{
-			//BodyshopCameraDroid.SwitchFlash (args);
+			Camera.SwitchFlash (args);
 		}
 
 		/// <summary>
@@ -83,9 +94,9 @@ namespace Camera.Droid.Renderers.CameraView
 		/// </summary>
 		/// <param name="sender">Sender.</param>
 		/// <param name="e">E.</param>
-		private async void HandleShutter (object sender, EventArgs e)
+		private void HandleShutter (object sender, EventArgs e)
 		{
-			await Observable.Start (BodyshopCameraDroid.TakePhoto).FirstAsync();
+			Camera.TakePhoto();
 		}
 
 		/// <summary>
@@ -95,64 +106,22 @@ namespace Camera.Droid.Renderers.CameraView
 		/// <param name="e">E.</param>
 		private void HandleFocus (object sender, Point e)
 		{
-			//BodyshopCameraDroid.ChangeFocusPoint (e);
+			Camera.ChangeFocusPoint(e);
 		}
 
 		/// <summary>
-		/// Raises the measure event.
+		/// Ons the layout.
 		/// </summary>
-		/// <param name="widthMeasureSpec">Width measure spec.</param>
-		/// <param name="heightMeasureSpec">Height measure spec.</param>
-		//protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
-		//{
-		//	// We purposely disregard child measurements because act as a
-		//	// wrapper to a SurfaceView that centers the camera preview instead
-		//	// of stretching it.
-		//	int width = ResolveSize(SuggestedMinimumWidth, widthMeasureSpec);
-		//	int height = ResolveSize(SuggestedMinimumHeight, heightMeasureSpec);
-
-		//	SetMeasuredDimension(width, height);
-		//}
-
-		/// <summary>
-		/// Handles the orientation change.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
-		protected void HandleOrientationChange (object sender, Orientation e)
+		/// <param name="changed">If set to <c>true</c> changed.</param>
+		/// <param name="l">L.</param>
+		/// <param name="t">T.</param>
+		/// <param name="r">The red component.</param>
+		/// <param name="b">The blue component.</param>
+		protected override void OnLayout(bool changed, int l, int t, int r, int b)
 		{
-			//BodyshopCameraDroid.HandleOrientationChange ();
-		}
+			base.OnLayout(changed, l, t, r, b);
 
-		/// <summary>
-		/// Dispose the specified disposing.
-		/// </summary>
-		/// <param name="disposing">If set to <c>true</c> disposing.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (BodyshopCameraDroid != null) 
-			{
-				BodyshopCameraDroid.Dispose ();
-
-				BodyshopCameraDroid.Available -= Element.NotifyAvailability;
-				BodyshopCameraDroid.Photo -= Element.NotifyPhoto;
-				BodyshopCameraDroid.Busy -= Element.NotifyBusy;
-			}
-
-			if (Element != null) 
-			{
-				Element.Flash -= HandleFlashChange;
-				Element.OpenCamera -= HandleCameraInitialisation;
-				//Element.Focus -= HandleFocus;
-				Element.Shutter -= HandleShutter;
-				Element.OrientationChange -= HandleOrientationChange;
-			}
-
-			try
-			{
-				base.Dispose(disposing);
-			}catch (Exception e) {
-			}
+			Camera.OnLayout(l, t, r, b);
 		}
 	}
 }

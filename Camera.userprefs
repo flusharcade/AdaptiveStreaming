@@ -1,9 +1,15 @@
 ﻿<Properties StartupItem="Droid/Camera.Droid.csproj" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Pages/MainPage.xaml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controls/CustomImage.cs">
     <Files>
+      <File FileName="iOS/Modules/iOSModule.cs" Line="11" Column="1" />
       <File FileName="Controls/CameraView.cs" Line="1" Column="1" />
-      <File FileName="Pages/CameraPage.xaml" Line="116" Column="25" />
+      <File FileName="Controls/OrientationPage.cs" Line="18" Column="22" />
       <File FileName="Pages/MainPage.xaml" Line="1" Column="1" />
+      <File FileName="Pages/CameraPage.xaml" Line="2" Column="24" />
+      <File FileName="Pages/CameraPage.xaml.cs" Line="24" Column="55" />
+      <File FileName="UI/ExtendedContentPage.cs" Line="16" Column="2" />
+      <File FileName="Controls/FocusView.cs" Line="278" Column="3" />
+      <File FileName="Controls/CustomImage.cs" Line="164" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
@@ -18,6 +24,6 @@
     <Watch file="../../Desktop/Development/Telstra/HealthConnex/MyCareManager/MyCareManager.Portable/Repositories/ReminderRepository/ReminderRepository.cs" line="115" offsetX="972" offsetY="1710" expression="message.RequestUri" liveUpdate="False" />
     <Watch file="../../Desktop/Development/Telstra/HealthConnex/MyCareManager/MyCareManager.Portable/Repositories/SettingsRepository/SettingsRepository.cs" line="98" offsetX="676" offsetY="1455" expression="settingsUri" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
-  <MonoDevelop.Ide.ItemProperties.Camera.Droid AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.TA38503PQ6" />
+  <MonoDevelop.Ide.ItemProperties.Camera.Droid AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.192.168.58.101:5555" />
   <MonoDevelop.Ide.ItemProperties.Camera.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.A10AC0B6-78D2-48A4-92EF-01D011AFA406" />
 </Properties>

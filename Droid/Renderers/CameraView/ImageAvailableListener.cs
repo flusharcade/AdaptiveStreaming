@@ -6,10 +6,14 @@
 
 namespace Camera.Droid.Renderers.CameraView
 {
+	using System;
+
 	using Java.Nio;
 	using Java.IO;
 
 	using Android.Media;
+	using Android.Graphics;
+	using System.IO;
 
 	/// <summary>
 	/// This CameraCaptureSession.StateListener uses Action delegates to allow 
@@ -17,53 +21,49 @@ namespace Camera.Droid.Renderers.CameraView
 	/// </summary>
 	public class ImageAvailableListener : Java.Lang.Object, ImageReader.IOnImageAvailableListener
 	{
-		public File File;
+		/// <summary>
+		/// Occurs when photo.
+		/// </summary>
+		public event EventHandler<byte[]> Photo;
+
+		/// <summary>
+		/// Ons the image available.
+		/// </summary>
+		/// <param name="reader">Reader.</param>
 		public void OnImageAvailable(ImageReader reader)
 		{
 			Image image = null;
+
 			try
 			{
 				image = reader.AcquireLatestImage();
 				ByteBuffer buffer = image.GetPlanes()[0].Buffer;
-				byte[] bytes = new byte[buffer.Capacity()];
-				buffer.Get(bytes);
-				Save(bytes);
+				byte[] imageData = new byte[buffer.Capacity()];
+				buffer.Get(imageData);
+
+				//var bitmap = BitmapFactory.DecodeByteArray(imageData, 0, imageData.Length);
+
+				//if (Rotation > 0)
+				//	bitmap = rotateImg(bitmap);
+
+				//MemoryStream stream = new MemoryStream();
+				//bitmap.Compress(Bitmap.CompressFormat.Jpeg, 50, stream);
+
+				//byte[] compressedBytes = stream.ToArray();
+
+				//bitmap.Recycle();
+				//stream.Dispose();
+
+				Photo?.Invoke(this, imageData);
 			}
-			catch (FileNotFoundException ex)
+			catch (Exception ex)
 			{
-				//Log.WriteLine(LogPriority.Info, "Camera capture session", ex.StackTrace);
-			}
-			catch (IOException ex)
-			{
-				//Log.WriteLine(LogPriority.Info, "Camera capture session", ex.StackTrace);
 			}
 			finally
 			{
 				if (image != null)
+				{
 					image.Close();
-			}
-		}
-
-		/// <summary>
-		/// Save the specified bytes.
-		/// </summary>
-		/// <param name="bytes">Bytes.</param>
-		private void Save(byte[] bytes)
-		{
-			OutputStream output = null;
-			try
-			{
-				if (File != null)
-				{
-					output = new FileOutputStream(File);
-					output.Write(bytes);
-				}
-			}
-			finally
-			{
-				if (output != null)
-				{
-					output.Close();
 				}
 			}
 		}

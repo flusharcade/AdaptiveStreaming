@@ -53,7 +53,7 @@ namespace Camera.iOS.Renderers.CameraView
 
 				Element.Flash += HandleFlash;
 				Element.OpenCamera += HandleCameraInitialisation;
-				Element.FocusChange += HandleFocus;
+				Element.Focus += HandleFocus;
 				Element.Shutter += HandleShutter;
 				Element.Widths += HandleWidths;
 
@@ -85,7 +85,7 @@ namespace Camera.iOS.Renderers.CameraView
 				Element.Flash -= HandleFlash;
 				Element.OrientationChange -= HandleOrientationChange;
 				Element.OpenCamera -= HandleCameraInitialisation;
-				Element.FocusChange -= HandleFocus;
+				Element.Focus -= HandleFocus;
 				Element.Shutter -= HandleShutter;
 				Element.Widths -= HandleWidths;
 			}

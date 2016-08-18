@@ -8,17 +8,12 @@ namespace Camera.iOS.Modules
 {
 	using Autofac;
 
-	using Camera.iOS.DataAccess;
 	using Camera.iOS.Extras;
 	using Camera.iOS.Logging;
 
-	using Camera.Portable.DataAccess.Storage;
 	using Camera.Portable.Extras;
 	using Camera.Portable.Ioc;
 	using Camera.Portable.Logging;
-
-	using SQLite.Net.Interop;
-	using SQLite.Net.Platform.XamarinIOS;
 
 	/// <summary>
 	/// IOS Module.
@@ -35,9 +30,6 @@ namespace Camera.iOS.Modules
 		{
 			builder.RegisterType<IOSMethods>().As<IMethods>().SingleInstance();
 			builder.RegisterType<LoggeriOS>().As<ILogger>().SingleInstance();
-
-			builder.RegisterType<SQLiteSetup>().As<ISQLiteSetup>().SingleInstance();
-			builder.RegisterType<SQLitePlatformIOS>().As<ISQLitePlatform>().SingleInstance();
 		}
 
 		#endregion

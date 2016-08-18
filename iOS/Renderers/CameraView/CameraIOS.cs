@@ -26,10 +26,19 @@ namespace Camera.iOS.Renderers.CameraView
 	/// <summary>
 	/// Camera ios.
 	/// </summary>
-	[Register("CameraIOS")]
 	public sealed class CameraIOS : UIView
 	{
 		#region Private Properties
+
+		/// <summary>
+		/// The tag.
+		/// </summary>
+		private readonly string _tag;
+
+		/// <summary>
+		/// The log.
+		/// </summary>
+		private readonly ILogger _log;
 
 		/// <summary>
 		/// The preview layer.
@@ -129,6 +138,9 @@ namespace Camera.iOS.Renderers.CameraView
 		/// </summary>
 		public CameraIOS()
 		{
+			_log = IoC.Resolve<ILogger>();
+			_tag = $"{GetType()} ";
+
 			// retrieve system version 
 			var versionParts = UIDevice.CurrentDevice.SystemVersion.Split ('.');
 			var versionString = versionParts [0] + "." + versionParts [1];
@@ -201,9 +213,14 @@ namespace Camera.iOS.Renderers.CameraView
 			{
 				_previewLayer.Frame = previewLayerFrame;
 			}
-			catch (Exception e)
+			catch (Exception error)
 			{
-				//Bootstrapper.Container.Resolve<ILog> ().WriteLineTime ("BodyshopCameraIOS: Error assigning previewLayer.Frame to 'previewLayerFrame'.");
+				_log.WriteLineTime(_tag + "\n" +
+					"AdjustPreviewLayer() Failed to adjust frame \n " +
+					"ErrorMessage: \n" +
+					error.Message + "\n" +
+					"Stacktrace: \n " +
+					error.StackTrace);				
 			}
 		}
 
@@ -266,9 +283,14 @@ namespace Camera.iOS.Renderers.CameraView
 					Photo(this, imgData);
 				}
 			}
-			catch (Exception e)
+			catch (Exception error)
 			{
-				//Bootstrapper.Container.Resolve<ILog> ().WriteLineTime ("BodyshopCameraIOS: Error capturing image - " + e);
+				_log.WriteLineTime(_tag + "\n" +
+					"CaptureImageWithMetadata() Failed to take photo \n " +
+					"ErrorMessage: \n" +
+					error.Message + "\n" +
+					"Stacktrace: \n " +
+					error.StackTrace);				
 			}
 		}
 
@@ -308,9 +330,16 @@ namespace Camera.iOS.Renderers.CameraView
 
 					SetBusy(false);
 				}
-				catch (Exception e)
+				catch (Exception error)
 				{
-					IoC.Resolve<ILogger>().WriteLineTime  ("BodyshopCameraIOS: Error with camera output capture - " + e);
+					_log.WriteLineTime(_tag + "\n" +
+						"TakePhoto() Error with camera output capture \n " +
+						"ErrorMessage: \n" +
+						error.Message + "\n" +
+						"Stacktrace: \n " +
+						error.StackTrace);
+						
+					IoC.Resolve<ILogger>().WriteLineTime  ("CameraIOS: Error with camera output capture - " + e);
 				}
 			}
 		}
@@ -386,9 +415,14 @@ namespace Camera.iOS.Renderers.CameraView
 					_device.TorchMode = flashOn ? AVCaptureTorchMode.On : AVCaptureTorchMode.Off;
 					_device.UnlockForConfiguration();
 				} 
-				catch (Exception e) 
+				catch (Exception error) 
 				{
-					IoC.Resolve<ILogger>().WriteLineTime ("BodyshopCameraIOS: Flash exception " + e);
+					_log.WriteLineTime(_tag + "\n" +
+						"SwitchFlash() Failed to switch flash on/off \n " +
+						"ErrorMessage: \n" +
+						error.Message + "\n" +
+						"Stacktrace: \n " +
+						error.StackTrace);					
 				}
 			}
 		}
@@ -428,9 +462,14 @@ namespace Camera.iOS.Renderers.CameraView
 
 					_device.UnlockForConfiguration();
 				} 
-				catch (Exception e) 
+				catch (Exception error) 
 				{
-					IoC.Resolve<ILogger>().WriteLineTime ("BodyshopCameraIOS: Focus exception " + e);
+					_log.WriteLineTime(_tag + "\n" +
+						"SwitchFlash() Failed to adjust focus \n " +
+						"ErrorMessage: \n" +
+						error.Message + "\n" +
+						"Stacktrace: \n " +
+						error.StackTrace);					
 				}
 			}
 		}
@@ -445,7 +484,8 @@ namespace Camera.iOS.Renderers.CameraView
 
 			if (_device == null) 
 			{
-				IoC.Resolve<ILogger>().WriteLineTime ("BodyshopCameraIOS: No device detected");
+				_log.WriteLineTime(_tag + "\n" + "RetrieveCameraDevice() No device detected \n ");
+			
 				return false;
 			}
 
@@ -456,7 +496,7 @@ namespace Camera.iOS.Renderers.CameraView
 		/// Initializes the camera.
 		/// </summary>
 		/// <returns>The camera.</returns>
-		public async Task InitializeCamera()
+		public void InitializeCamera()
 		{
 			try 
 			{
@@ -485,14 +525,19 @@ namespace Camera.iOS.Renderers.CameraView
 						_captureSession.StartRunning ();
 					});
 			}
-			catch (Exception e) 
+			catch (Exception error) 
 			{
-				IoC.Resolve<ILogger>().WriteLineTime ("BodyshopCameraIOS: Camera failed to initialise - " + e);
+				_log.WriteLineTime(_tag + "\n" +
+					"InitializeCamera() Camera failed to initialise \n " +
+					"ErrorMessage: \n" +
+					error.Message + "\n" +
+					"Stacktrace: \n " +
+					error.StackTrace);	
 			}
 
 			Available?.Invoke(this, _cameraAvailable);
 
-			IoC.Resolve<ILogger> ().WriteLineTime ("BodyshopCameraIOS: Camera initalised.");
+			_log.WriteLineTime(_tag + "\n" + "RetrieveCameraDevice() Camera initalised \n ");
 		}
 
 		/// <summary>
@@ -529,12 +574,19 @@ namespace Camera.iOS.Renderers.CameraView
 			AdjustPreviewLayer(orientation);
 		}
 
+		/// <summary>
+		/// Stops the and dispose.
+		/// </summary>
 		public void StopAndDispose()
 		{
 			if (_device != null)
+			{
 				// if flash is on turn off
 				if (_device.TorchMode == AVCaptureTorchMode.On)
+				{
 					SwitchFlash(false);
+				}
+			}
 
 			_captureSession.StopRunning();
 			// dispose output elements

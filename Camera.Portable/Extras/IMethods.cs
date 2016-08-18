@@ -20,12 +20,6 @@ namespace Camera.Portable.Extras
 		/// </summary>
 		void Exit();
 
-		/// <summary>
-		/// Displaies the entry alert.
-		/// </summary>
-		/// <returns>The entry alert.</returns>
-		void DisplayEntryAlert(TaskCompletionSource<string> tcs, string message);
-
 		#endregion
 	}
 }

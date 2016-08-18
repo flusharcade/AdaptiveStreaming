@@ -71,7 +71,7 @@ namespace Camera.Pages
 			CameraView.Busy += HandleBusy;
 
 			// handler for focusing
-			FocusView.Focus += HandleFocusChange;
+			FocusView.TouchFocus += HandleFocusChange;
 		}
 
 		#endregion
@@ -94,7 +94,7 @@ namespace Camera.Pages
 
 			_model.CameraLoading = false;
 
-			//LoadingView.SetBinding(VisualElement.IsVisibleProperty, new Binding("CameraLoading"));
+			LoadingView.SetBinding(VisualElement.IsVisibleProperty, new Binding("CameraLoading"));
 
 			_model.CanCapture = CameraView.CameraAvailable;
 
@@ -283,8 +283,6 @@ namespace Camera.Pages
 					// these bindings are created after page intitalizes
 					CreateAfterNavBindings();
 					FocusView.Reset();
-
-					CameraView.NotifyFlash(_model.IsFlashOn);
 				});
 		}
 
@@ -373,15 +371,6 @@ namespace Camera.Pages
 		public void HandleDelete(object sender, EventArgs args)
 		{
 			_model.ResetEditPhoto();
-		}
-
-		/// <summary>
-		/// Handles the save.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="args">Arguments.</param>
-		public void HandleSave(object sender, EventArgs args)
-		{
 		}
 
 		#endregion

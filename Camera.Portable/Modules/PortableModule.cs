@@ -3,7 +3,6 @@
 //   Copyright (c) 2016 Flush Arcade Pty Ltd. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-using Camera.Portable.DataAccess.Storage;
 
 namespace Camera.Portable.Modules
 {
@@ -28,14 +27,8 @@ namespace Camera.Portable.Modules
 		/// <param name="builder">builder.</param>
 		public void Register(ContainerBuilder builder)
 		{
-			builder.RegisterType<SQLiteStorage>().As<ISQLiteStorage>().SingleInstance();
-
 			builder.RegisterType<MainPageViewModel> ().SingleInstance();
 			builder.RegisterType<CameraPageViewModel> ().SingleInstance();
-			builder.RegisterType<EditFilePageViewModel>().SingleInstance();
-
-			builder.RegisterType<PhotoItemViewModel>().SingleInstance();
-			builder.RegisterType<FileItemViewModel>().InstancePerDependency();
 		}
 
 		#endregion

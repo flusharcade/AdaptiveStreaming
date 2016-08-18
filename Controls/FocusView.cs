@@ -54,64 +54,13 @@ namespace Camera.Controls
 		#region Public Events
 
 		/// <summary>
-		/// Occurs when shutter.
-		/// </summary>
-		public event EventHandler Shutter;
-
-		/// <summary>
 		/// Occurs when focus.
 		/// </summary>
-		public event EventHandler<Point> Focus;
+		public event EventHandler<Point> TouchFocus;
 
 		#endregion
 
 		#region Public Properties
-
-		/// <summary>
-		/// The focal target visible property.
-		/// </summary>
-		public static readonly BindableProperty FocalTargetVisibleProperty = BindableProperty.Create<FocusView, bool>(
-			p => p.FocalTargetVisible, default(bool));
-
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="T:Camera.Controls.FocusView"/> focal target visible.
-		/// </summary>
-		/// <value><c>true</c> if focal target visible; otherwise, <c>false</c>.</value>
-		public bool FocalTargetVisible
-		{
-			get
-			{
-				return (bool)GetValue(FocalTargetVisibleProperty);
-			}
-			set
-			{
-				SetValue(FocalTargetVisibleProperty, value);
-			}
-		}
-
-		/// <summary>
-		/// Gets the height of the target.
-		/// </summary>
-		/// <value>The height of the target.</value>
-		public double TargetHeight
-		{
-			get
-			{
-				return _focalTarget.Height / 2;
-			}
-		}
-
-		/// <summary>
-		/// Gets the width of the target.
-		/// </summary>
-		/// <value>The width of the target.</value>
-		public double TargetWidth
-		{
-			get
-			{
-				return _focalTarget.Width / 2;
-			}
-		}
 
 		/// <summary>
 		/// The orientation.
@@ -126,29 +75,59 @@ namespace Camera.Controls
 		/// Animates the focal target.
 		/// </summary>
 		/// <param name="touchPoint">Touch point.</param>
-		private async void AnimateFocalTarget(Point touchPoint)
+		private async Task AnimateFocalTarget(Point touchPoint)
 		{
 			_focalTarget.TintColorString = "#007F00";
 
-			await _focalTarget.LayoutTo(new Rectangle(touchPoint.X - (IMG_TARGET_BOUND / 2), 
-			                                          touchPoint.Y - (IMG_TARGET_BOUND / 2), 
-			                                          IMG_TARGET_BOUND, IMG_TARGET_BOUND), 0);
+			var storyboard = new Animation();
 
-			// fade in
-			await _focalTarget.FadeTo(0.7f, 25);
+			var translationX = new Animation(callback: x => _focalTarget.TranslationX = x,
+										  start: touchPoint.X,
+										  end: touchPoint.X - (IMG_TARGET_BOUND / 2),
+										  easing: Easing.Linear);
 
-			// animate scale
-			await _focalTarget.LayoutTo(new Rectangle(touchPoint.X - (IMG_TARGET_BOUND / 4), 
-			                                          touchPoint.Y - (IMG_TARGET_BOUND / 4),
-			                                          (IMG_TARGET_BOUND / 2), (IMG_TARGET_BOUND / 2)), 250);
+			var translationY = new Animation(callback: y => _focalTarget.TranslationY = y,
+										  start: touchPoint.Y,
+										  end: touchPoint.Y - (IMG_TARGET_BOUND / 2),
+										  easing: Easing.Linear);
 
-			_focalTarget.TintOn = true;
+			var scaleFirst = new Animation(callback: o => _focalTarget.Scale = o,
+										  start: 0.5,
+										  end: 1,
+										  easing: Easing.Linear);
 
-			await Task.Delay(1000);
+			var fade = new Animation(callback: o => _focalTarget.Opacity = o,
+										  start: 1,
+										  end: 0.7f,
+										  easing: Easing.Linear);
 
-			_focalTarget.TintColorString = "#FFFFFF";
+			var scaleSecond = new Animation(callback: o => _focalTarget.Scale = o,
+										  start: 1,
+										  end: 0.5f,
+										  easing: Easing.Linear);
 
-			_isAnimating = false;
+			storyboard.Add(0, 0.01, translationX);
+			storyboard.Add(0, 0.01, translationY);
+			storyboard.Add(0, 0.01, scaleFirst);
+			storyboard.Add(0, 0.5, fade);
+			storyboard.Add(0.5, 1, scaleSecond);
+
+			var tcs = new TaskCompletionSource<bool>();
+				
+			storyboard.Commit(_focalTarget, "_focalTarget", length: 300, finished: async (arg1, arg2) =>
+			{
+				_focalTarget.TintOn = true;
+
+				await Task.Delay(500);
+
+				_focalTarget.TintColorString = "#FFFFFF";
+
+				_isAnimating = false;
+
+				tcs.TrySetResult(true);
+			});
+
+			await tcs.Task;
 		}
 
 		#endregion
@@ -187,31 +166,9 @@ namespace Camera.Controls
 			_focalTarget.TintOn = false;
 			_isAnimating = true;
 
-			Device.BeginInvokeOnMainThread(() => AddFocualTargetImg(touchPoint));
+			Device.BeginInvokeOnMainThread(async () => await AnimateFocalTarget(touchPoint));
 
-			if (Focus != null) 
-			{
-				Focus (this, touchPoint);
-			}
-		}
-
-		/// <summary>
-		/// Notifies the shutter.
-		/// </summary>
-		public void NotifyShutter()
-		{
-			if (Shutter != null)
-			{
-				Shutter(this, EventArgs.Empty);
-			}
-		}
-
-		/// <summary>
-		/// Clear this instance.
-		/// </summary>
-		public void Clear()
-		{
-			Children.Clear();
+			TouchFocus?.Invoke(this, touchPoint);
 		}
 
 		/// <summary>
@@ -224,16 +181,6 @@ namespace Camera.Controls
 			_pStartingOrientation = pStart;
 			_pFlippedOrientation = pFlipped;
 		}
-
-		/// <summary>
-		/// Adds the focual target image.
-		/// </summary>
-		/// <param name="touchPoint">Touch point.</param>
-		public void AddFocualTargetImg(Point touchPoint)
-		{
-			AnimateFocalTarget(touchPoint);
-		}
-
 
 		#endregion
 
