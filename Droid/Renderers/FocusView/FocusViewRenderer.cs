@@ -61,15 +61,21 @@ namespace Camera.Droid.Renderers
 				SetNativeControl (_layout);
 			}
 
-			if (e.OldElement != null)
-			{
-				_layout.Touch -= HandleTouch;
-			}
-
 			if (e.NewElement != null)
 			{
 				_layout.Touch += HandleTouch;
 			}
+		}
+
+		/// <summary>
+		/// Dispose the specified disposing.
+		/// </summary>
+		/// <param name="disposing">If set to <c>true</c> disposing.</param>
+		protected override void Dispose(bool disposing)
+		{
+			_layout.Touch -= HandleTouch;
+
+			base.Dispose(disposing);
 		}
 
 		#endregion

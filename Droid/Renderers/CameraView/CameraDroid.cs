@@ -95,7 +95,7 @@ namespace Camera.Droid.Renderers.CameraView
 		/// <summary>
 		/// The camera texture.
 		/// </summary>
-		private AutoFitTextureView _cameraTexture;
+		private TextureView _cameraTexture;
 
 		/// <summary>
 		/// The media sound.
@@ -177,7 +177,7 @@ namespace Camera.Droid.Renderers.CameraView
 			{
 				var view = inflater.Inflate(Resource.Layout.CameraLayout, this);
 
-				_cameraTexture = view.FindViewById<AutoFitTextureView>(Resource.Id.CameraTexture);
+				_cameraTexture = view.FindViewById<TextureView>(Resource.Id.CameraTexture);
 				_cameraTexture.SurfaceTextureListener = this;
 
 				_stateListener = new CameraStateListener() { Camera = this };
@@ -288,15 +288,6 @@ namespace Camera.Droid.Renderers.CameraView
 				CameraCharacteristics characteristics = _manager.GetCameraCharacteristics(cameraId);
 				StreamConfigurationMap map = (StreamConfigurationMap)characteristics.Get(CameraCharacteristics.ScalerStreamConfigurationMap);
 				_previewSize = map.GetOutputSizes(Java.Lang.Class.FromType(typeof(SurfaceTexture)))[0];
-				Android.Content.Res.Orientation orientation = Resources.Configuration.Orientation;
-				if (orientation == Android.Content.Res.Orientation.Landscape)
-				{
-					_cameraTexture.SetAspectRatio(_previewSize.Width, _previewSize.Height);
-				}
-				else
-				{
-					_cameraTexture.SetAspectRatio(_previewSize.Height, _previewSize.Width);
-				}
 
 				HandlerThread thread = new HandlerThread("CameraPreview");
 				thread.Start();
@@ -499,7 +490,6 @@ namespace Camera.Droid.Renderers.CameraView
 				try
 				{
 					var texture = _cameraTexture.SurfaceTexture;
-					System.Diagnostics.Debug.Assert(texture != null);
 
 					// We configure the size of the default buffer to be the size of the camera preview we want
 					texture.SetDefaultBufferSize(_previewSize.Width, _previewSize.Height);
@@ -571,22 +561,6 @@ namespace Camera.Droid.Renderers.CameraView
 		}
 
 		/// <summary>
-		/// Ons the layout.
-		/// </summary>
-		/// <param name="l">L.</param>
-		/// <param name="t">T.</param>
-		/// <param name="r">The red component.</param>
-		/// <param name="b">The blue component.</param>
-		public void OnLayout(int l, int t, int r, int b)
-		{
-			var msw = MeasureSpec.MakeMeasureSpec(r - l, MeasureSpecMode.Exactly);
-			var msh = MeasureSpec.MakeMeasureSpec(b - t, MeasureSpecMode.Exactly);
-
-			_cameraTexture.Measure(msw, msh);
-			_cameraTexture.Layout(0, 0, r - l, b - t);
-		}
-
-		/// <summary>
 		/// Configures the transform.
 		/// </summary>
 		/// <param name="viewWidth">View width.</param>
@@ -609,9 +583,6 @@ namespace Camera.Droid.Renderers.CameraView
 				{
 					bufferRect.Offset(centerX - bufferRect.CenterX() , centerY - bufferRect.CenterY());
 					matrix.SetRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.Fill);
-
-					var scale = System.Math.Max((float)viewHeight / _previewSize.Height, (float)viewWidth / _previewSize.Width);
-					matrix.PostScale(scale, scale, centerX, centerY);
 					matrix.PostRotate(90 * ((int)rotation - 2), centerX, centerY);
 				}
 

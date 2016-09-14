@@ -126,7 +126,6 @@
     <Compile Include="Renderers\CameraView\CameraCaptureListener.cs" />
     <Compile Include="Renderers\CameraView\ImageAvailableListener.cs" />
     <Compile Include="Renderers\CameraView\CameraStateListener.cs" />
-    <Compile Include="Renderers\CameraView\AutoFitTextureView.cs" />
     <Compile Include="Effects\LabelShadowEffectDroid.cs" />
   </ItemGroup>
   <ItemGroup>

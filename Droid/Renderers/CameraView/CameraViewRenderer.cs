@@ -15,8 +15,6 @@ namespace Camera.Droid.Renderers.CameraView
 
 	using Camera.Controls;
 
-	using Camera.Portable.Enums;
-
 	/// <summary>
 	/// Bodyshop camera renderer.
 	/// </summary>
@@ -64,21 +62,6 @@ namespace Camera.Droid.Renderers.CameraView
 				e.NewElement.Focus += HandleFocus;
 				e.NewElement.Shutter += HandleShutter;
 			}
-		}
-
-		/// <summary>
-		/// Ons the layout.
-		/// </summary>
-		/// <param name="changed">If set to <c>true</c> changed.</param>
-		/// <param name="l">L.</param>
-		/// <param name="t">T.</param>
-		/// <param name="r">The red component.</param>
-		/// <param name="b">The blue component.</param>
-		protected override void OnLayout(bool changed, int l, int t, int r, int b)
-		{
-			base.OnLayout(changed, l, t, r, b);
-
-			Camera.OnLayout(l, t, r, b);
 		}
 
 		/// <summary>

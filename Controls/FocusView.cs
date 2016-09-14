@@ -35,6 +35,11 @@ namespace Camera.Controls
 		private bool _isAnimating;
 
 		/// <summary>
+		/// The starting points assigned.
+		/// </summary>
+		private bool _startingPointsAssigned;
+
+		/// <summary>
 		/// The focal target.
 		/// </summary>
 		private readonly CustomImage _focalTarget;
@@ -178,8 +183,13 @@ namespace Camera.Controls
 		/// <param name="pFlipped">P flipped.</param>
 		public void SetFocusPoints(Point pStart, Point pFlipped)
 		{
-			_pStartingOrientation = pStart;
-			_pFlippedOrientation = pFlipped;
+			if (!_startingPointsAssigned)
+			{
+				_pStartingOrientation = pStart;
+				_pFlippedOrientation = pFlipped;
+
+				_startingPointsAssigned = true;
+			}
 		}
 
 		#endregion
