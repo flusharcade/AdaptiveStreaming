@@ -127,11 +127,6 @@ namespace Camera.Droid.Renderers.CameraView
 		/// </summary>
 		private bool _openingCamera;
 
-		/// <summary>
-		/// The background handler.
-		/// </summary>
-		private Handler backgroundHandler;
-
 		#endregion
 
 		#region Public Properties
@@ -209,6 +204,11 @@ namespace Camera.Droid.Renderers.CameraView
 				{
 					// The camera preview can be run in a background thread. This is a Handler for the camere preview
 					_previewBuilder.Set(CaptureRequest.ControlMode, new Java.Lang.Integer((int)ControlMode.Auto));
+
+					// We create a Handler since we want to handle the resulting JPEG in a background thread
+					HandlerThread thread = new HandlerThread("CameraPicture");
+					thread.Start();
+					Handler backgroundHandler = new Handler(thread.Looper);
 
 					// Finally, we start displaying the camera preview
 					//if (_previewSession.IsReprocessable)
@@ -300,7 +300,7 @@ namespace Camera.Droid.Renderers.CameraView
 
 				HandlerThread thread = new HandlerThread("CameraPreview");
 				thread.Start();
-				backgroundHandler = new Handler(thread.Looper);
+				Handler backgroundHandler = new Handler(thread.Looper);
 
 				// We are opening the camera with a listener. When it is ready, OnOpened of mStateListener is called.
 				_manager.OpenCamera(cameraId, _stateListener, null);
@@ -639,7 +639,6 @@ namespace Camera.Droid.Renderers.CameraView
 		/// <param name="surface">Surface.</param>
 		public bool OnSurfaceTextureDestroyed (SurfaceTexture surface)
 		{
-			backgroundHandler.Dispose();
 			_previewSession.StopRepeating();
 
 			return true;
