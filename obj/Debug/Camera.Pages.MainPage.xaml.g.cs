@@ -26,7 +26,7 @@ namespace Camera.Pages {
         private global::Xamarin.Forms.Label DesciptionLabel;
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
-        private global::Xamarin.Forms.Button LocationButton;
+        private global::Xamarin.Forms.Button CameraButton;
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
         private global::Xamarin.Forms.Button ExitButton;
@@ -37,7 +37,7 @@ namespace Camera.Pages {
             Grid = this.FindByName <global::Xamarin.Forms.Grid>("Grid");
             Image = this.FindByName <global::Xamarin.Forms.Image>("Image");
             DesciptionLabel = this.FindByName <global::Xamarin.Forms.Label>("DesciptionLabel");
-            LocationButton = this.FindByName <global::Xamarin.Forms.Button>("LocationButton");
+            CameraButton = this.FindByName <global::Xamarin.Forms.Button>("CameraButton");
             ExitButton = this.FindByName <global::Xamarin.Forms.Button>("ExitButton");
         }
     }

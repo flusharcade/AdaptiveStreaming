@@ -21,6 +21,8 @@ namespace Camera.iOS.Renderers.FocusView
 	/// </summary>
 	public class FocusViewRendererTouchAttribute : VisualElementRenderer<FocusView>
 	{
+		#region Public Methods
+
 		/// <summary>
 		/// Toucheses the began.
 		/// </summary>
@@ -41,5 +43,7 @@ namespace Camera.iOS.Renderers.FocusView
 				focusView.NotifyFocus (new Xamarin.Forms.Point(posc.X, posc.Y));
 			}
 		}
+
+		#endregion
 	}
 }

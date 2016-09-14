@@ -24,14 +24,17 @@ namespace Camera.Portable.ViewModels
 		#region Private Properties
 
 		/// <summary>
+		/// The page orientation.
 		/// </summary>
 		private Orientation _pageOrientation;
 
 		/// <summary>
+		/// The photo data.
 		/// </summary>
 		private byte[] _photoData;
 
 		/// <summary>
+		/// The loading message.
 		/// </summary>
 		private string _loadingMessage = LabelResources.LoadingCameraMessage;
 
@@ -41,18 +44,17 @@ namespace Camera.Portable.ViewModels
 		private bool _canCapture;
 
 		/// <summary>
+		/// The camera loading.
 		/// </summary>
 		private bool _cameraLoading;
 
 		/// <summary>
-		/// </summary>
-		private bool _focusShowing;
-
-		/// <summary>
+		/// The is flash on.
 		/// </summary>
 		private bool _isFlashOn;
 
 		/// <summary>
+		/// The photo edit on.
 		/// </summary>
 		private bool _photoEditOn;
 
@@ -92,16 +94,6 @@ namespace Camera.Portable.ViewModels
 		{
 			get { return _loadingMessage; }
 			set { SetProperty(nameof(LoadingMessage), ref _loadingMessage, value); }
-		}
-
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="T:Camera.Portable.ViewModels.CameraPageViewModel"/> focus showing.
-		/// </summary>
-		/// <value><c>true</c> if focus showing; otherwise, <c>false</c>.</value>
-		public bool FocusShowing
-		{
-			get { return _focusShowing; }
-			set { SetProperty(nameof(FocusShowing), ref _focusShowing, value); }
 		}
 
 		/// <summary>
@@ -192,7 +184,6 @@ namespace Camera.Portable.ViewModels
 		/// </summary>
 		public void OnDisappear()
 		{
-			FocusShowing = false;
 			CameraLoading = true;
 			ResetEditPhoto();
 		}

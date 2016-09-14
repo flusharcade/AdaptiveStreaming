@@ -26,16 +26,6 @@ namespace Camera.Pages
 		#region Private Properties
 
 		/// <summary>
-		/// The navigation parameters.
-		/// </summary>
-		private IDictionary<string, object> _navigationParameters;
-
-		/// <summary>
-		/// The log.
-		/// </summary>
-		private ILogger _log;
-
-		/// <summary>
 		/// The camera button container width
 		/// </summary>
 		private float CAMERA_BUTTON_CONTAINER_WIDTH = 70f;
@@ -53,11 +43,10 @@ namespace Camera.Pages
 		/// Initializes a new instance of the <see cref="T:Camera.Pages.MainPage"/> class.
 		/// </summary>
 		/// <param name="model">Model.</param>
-		public CameraPage(CameraPageViewModel model, ILogger log) : base(model)
+		public CameraPage(CameraPageViewModel model) : base(model)
 		{
 			BindingContext = model;
 			_model = model;
-			_log = log;
 
 			InitializeComponent();
 
@@ -84,8 +73,6 @@ namespace Camera.Pages
 		/// <param name="navigationParameters">Navigation parameters.</param>
 		public void OnNavigatedTo(IDictionary<string, object> navigationParameters)
 		{
-			_navigationParameters = navigationParameters;
-
 #if WINDOWS_PHONE
 
 			OrientationPage.TouchHandler += HandleTouchHandler;
@@ -209,14 +196,11 @@ namespace Camera.Pages
 		/// <param name="data">Data.</param>
 		public void HandlePictureTaken(object sender, byte[] data)
 		{
-			if (!_model.CanCapture)
+			if (_model.CanCapture)
 			{
-				_log.WriteLineTime("CameraPage: Issue with camera.");
-				return;
+				// create new photo item and add to collection
+				_model.AddPhoto(data);
 			}
-
-			// create new photo item and add to collection
-			CaptureImage(data);
 		}
 
 		/// <summary>
@@ -270,66 +254,32 @@ namespace Camera.Pages
 		/// <param name="available">If set to <c>true</c> available.</param>
 		public void HandleCameraAvailability(object sender, bool available)
 		{
-			_model.CameraLoading = false;
-			_model.FocusShowing = true;
-			// create new photo item and add to collection
 			_model.CanCapture = available;
 
-			// wait until camera is available before animating focus target, we have to invoke on UI thread as this is run asynchronously
-			Device.BeginInvokeOnMainThread(() =>
+			if (available)
+			{
+				_model.CameraLoading = false;
+
+				// wait until camera is available before animating focus target, we have to invoke on UI thread as this is run asynchronously
+				Device.BeginInvokeOnMainThread(() =>
 				{
 					// set starting list opacity based on orientation
-					SetStartingOrientation();
+					var orientation = (Height > Width) ? Orientation.Portrait : Orientation.LandscapeLeft;
+					// set starting orientation
+					HandleOrientationChange(null, orientation);
+
 					// these bindings are created after page intitalizes
-					CreateAfterNavBindings();
+					PhotoEditLayout.SetBinding(VisualElement.IsVisibleProperty, new Binding("PhotoEditOn"));
+
+					// camera button layouts
+					CameraButtonContainerLandscape.SetBinding(VisualElement.OpacityProperty, new Binding("PageOrientation", converter: new OrientationToDoubleConverter(), converterParameter: "1, 1"));
+					CameraButtonContainerLandscape.SetBinding(VisualElement.IsVisibleProperty, new Binding("PageOrientation", converter: new OrientationToBoolConverter(), converterParameter: "true, false"));
+					CameraButtonContainerPortrait.SetBinding(VisualElement.OpacityProperty, new Binding("PageOrientation", converter: new OrientationToDoubleConverter(), converterParameter: "0, 1"));
+					CameraButtonContainerPortrait.SetBinding(VisualElement.IsVisibleProperty, new Binding("PageOrientation", converter: new OrientationToBoolConverter(), converterParameter: "false, true"));
+
 					FocusView.Reset();
 				});
-		}
-
-
-		/// <summary>
-		/// Sets the starting orientation.
-		/// </summary>
-		private void SetStartingOrientation()
-		{
-			var orientation = (Height > Width) ? Orientation.Portrait : Orientation.LandscapeLeft;
-
-			// set starting orientation
-			HandleOrientationChange(null, orientation);
-		}
-
-		/// <summary>
-		/// Captures the image.
-		/// </summary>
-		/// <param name="data">Data.</param>
-		private void CaptureImage(byte[] data)
-		{
-			_log.WriteLineTime("CameraPage: Image taken");
-
-			_model.AddPhoto(data);
-		}
-
-		/// <summary>
-		/// Resets the column changes.
-		/// </summary>
-		private void ResetColumnChanges()
-		{
-			MainLayout.ColumnDefinitions[5].Width = new GridLength(CAMERA_BUTTON_CONTAINER_WIDTH, 
-			                                                       GridUnitType.Absolute);
-		}
-
-		/// <summary>
-		/// we have to set these after the page is navigated to otherwise we can see the screen before the bindings take effect
-		/// </summary>
-		private void CreateAfterNavBindings()
-		{
-			PhotoEditLayout.SetBinding(VisualElement.IsVisibleProperty, new Binding("PhotoEditOn"));
-
-			// camera button layouts
-			CameraButtonContainerLandscape.SetBinding(VisualElement.OpacityProperty, new Binding("PageOrientation", converter: new OrientationToDoubleConverter(), converterParameter: "1, 1"));
-			CameraButtonContainerLandscape.SetBinding(VisualElement.IsVisibleProperty, new Binding("PageOrientation", converter: new OrientationToBoolConverter(), converterParameter: "true, false"));
-			CameraButtonContainerPortrait.SetBinding(VisualElement.OpacityProperty, new Binding("PageOrientation", converter: new OrientationToDoubleConverter(), converterParameter: "0, 1"));
-			CameraButtonContainerPortrait.SetBinding(VisualElement.IsVisibleProperty, new Binding("PageOrientation", converter: new OrientationToBoolConverter(), converterParameter: "false, true"));
+			}
 		}
 
 		/// <summary>
@@ -354,16 +304,6 @@ namespace Camera.Pages
 		}
 
 		/// <summary>
-		/// Handles the exit photo edit.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="args">Arguments.</param>
-		public void HandleExitPhotoEdit(object sender, EventArgs args)
-		{
-			_model.ResetEditPhoto();
-		}
-
-		/// <summary>
 		/// Handles the delete.
 		/// </summary>
 		/// <param name="sender">Sender.</param>
@@ -371,17 +311,6 @@ namespace Camera.Pages
 		public void HandleDelete(object sender, EventArgs args)
 		{
 			_model.ResetEditPhoto();
-		}
-
-		#endregion
-
-		#region Overrides
-
-		/// <summary>
-		/// Reset this instance.
-		/// </summary>
-		public void Reset()
-		{
 		}
 
 		#endregion

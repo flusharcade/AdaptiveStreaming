@@ -13,6 +13,8 @@ namespace Camera.Triggers
 	/// </summary>
 	public class ButtonClickedTrigger : TriggerAction<Button>
 	{
+		#region Protected Methods
+
 		/// <summary>
 		/// Invoke the specified sender.
 		/// </summary>
@@ -22,5 +24,7 @@ namespace Camera.Triggers
 			sender.TextColor = Color.Blue;
 			sender.BackgroundColor = Color.Aqua;
 		}
+
+		#endregion
 	}
 }

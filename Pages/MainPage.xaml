@@ -35,7 +35,7 @@
 				</Label.Effects>
 			</Label>
 			
-			<Button x:Name="LocationButton" Text="{Binding CameraTitle}" 
+			<Button x:Name="CameraButton" Text="{Binding CameraTitle}" 
 				Command="{Binding CameraCommand}" Style="{StaticResource BaseButtonStyle}" Grid.Row="2" Grid.Column="0">
 				<Button.Triggers>
 					<EventTrigger Event="Clicked">

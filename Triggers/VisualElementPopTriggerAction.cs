@@ -13,15 +13,7 @@ namespace Camera.Triggers
 	/// </summary>
 	public class VisualElementPopTriggerAction : TriggerAction<VisualElement>
 	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Camera.Triggers.VisualElementPopTriggerAction"/> class.
-		/// </summary>
-		public VisualElementPopTriggerAction()
-		{
-			Anchor = new Point(0.5, 0.5);
-			Scale = 2;
-			Length = 500;
-		}
+		#region Public Properties
 
 		/// <summary>
 		/// Gets or sets the anchor.
@@ -41,6 +33,24 @@ namespace Camera.Triggers
 		/// <value>The length.</value>
 		public uint Length { set; get; }
 
+		#endregion
+
+		#region Constructors
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:Camera.Triggers.VisualElementPopTriggerAction"/> class.
+		/// </summary>
+		public VisualElementPopTriggerAction()
+		{
+			Anchor = new Point(0.5, 0.5);
+			Scale = 2;
+			Length = 500;
+		}
+
+		#endregion
+
+		#region Protected Methods
+
 		/// <summary>
 		/// Invoke the specified visual.
 		/// </summary>
@@ -49,8 +59,11 @@ namespace Camera.Triggers
 		{
 			visual.AnchorX = Anchor.X;
 			visual.AnchorY = Anchor.Y;
+
 			await visual.ScaleTo(Scale, Length / 2, Easing.SinOut);
 			await visual.ScaleTo(1, Length / 2, Easing.SinIn);
 		}
+
+		#endregion
 	}
 }

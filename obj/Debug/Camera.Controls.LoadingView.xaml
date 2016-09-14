@@ -6,7 +6,7 @@
 	xmlns:converters="clr-namespace:Camera.Converters;assembly=LogIt.XamForms"
 	BackgroundColor="White">
 
-    <Grid x:Name="MainLayout" BackgroundColor="Black" VerticalOptions="Fill" HorizontalOptions="Fill">
+    <Grid x:Name="MainLayout" BackgroundColor="Black">
         <Grid.RowDefinitions>
 			<RowDefinition Height="*" />
         </Grid.RowDefinitions>

@@ -118,7 +118,7 @@
     <Compile Include="Extras\DroidMethods.cs" />
     <Compile Include="Logging\LoggerDroid.cs" />
     <Compile Include="Renderers\CameraView\CameraDroid.cs" />
-    <Compile Include="Renderers\CameraView\CameraRenderer.cs" />
+    <Compile Include="Renderers\CameraView\CameraViewRenderer.cs" />
     <Compile Include="Renderers\CustomImage\CustomImageRenderer.cs" />
     <Compile Include="Renderers\FocusView\FocusViewGestureDetector.cs" />
     <Compile Include="Renderers\FocusView\FocusViewRenderer.cs" />
@@ -127,6 +127,7 @@
     <Compile Include="Renderers\CameraView\ImageAvailableListener.cs" />
     <Compile Include="Renderers\CameraView\CameraStateListener.cs" />
     <Compile Include="Renderers\CameraView\AutoFitTextureView.cs" />
+    <Compile Include="Effects\LabelShadowEffectDroid.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -143,6 +144,7 @@
     <Folder Include="Renderers\" />
     <Folder Include="Resources\drawable\" />
     <Folder Include="Resources\drawable-hdpi\" />
+    <Folder Include="Effects\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\EntryAlertView.xml" />

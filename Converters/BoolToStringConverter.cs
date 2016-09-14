@@ -7,10 +7,12 @@
 namespace Camera.Converters
 {
 	using System;
-	using System.Collections.Generic;
 	using System.Linq;
 
 	using Xamarin.Forms;
+
+	using Camera.Portable.Ioc;
+	using Camera.Portable.Logging;
 
 	/// <summary>
 	/// Bool to string converter.
@@ -43,11 +45,17 @@ namespace Camera.Converters
 					}
 				}
 			}
-			catch (Exception e) 
+			catch (Exception error) 
 			{
+				IoC.Resolve<ILogger>().WriteLineTime("BoolToStringConverter \n" +
+					"Convert() Failed to switch flash on/off \n " +
+					"ErrorMessage: \n" +
+					error.Message + "\n" +
+					"Stacktrace: \n " +
+					error.StackTrace);
 			}
 
-			return "Off";
+			return string.Empty;
 		}
 
 		/// <summary>

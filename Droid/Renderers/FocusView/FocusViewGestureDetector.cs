@@ -15,10 +15,16 @@ namespace Camera.Droid.Renderers
 	/// </summary>
 	public class FocusViewGestureDetector : GestureDetector.SimpleOnGestureListener
 	{
+		#region Events
+
 		/// <summary>
 		/// Occurs when touch.
 		/// </summary>
 		public event EventHandler<MotionEvent> Touch;
+
+		#endregion
+
+		#region Public Methods
 
 		/// <summary>
 		/// Ons the long press.
@@ -118,5 +124,7 @@ namespace Camera.Droid.Renderers
 		{
 			return base.OnSingleTapConfirmed(e);
 		}
+
+		#endregion
 	}
 }

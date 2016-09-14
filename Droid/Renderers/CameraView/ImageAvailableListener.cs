@@ -41,19 +41,6 @@ namespace Camera.Droid.Renderers.CameraView
 				byte[] imageData = new byte[buffer.Capacity()];
 				buffer.Get(imageData);
 
-				//var bitmap = BitmapFactory.DecodeByteArray(imageData, 0, imageData.Length);
-
-				//if (Rotation > 0)
-				//	bitmap = rotateImg(bitmap);
-
-				//MemoryStream stream = new MemoryStream();
-				//bitmap.Compress(Bitmap.CompressFormat.Jpeg, 50, stream);
-
-				//byte[] compressedBytes = stream.ToArray();
-
-				//bitmap.Recycle();
-				//stream.Dispose();
-
 				Photo?.Invoke(this, imageData);
 			}
 			catch (Exception ex)

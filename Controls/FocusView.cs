@@ -3,11 +3,11 @@
 //    Copyright (c) 2016 Flush Arcade Pty Ltd. All rights reserved.
 //  </copyright>
 // --------------------------------------------------------------------------------------------------
-using System.Threading.Tasks;
 
 namespace Camera.Controls
 {
 	using System;
+	using System.Threading.Tasks;
 
 	using Xamarin.Forms;
 

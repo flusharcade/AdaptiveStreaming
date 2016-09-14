@@ -84,8 +84,11 @@ namespace Camera.Droid.Renderers.CameraView
 		protected override void OnMeasure (int widthMeasureSpec, int heightMeasureSpec)
 		{
 			base.OnMeasure (widthMeasureSpec, heightMeasureSpec);
+
 			int width = MeasureSpec.GetSize (widthMeasureSpec);
 			int height = MeasureSpec.GetSize (heightMeasureSpec);
+
+			//SetMeasuredDimension(width, height);
 
 			if (0 == mRatioWidth || 0 == mRatioHeight)
 			{

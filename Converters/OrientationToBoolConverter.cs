@@ -13,6 +13,8 @@ namespace Camera.Converters
 	using Xamarin.Forms;
 
 	using Camera.Portable.Enums;
+	using Camera.Portable.Ioc;
+	using Camera.Portable.Logging;
 
 	/// <summary>
 	/// Orientation to bool converter.
@@ -54,8 +56,14 @@ namespace Camera.Converters
 					}
 				}
 			}
-			catch (Exception e) 
+			catch (Exception error)
 			{
+				IoC.Resolve<ILogger>().WriteLineTime("OrientationToBoolConverter \n" +
+					"Convert() Failed to switch flash on/off \n " +
+					"ErrorMessage: \n" +
+					error.Message + "\n" +
+					"Stacktrace: \n " +
+					error.StackTrace);
 			}
 
 			return 0;

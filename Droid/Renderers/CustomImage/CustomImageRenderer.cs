@@ -30,6 +30,8 @@ namespace Camera.Droid.Renderers
 	/// </summary>
 	public class CustomImageRenderer : ViewRenderer<CustomImage, ImageView> 
 	{
+		#region Private Properties
+
 		/// <summary>
 		/// The tag.
 		/// </summary>
@@ -55,6 +57,10 @@ namespace Camera.Droid.Renderers
 		/// </summary>
 		private Bitmap _bitmap;
 
+		#endregion
+
+		#region Constructors
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="LogIt.Droid.Renderers.CustomImageRenderer"/> class.
 		/// </summary>
@@ -63,6 +69,10 @@ namespace Camera.Droid.Renderers
 			_log = IoC.Resolve<ILogger> ();
 			_tag = string.Format ("{0} ", GetType ());
 		}
+
+		#endregion
+
+		#region Protected Methods
 
 		/// <summary>
 		/// Raises the element changed event.
@@ -82,10 +92,7 @@ namespace Camera.Droid.Renderers
 
 			if (e.OldElement != null)
 			{
-				_imageView.Dispose();
-
-				// Unsubscribe from event handlers and cleanup any resources
-				e.OldElement.CustomPropertyChanged -= HandleCustomPropertyChanged;
+				// not being called on disposal
 			}
 
 			if (e.NewElement != null)
@@ -105,6 +112,28 @@ namespace Camera.Droid.Renderers
 				// Configure the control and subscribe to event handlers
 			}
 		}
+
+		/// <summary>
+		/// Dispose the specified disposing.
+		/// </summary>
+		/// <param name="disposing">If set to <c>true</c> disposing.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (_bitmap != null)
+			{
+				_bitmap.Recycle();
+				_bitmap.Dispose();
+			}
+
+			// Unsubscribe from event handlers and cleanup any resources
+			Element.CustomPropertyChanged -= HandleCustomPropertyChanged;
+
+			base.Dispose(disposing);
+		}
+
+		#endregion
+
+		#region Private Methods
 
 		/// <summary>
 		/// Sets the aspect.
@@ -164,7 +193,6 @@ namespace Camera.Droid.Renderers
 
 				if (_imageView != null && _bitmap != null)
 				{
-					// use this for anuimated images as Device.StartTimer runs on a different thread, we need to force this on the UI thread.
 					Android.App.Application.SynchronizationContext.Post(state => _imageView.SetImageBitmap(_bitmap), null);
 				}
 			}
@@ -203,7 +231,7 @@ namespace Camera.Droid.Renderers
 		/// </summary>
 		/// <returns>The bitmap image from storage.</returns>
 		/// <param name="fn">Fn.</param>
-		public async Task<Bitmap> ReadBitmapImageFromStorage(string fn)
+		private async Task<Bitmap> ReadBitmapImageFromStorage(string fn)
 		{
 			try
 			{
@@ -217,7 +245,7 @@ namespace Camera.Droid.Renderers
 					{
 						if (stream != null)
 						{
-							return await BitmapFactory.DecodeResourceAsync(Resources, id);
+							return await BitmapFactory.DecodeStreamAsync(stream);
 						}
 					}
 				}
@@ -225,7 +253,7 @@ namespace Camera.Droid.Renderers
 			catch (Exception error)
 			{
 				_log.WriteLineTime(
-					"MyCareManager.Droid.Renderers.CustomImageRenderer; \n" +
+					"Camera.Droid.Renderers.CustomImageRenderer; \n" +
 					"ErrorMessage: Failed to load image " + fn + "\n " +
 					"Stacktrace: Login Error  \n " +
 					error);
@@ -234,24 +262,6 @@ namespace Camera.Droid.Renderers
 			return null;
 		}
 
-		/// <summary>
-		/// Dispose the specified disposing.
-		/// </summary>
-		/// <param name="disposing">If set to <c>true</c> disposing.</param>
-		protected override void Dispose (bool disposing)
-		{
-			if (Element != null) 
-			{
-				Element.CustomPropertyChanged -= HandleCustomPropertyChanged;
-			}
-
-			if (_bitmap != null) 
-			{
-				_bitmap.Recycle ();
-				_bitmap.Dispose ();
-			}
-
-			base.Dispose (disposing);
-		}
+		#endregion
 	}
 }

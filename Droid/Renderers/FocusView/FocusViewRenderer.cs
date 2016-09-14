@@ -24,6 +24,8 @@ namespace Camera.Droid.Renderers
 	/// </summary>
 	public class FocusViewRenderer : ViewRenderer<FocusView, LinearLayout>
 	{
+		#region Private Methods
+
 		/// <summary>
 		/// The listener.
 		/// </summary>
@@ -39,15 +41,9 @@ namespace Camera.Droid.Renderers
 		/// </summary>
 		private LinearLayout _layout;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Camera.Droid.Renderers.FocusViewRenderer"/> class.
-		/// </summary>
-		public FocusViewRenderer()
-		{
-			setGestureDetectorListener ();
+		#endregion
 
-			_layout = new LinearLayout (Context);
-		}
+		#region Protected Methods
 
 		/// <summary>
 		/// Raises the element changed event.
@@ -57,12 +53,28 @@ namespace Camera.Droid.Renderers
 		{
 			base.OnElementChanged(e);
 
-			if (Element != null)
+			if (Control == null)
 			{
-				_layout.Touch += HandleTouch;
+				SetGestureDetectorListener();
+				_layout = new LinearLayout(Context);
+
 				SetNativeControl (_layout);
 			}
+
+			if (e.OldElement != null)
+			{
+				_layout.Touch -= HandleTouch;
+			}
+
+			if (e.NewElement != null)
+			{
+				_layout.Touch += HandleTouch;
+			}
 		}
+
+		#endregion
+
+		#region Private Methods
 
 		/// <summary>
 		/// Converts the pixels to dp.
@@ -77,7 +89,7 @@ namespace Camera.Droid.Renderers
 		/// <summary>
 		/// Sets the gesture detector listener.
 		/// </summary>
-		private void setGestureDetectorListener()
+		private void SetGestureDetectorListener()
 		{
 			// assign gesture for detecting touch events on camera view
 			_gestureDetector = new FocusViewGestureDetector ();
@@ -101,18 +113,6 @@ namespace Camera.Droid.Renderers
 			_detector.OnTouchEvent (e.Event);
 		}
 
-		/// <summary>
-		/// Dispose the specified disposing.
-		/// </summary>
-		/// <param name="disposing">If set to <c>true</c> disposing.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (Element != null)
-			{
-				_layout.Touch -= HandleTouch;
-			}
-
-			base.Dispose(disposing);
-		}
+		#endregion
 	}
 }

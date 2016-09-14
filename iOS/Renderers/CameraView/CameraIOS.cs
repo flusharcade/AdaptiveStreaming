@@ -161,13 +161,6 @@ namespace Camera.iOS.Renderers.CameraView
 			// retrieve camera device if available
 			_cameraAvailable = RetrieveCameraDevice ();
 
-			NSError error;
-
-			AVAudioSession instance = AVAudioSession.SharedInstance ();
-			instance.SetCategory (new NSString("AVAudioSessionCategoryPlayback"), AVAudioSessionCategoryOptions.MixWithOthers, out error);
-			instance.SetMode (new NSString("AVAudioSessionModeDefault"), out error);
-			instance.SetActive (true, AVAudioSessionSetActiveOptions.NotifyOthersOnDeactivation, out error);
-
 			Add (_mainView);
 
 			// set layout constraints for main view
@@ -294,6 +287,61 @@ namespace Camera.iOS.Renderers.CameraView
 			}
 		}
 
+		/// <summary>
+		/// Rotates the image.
+		/// </summary>
+		/// <param name="image">Image.</param>
+		private void RotateImage(ref UIImage image)
+		{
+			CGImage imgRef = image.CGImage;
+			CGAffineTransform transform = CGAffineTransform.MakeIdentity();
+
+			var imgHeight = imgRef.Height * _imgScale;
+			var imgWidth = imgRef.Width * _imgScale;
+
+			CGRect bounds = new CGRect(0, 0, imgWidth, imgHeight);
+			CGSize imageSize = new CGSize(imgWidth, imgHeight);
+			UIImageOrientation orient = image.Orientation;
+
+			switch (orient)
+			{
+				case UIImageOrientation.Up:
+					transform = CGAffineTransform.MakeIdentity();
+					break;
+				case UIImageOrientation.Down:
+					transform = CGAffineTransform.MakeTranslation(imageSize.Width, imageSize.Height);
+					transform = CGAffineTransform.Rotate(transform, (float)Math.PI);
+					break;
+				case UIImageOrientation.Right:
+					bounds.Size = new CGSize(bounds.Size.Height, bounds.Size.Width);
+					transform = CGAffineTransform.MakeTranslation(imageSize.Height, 0);
+					transform = CGAffineTransform.Rotate(transform, (float)Math.PI / 2.0f);
+					break;
+				default:
+					throw new Exception("Invalid image orientation");
+			}
+
+			UIGraphics.BeginImageContext(bounds.Size);
+			CGContext context = UIGraphics.GetCurrentContext();
+
+			if (orient == UIImageOrientation.Right)
+			{
+				context.ScaleCTM(-1, 1);
+				context.TranslateCTM(-imgHeight, 0);
+			}
+			else
+			{
+				context.ScaleCTM(1, -1);
+				context.TranslateCTM(0, -imgHeight);
+			}
+
+			context.ConcatCTM(transform);
+
+			context.DrawImage(new CGRect(0, 0, imgWidth, imgHeight), imgRef);
+			image = UIGraphics.GetImageFromCurrentImageContext();
+			UIGraphics.EndImageContext();
+		}
+
 		#endregion
 
 		#region Public Methods
@@ -339,64 +387,9 @@ namespace Camera.iOS.Renderers.CameraView
 						"Stacktrace: \n " +
 						error.StackTrace);
 						
-					IoC.Resolve<ILogger>().WriteLineTime  ("CameraIOS: Error with camera output capture - " + e);
+					IoC.Resolve<ILogger>().WriteLineTime  ("CameraIOS: Error with camera output capture - " + error);
 				}
 			}
-		}
-
-		/// <summary>
-		/// Rotates the image.
-		/// </summary>
-		/// <param name="image">Image.</param>
-		public void RotateImage(ref UIImage image)
-		{
-			CGImage imgRef = image.CGImage;
-			CGAffineTransform transform = CGAffineTransform.MakeIdentity();
-
-			var imgHeight = imgRef.Height * _imgScale;
-			var imgWidth = imgRef.Width * _imgScale;
-
-			CGRect bounds = new CGRect(0, 0, imgWidth, imgHeight);
-			CGSize imageSize = new CGSize(imgWidth, imgHeight);
-			UIImageOrientation orient = image.Orientation;
-
-			switch (orient)
-			{
-				case UIImageOrientation.Up:
-					transform = CGAffineTransform.MakeIdentity();
-					break;
-				case UIImageOrientation.Down:
-					transform = CGAffineTransform.MakeTranslation (imageSize.Width, imageSize.Height);
-					transform = CGAffineTransform.Rotate(transform, (float)Math.PI);
-					break;
-				case UIImageOrientation.Right:
-					bounds.Size = new CGSize( bounds.Size.Height, bounds.Size.Width);
-					transform = CGAffineTransform.MakeTranslation(imageSize.Height, 0);
-					transform = CGAffineTransform.Rotate(transform, (float)Math.PI / 2.0f);
-					break;
-				default:
-					throw new Exception("Invalid image orientation");                        
-			}
-
-			UIGraphics.BeginImageContext(bounds.Size);
-			CGContext context = UIGraphics.GetCurrentContext();
-
-			if (orient == UIImageOrientation.Right)
-			{
-				context.ScaleCTM(-1, 1);
-				context.TranslateCTM(-imgHeight, 0);
-			}
-			else
-			{
-				context.ScaleCTM(1, -1);
-				context.TranslateCTM(0, -imgHeight);
-			}
-
-			context.ConcatCTM(transform);
-
-			context.DrawImage(new CGRect(0, 0, imgWidth, imgHeight), imgRef);
-			image = UIGraphics.GetImageFromCurrentImageContext();
-			UIGraphics.EndImageContext();
 		}
 
 		/// <summary>

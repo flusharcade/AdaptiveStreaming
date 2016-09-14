@@ -75,17 +75,17 @@ namespace Camera.Droid.Renderers.CameraView
 		/// <summary>
 		/// The m state listener.
 		/// </summary>
-		private CameraStateListener mStateListener;
+		private CameraStateListener _stateListener;
 
 		/// <summary>
 		/// The CameraRequest.Builder for camera preview.
 		/// </summary>
-		private CaptureRequest.Builder mPreviewBuilder;
+		private CaptureRequest.Builder _previewBuilder;
 
 		/// <summary>
 		/// The CameraCaptureSession for camera preview.
 		/// </summary>
-		private CameraCaptureSession mPreviewSession;
+		private CameraCaptureSession _previewSession;
 
 		/// <summary>
 		/// The view surface.
@@ -100,12 +100,12 @@ namespace Camera.Droid.Renderers.CameraView
 		/// <summary>
 		/// The media sound.
 		/// </summary>
-		private MediaActionSound mediaSound;
+		private MediaActionSound _mediaSound;
 
 		/// <summary>
 		/// The size of the camera preview.
 		/// </summary>
-		private Android.Util.Size mPreviewSize;
+		private Android.Util.Size _previewSize;
 
 		/// <summary>
 		/// The context.
@@ -126,6 +126,11 @@ namespace Camera.Droid.Renderers.CameraView
 		/// The opening camera.
 		/// </summary>
 		private bool _openingCamera;
+
+		/// <summary>
+		/// The background handler.
+		/// </summary>
+		private Handler backgroundHandler;
 
 		#endregion
 
@@ -153,7 +158,7 @@ namespace Camera.Droid.Renderers.CameraView
 		/// <summary>
 		/// The reference to the opened CameraDevice.
 		/// </summary>
-		public CameraDevice mCameraDevice;
+		public CameraDevice _cameraDevice;
 
 		#endregion
 
@@ -180,7 +185,7 @@ namespace Camera.Droid.Renderers.CameraView
 				_cameraTexture = view.FindViewById<AutoFitTextureView>(Resource.Id.CameraTexture);
 				_cameraTexture.SurfaceTextureListener = this;
 
-				mStateListener = new CameraStateListener() { Camera = this };
+				_stateListener = new CameraStateListener() { Camera = this };
 
 				ORIENTATIONS.Append((int)SurfaceOrientation.Rotation0, 90);
 				ORIENTATIONS.Append((int)SurfaceOrientation.Rotation90, 0);
@@ -198,18 +203,16 @@ namespace Camera.Droid.Renderers.CameraView
 		/// </summary>
 		private void UpdatePreview()
 		{
-			if (mCameraDevice != null && mPreviewSession != null)
+			if (_cameraDevice != null && _previewSession != null)
 			{
 				try
 				{
 					// The camera preview can be run in a background thread. This is a Handler for the camere preview
-					mPreviewBuilder.Set(CaptureRequest.ControlMode, new Java.Lang.Integer((int)ControlMode.Auto));
-					HandlerThread thread = new HandlerThread("CameraPreview");
-					thread.Start();
-					Handler backgroundHandler = new Handler(thread.Looper);
+					_previewBuilder.Set(CaptureRequest.ControlMode, new Java.Lang.Integer((int)ControlMode.Auto));
 
 					// Finally, we start displaying the camera preview
-					mPreviewSession.SetRepeatingRequest(mPreviewBuilder.Build(), null, backgroundHandler);
+					//if (_previewSession.IsReprocessable)
+					_previewSession.SetRepeatingRequest(_previewBuilder.Build(), null, backgroundHandler);
 				}
 				catch (CameraAccessException error)
 				{
@@ -240,8 +243,8 @@ namespace Camera.Droid.Renderers.CameraView
 		{
 			try 
 			{
-				mediaSound = new MediaActionSound ();
-				mediaSound.LoadAsync (MediaActionSoundType.ShutterClick);
+				_mediaSound = new MediaActionSound ();
+				_mediaSound.LoadAsync (MediaActionSoundType.ShutterClick);
 
 				return true;
 			}
@@ -284,19 +287,23 @@ namespace Camera.Droid.Renderers.CameraView
 				// StreamConfigurationMap from CameraCharacteristics
 				CameraCharacteristics characteristics = _manager.GetCameraCharacteristics(cameraId);
 				StreamConfigurationMap map = (StreamConfigurationMap)characteristics.Get(CameraCharacteristics.ScalerStreamConfigurationMap);
-				mPreviewSize = map.GetOutputSizes(Java.Lang.Class.FromType(typeof(SurfaceTexture)))[0];
+				_previewSize = map.GetOutputSizes(Java.Lang.Class.FromType(typeof(SurfaceTexture)))[0];
 				Android.Content.Res.Orientation orientation = Resources.Configuration.Orientation;
 				if (orientation == Android.Content.Res.Orientation.Landscape)
 				{
-					_cameraTexture.SetAspectRatio(mPreviewSize.Width, mPreviewSize.Height);
+					_cameraTexture.SetAspectRatio(_previewSize.Width, _previewSize.Height);
 				}
 				else
 				{
-					_cameraTexture.SetAspectRatio(mPreviewSize.Height, mPreviewSize.Width);
+					_cameraTexture.SetAspectRatio(_previewSize.Height, _previewSize.Width);
 				}
 
+				HandlerThread thread = new HandlerThread("CameraPreview");
+				thread.Start();
+				backgroundHandler = new Handler(thread.Looper);
+
 				// We are opening the camera with a listener. When it is ready, OnOpened of mStateListener is called.
-				_manager.OpenCamera(cameraId, mStateListener, null);
+				_manager.OpenCamera(cameraId, _stateListener, null);
 			}
 			catch (Java.Lang.Exception error)
 			{
@@ -309,6 +316,17 @@ namespace Camera.Droid.Renderers.CameraView
 				
 				Available?.Invoke(this, false);
 			}
+			catch (System.Exception error)
+			{
+				_log.WriteLineTime(_tag + "\n" +
+					"OpenCamera() Failed to open camera  \n " +
+					"ErrorMessage: \n" +
+					error.Message + "\n" +
+					"Stacktrace: \n " +
+					error.StackTrace);
+
+				Available?.Invoke(this, false);
+			}
 		}
 
 		/// <summary>
@@ -316,7 +334,7 @@ namespace Camera.Droid.Renderers.CameraView
 		/// </summary>
 		public void TakePhoto ()
 		{
-			if (_context != null && mCameraDevice != null)
+			if (_context != null && _cameraDevice != null)
 			{
 				try
 				{
@@ -324,11 +342,11 @@ namespace Camera.Droid.Renderers.CameraView
 
 					if (_mediaSoundLoaded)
 					{
-						mediaSound.Play(MediaActionSoundType.ShutterClick);
+						_mediaSound.Play(MediaActionSoundType.ShutterClick);
 					}
 
 					// Pick the best JPEG size that can be captures with this CameraDevice
-					var characteristics = _manager.GetCameraCharacteristics(mCameraDevice.Id);
+					var characteristics = _manager.GetCameraCharacteristics(_cameraDevice.Id);
 					Android.Util.Size[] jpegSizes = null;
 					if (characteristics != null)
 					{
@@ -350,7 +368,7 @@ namespace Camera.Droid.Renderers.CameraView
 					outputSurfaces.Add(reader.Surface);
 					outputSurfaces.Add(new Surface(_viewSurface));
 
-					CaptureRequest.Builder captureBuilder = mCameraDevice.CreateCaptureRequest(CameraTemplate.StillCapture);
+					CaptureRequest.Builder captureBuilder = _cameraDevice.CreateCaptureRequest(CameraTemplate.StillCapture);
 					captureBuilder.AddTarget(reader.Surface);
 					captureBuilder.Set(CaptureRequest.ControlMode, new Integer((int)ControlMode.Auto));
 
@@ -361,7 +379,6 @@ namespace Camera.Droid.Renderers.CameraView
 					captureBuilder.Set(CaptureRequest.JpegOrientation, new Integer(ORIENTATIONS.Get((int)rotation)));
 
 					// This listener is called when an image is ready in ImageReader 
-					// Right click on ImageAvailableListener in your IDE and go to its definition
 					ImageAvailableListener readerListener = new ImageAvailableListener();
 
 					readerListener.Photo += (sender, e) =>
@@ -383,13 +400,13 @@ namespace Camera.Droid.Renderers.CameraView
 						StartPreview();
 					};
 
-					mCameraDevice.CreateCaptureSession(outputSurfaces, new CameraCaptureStateListener()
+					_cameraDevice.CreateCaptureSession(outputSurfaces, new CameraCaptureStateListener()
 					{
 						OnConfiguredAction = (CameraCaptureSession session) =>
 						{
 							try
 							{
-								mPreviewSession = session;
+								_previewSession = session;
 								session.Capture(captureBuilder.Build(), captureListener, backgroundHandler);
 							}
 							catch (CameraAccessException ex)
@@ -433,7 +450,6 @@ namespace Camera.Droid.Renderers.CameraView
 			CameraCharacteristics characteristics = _manager.GetCameraCharacteristics(cameraId);
 
 			var rect = characteristics.Get(CameraCharacteristics.SensorInfoActiveArraySize) as Rect;
-			var size = characteristics.Get(CameraCharacteristics.SensorInfoPixelArraySize) as Size;
 
 			int areaSize = 200;
 			int right = rect.Right;
@@ -455,9 +471,9 @@ namespace Camera.Droid.Renderers.CameraView
 			newRect = new Rect(focusLeft, focusBottom, focusLeft + areaSize, focusBottom + areaSize);
 			MeteringRectangle meteringRectangle = new MeteringRectangle(newRect, 500);
 			MeteringRectangle[] meteringRectangleArr = { meteringRectangle };
-			mPreviewBuilder.Set(CaptureRequest.ControlAfTrigger, (int)ControlAFTrigger.Cancel);
-			mPreviewBuilder.Set(CaptureRequest.ControlAeRegions, meteringRectangleArr);
-			mPreviewBuilder.Set(CaptureRequest.ControlAfTrigger, (int)ControlAFTrigger.Start);
+			_previewBuilder.Set(CaptureRequest.ControlAfTrigger, (int)ControlAFTrigger.Cancel);
+			_previewBuilder.Set(CaptureRequest.ControlAeRegions, meteringRectangleArr);
+			_previewBuilder.Set(CaptureRequest.ControlAfTrigger, (int)ControlAFTrigger.Start);
 
 			UpdatePreview();
 		}
@@ -478,7 +494,7 @@ namespace Camera.Droid.Renderers.CameraView
 		/// </summary>
 		public void StartPreview()
 		{
-			if (mCameraDevice != null && _cameraTexture.IsAvailable && mPreviewSize != null)
+			if (_cameraDevice != null && _cameraTexture.IsAvailable && _previewSize != null)
 			{
 				try
 				{
@@ -486,17 +502,17 @@ namespace Camera.Droid.Renderers.CameraView
 					System.Diagnostics.Debug.Assert(texture != null);
 
 					// We configure the size of the default buffer to be the size of the camera preview we want
-					texture.SetDefaultBufferSize(mPreviewSize.Width, mPreviewSize.Height);
+					texture.SetDefaultBufferSize(_previewSize.Width, _previewSize.Height);
 
 					// This is the output Surface we need to start the preview
 					Surface surface = new Surface(texture);
 
 					// We set up a CaptureRequest.Builder with the output Surface
-					mPreviewBuilder = mCameraDevice.CreateCaptureRequest(CameraTemplate.Preview);
-					mPreviewBuilder.AddTarget(surface);
+					_previewBuilder = _cameraDevice.CreateCaptureRequest(CameraTemplate.Preview);
+					_previewBuilder.AddTarget(surface);
 
 					// Here, we create a CameraCaptureSession for camera preview.
-					mCameraDevice.CreateCaptureSession(new List<Surface>() { surface },
+					_cameraDevice.CreateCaptureSession(new List<Surface>() { surface },
 						new CameraCaptureStateListener()
 						{
 							OnConfigureFailedAction = (CameraCaptureSession session) =>
@@ -504,13 +520,11 @@ namespace Camera.Droid.Renderers.CameraView
 							},
 							OnConfiguredAction = (CameraCaptureSession session) =>
 							{
-								mPreviewSession = session;
+								_previewSession = session;
 								UpdatePreview();
 							}
 						},
 						null);
-
-
 				}
 				catch (Java.Lang.Exception error)
 				{
@@ -532,7 +546,7 @@ namespace Camera.Droid.Renderers.CameraView
 		{
 			try
 			{
-				mPreviewBuilder.Set(CaptureRequest.FlashMode, new Integer(flashOn ? (int)FlashMode.Torch : (int)FlashMode.Off));
+				_previewBuilder.Set(CaptureRequest.FlashMode, new Integer(flashOn ? (int)FlashMode.Torch : (int)FlashMode.Off));
 				UpdatePreview();
 			}
 			catch (System.Exception error)
@@ -579,14 +593,14 @@ namespace Camera.Droid.Renderers.CameraView
 		/// <param name="viewHeight">View height.</param>
 		public void ConfigureTransform(int viewWidth, int viewHeight)
 		{
-			if (_viewSurface != null && mPreviewSize != null && _context != null)
+			if (_viewSurface != null && _previewSize != null && _context != null)
 			{
 				var windowManager = _context.GetSystemService(Context.WindowService).JavaCast<IWindowManager>();
 
 				var rotation = windowManager.DefaultDisplay.Rotation;
 				var matrix = new Matrix();
 				var viewRect = new RectF(0, 0, viewWidth, viewHeight);
-				var bufferRect = new RectF(0, 0, mPreviewSize.Width, mPreviewSize.Height);
+				var bufferRect = new RectF(0, 0, _previewSize.Width, _previewSize.Height);
 
 				var centerX = viewRect.CenterX();
 				var centerY = viewRect.CenterY();
@@ -596,7 +610,7 @@ namespace Camera.Droid.Renderers.CameraView
 					bufferRect.Offset(centerX - bufferRect.CenterX() , centerY - bufferRect.CenterY());
 					matrix.SetRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.Fill);
 
-					var scale = System.Math.Max((float)viewHeight / mPreviewSize.Height, (float)viewWidth / mPreviewSize.Width);
+					var scale = System.Math.Max((float)viewHeight / _previewSize.Height, (float)viewWidth / _previewSize.Width);
 					matrix.PostScale(scale, scale, centerX, centerY);
 					matrix.PostRotate(90 * ((int)rotation - 2), centerX, centerY);
 				}
@@ -625,6 +639,9 @@ namespace Camera.Droid.Renderers.CameraView
 		/// <param name="surface">Surface.</param>
 		public bool OnSurfaceTextureDestroyed (SurfaceTexture surface)
 		{
+			backgroundHandler.Dispose();
+			_previewSession.StopRepeating();
+
 			return true;
 		}
 

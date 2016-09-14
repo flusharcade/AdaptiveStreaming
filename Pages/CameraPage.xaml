@@ -32,7 +32,9 @@
 			Grid.Column="0" Grid.ColumnSpan="{Binding PageOrientation, Converter={StaticResource orientationToIntConverter}, ConverterParameter='5, 6'}"/>
 
 		<controls:FocusView x:Name="FocusView" 
-			Grid.Row="0" Grid.RowSpan="7" Grid.Column="0" Grid.ColumnSpan="6"/>
+			Grid.Row="0" 
+			Grid.RowSpan="{Binding PageOrientation, Converter={StaticResource orientationToIntConverter}, ConverterParameter='7, 6'}" 
+			Grid.Column="0" Grid.ColumnSpan="{Binding PageOrientation, Converter={StaticResource orientationToIntConverter}, ConverterParameter='5, 6'}"/>
 
 		<Grid x:Name="CameraButtonContainerPortrait" ColumnSpacing="5" 
 			IsEnabled="{Binding PageOrientation, Converter={StaticResource orientationToBoolConverter}, ConverterParameter='false, true'}}" 

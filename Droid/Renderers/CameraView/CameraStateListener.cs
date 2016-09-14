@@ -8,8 +8,6 @@ namespace Camera.Droid.Renderers.CameraView
 {
 	using Android.Hardware.Camera2;
 
-	using Xamarin.Forms;
-
 	/// <summary>
 	/// Camera state listener.
 	/// </summary>
@@ -28,7 +26,7 @@ namespace Camera.Droid.Renderers.CameraView
 		{
 			if (Camera != null)
 			{
-				Camera.mCameraDevice = camera;
+				Camera._cameraDevice = camera;
 				Camera.StartPreview();
 				Camera.OpeningCamera = false;
 
@@ -45,7 +43,7 @@ namespace Camera.Droid.Renderers.CameraView
 			if (Camera != null)
 			{
 				camera.Close();
-				Camera.mCameraDevice = null;
+				Camera._cameraDevice = null;
 				Camera.OpeningCamera = false;
 
 				Camera?.NotifyAvailable(false);
@@ -63,7 +61,7 @@ namespace Camera.Droid.Renderers.CameraView
 
 			if (Camera != null)
 			{
-				Camera.mCameraDevice = null;
+				Camera._cameraDevice = null;
 				Camera.OpeningCamera = false;
 
 				Camera?.NotifyAvailable(false);
@@ -71,4 +69,3 @@ namespace Camera.Droid.Renderers.CameraView
 		}
 	}
 }
-

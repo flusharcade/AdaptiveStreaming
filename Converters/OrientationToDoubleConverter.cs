@@ -54,7 +54,14 @@ namespace Camera.Converters
 					}
 				}
 			}
-			catch (Exception e) {
+			catch (Exception error)
+			{
+				IoC.Resolve<ILogger>().WriteLineTime("OrientationToDoubleConverter \n" +
+					"Convert() Failed to switch flash on/off \n " +
+					"ErrorMessage: \n" +
+					error.Message + "\n" +
+					"Stacktrace: \n " +
+					error.StackTrace);
 			}
 
 			return 0;

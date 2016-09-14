@@ -63,7 +63,7 @@ namespace Camera.Controls
 			});
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="MyCareManager.XamForms.Controls.CustomImage"/> tint on.
+		/// Gets or sets a value indicating whether this <see cref="Camera.XamForms.Controls.CustomImage"/> tint on.
 		/// </summary>
 		/// <value><c>true</c> if tint on; otherwise, <c>false</c>.</value>
 		public bool TintOn 

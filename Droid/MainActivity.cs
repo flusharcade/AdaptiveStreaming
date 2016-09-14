@@ -44,6 +44,10 @@ namespace Camera.Droid
 
 		#endregion
 
+		/// <summary>
+		/// Ons the configuration changed.
+		/// </summary>
+		/// <param name="newConfig">New config.</param>
 		public override void OnConfigurationChanged(Android.Content.Res.Configuration newConfig)
 		{
 			base.OnConfigurationChanged(newConfig);

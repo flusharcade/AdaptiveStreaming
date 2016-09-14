@@ -33,6 +33,8 @@ namespace Camera.iOS.Renderers.CustomImage
 	[Preserve(AllMembers = true)]
 	public class CustomImageRenderer : ViewRenderer<CustomImage, UIView>
 	{
+		#region Private Properties
+
 		/// <summary>
 		/// The tag.
 		/// </summary>
@@ -53,6 +55,10 @@ namespace Camera.iOS.Renderers.CustomImage
 		/// </summary>
 		private int _systemVersion = Convert.ToInt16 (UIDevice.CurrentDevice.SystemVersion.Split ('.') [0]);
 
+		#endregion
+
+		#region Constructors
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="LogIt.Droid.Renderers.CustomImageRenderer"/> class.
 		/// </summary>
@@ -61,6 +67,10 @@ namespace Camera.iOS.Renderers.CustomImage
 			_log = IoC.Resolve<ILogger>();
 			_tag = string.Format("{0} ", GetType());
 		}
+
+		#endregion
+
+		#region Public Methods
 
 		/// <summary>
 		/// Raises the element changed event.
@@ -92,6 +102,10 @@ namespace Camera.iOS.Renderers.CustomImage
 				// Configure the control and subscribe to event handlers
 			}
 		}
+
+		#endregion
+
+		#region Private Methods
 
 		/// <summary>
 		/// Handles the custom property changed.
@@ -179,7 +193,7 @@ namespace Camera.iOS.Renderers.CustomImage
 		/// </summary>
 		/// <returns>The bitmap image from storage.</returns>
 		/// <param name="fn">Fn.</param>
-		public UIImage ReadBitmapImageFromStorage(string fn)
+		private UIImage ReadBitmapImageFromStorage(string fn)
 		{
 			var docsPath = Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
 			string filePath = Path.Combine(Environment.CurrentDirectory, fn);
@@ -217,5 +231,7 @@ namespace Camera.iOS.Renderers.CustomImage
 				_imageView.Image = UIImageEffects.GetColoredImage(_imageView.Image, color);
 			}
 		}
+
+		#endregion
 	}
 }
