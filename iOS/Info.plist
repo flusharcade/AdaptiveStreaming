@@ -66,5 +66,7 @@
 	</array>
 	<key>CFBundleName</key>
 	<string>Camera.iOS</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Chapter 8 would like to access your camera</string>
 </dict>
 </plist>
