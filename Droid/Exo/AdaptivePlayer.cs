@@ -78,17 +78,18 @@ namespace AdaptiveStreaming.Droid.Exo
 		private LinearLayout _debugRootView;
 		private TextView _debugTextView;
 		private Button _retryButton;
-
 		private IDataSourceFactory _mediaDataSourceFactory;
 		private SimpleExoPlayer _player;
 		private MappingTrackSelector _trackSelector;
 		private TrackSelectionHelper _trackSelectionHelper;
 		private DebugTextViewHelper _debugViewHelper;
-		private bool _playerNeedsSource;
 
+		private bool _playerNeedsSource;
 		private bool _shouldAutoPlay;
 		private bool _shouldRestorePosition;
+
 		private int _playerWindow;
+
 		private long _playerPosition;
 
 		protected string UserAgent;
@@ -156,10 +157,10 @@ namespace AdaptiveStreaming.Droid.Exo
 			_mediaDataSourceFactory = BuildDataSourceFactory(true);
 			_mainHandler = new Handler();
 
-			//if (CookieHandler.Default != _defaultCookieManager)
-			//{
-			CookieHandler.Default = _defaultCookieManager;
-			//}
+			if (CookieHandler.Default != _defaultCookieManager)
+			{
+			    CookieHandler.Default = _defaultCookieManager;
+			}
 
 			var inflater = LayoutInflater.FromContext(context);
 
@@ -177,15 +178,12 @@ namespace AdaptiveStreaming.Droid.Exo
 
 			_simpleExoPlayerView = (SimpleExoPlayerView)FindViewById(Resource.Id.player_view);
 			_simpleExoPlayerView.SetControllerVisibilityListener(this);
-			//_simpleExoPlayerView.SetUseController(false);
 			_simpleExoPlayerView.RequestFocus();
 		}
 
 		#endregion
 
-		/*
-		
-		protected override void OnResume()
+		/*protected override void OnResume()
 		{
 			base.OnResume();
 			if ((Util.SdkInt <= 23 || _player == null))
@@ -268,16 +266,19 @@ namespace AdaptiveStreaming.Droid.Exo
 			if (_player == null)
 			{
                 bool preferExtensionDecoders = _stream.PreferExtensionDecoders;
-				UUID drmSchemeUuid = string.IsNullOrEmpty(DrmSchemeUuidExtra)
+				
+                UUID drmSchemeUuid = string.IsNullOrEmpty(DrmSchemeUuidExtra)
 										   ? UUID.FromString(_stream.DrmSchemeUuidExtra) : null;
-				//DrmSessionManager<FrameworkMediaCrypto>
-				IDrmSessionManager drmSessionManager = null;
-				if (drmSchemeUuid != null)
+				
+                IDrmSessionManager drmSessionManager = null;
+				
+                if (drmSchemeUuid != null)
 				{
 					string drmLicenseUrl = _stream.DrmLicenseUrl;
 					string[] keyRequestPropertiesArray = _stream.DrmKeyRequestProperties;
 					Dictionary<string, string> keyRequestProperties;
-					if (keyRequestPropertiesArray == null || keyRequestPropertiesArray.Length < 2)
+					
+                    if (keyRequestPropertiesArray == null || keyRequestPropertiesArray.Length < 2)
 					{
 						keyRequestProperties = null;
 					}
@@ -300,29 +301,27 @@ namespace AdaptiveStreaming.Droid.Exo
 						int errorstringId = Util.SdkInt < 18 ? Resource.String.error_drm_not_supported
 												: (e.Reason == UnsupportedDrmException.ReasonUnsupportedScheme
 							? Resource.String.error_drm_unsupported_scheme : Resource.String.error_drm_unknown);
-						//ShowTost(errorstringId);
-						return;
+						ShowToast(errorstringId);
+						
+                        return;
 					}
 				}
 
 				_eventLogger = new EventLogger();
 				ITrackSelectionFactory videoTrackSelectionFactory =
 					new AdaptiveVideoTrackSelection.Factory(_bandwidthMeter);
-				//_trackSelector = new DefaultTrackSelector(_mainHandler, videoTrackSelectionFactory);
 				_trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
 
-				//_trackSelector.AddListener();
-				//_trackSelector.AddListener(_eventLogger);
 				_trackSelectionHelper = new TrackSelectionHelper(_trackSelector, videoTrackSelectionFactory);
 				_player = ExoPlayerFactory.NewSimpleInstance(_context, _trackSelector, new DefaultLoadControl());
 				_player.AddListener(this);
 				_player.AddListener(_eventLogger);
 				_player.SetAudioDebugListener(_eventLogger);
 				_player.SetVideoDebugListener(_eventLogger);
-				//_player.SetId3Output(_eventLogger);
 				_player.SetMetadataOutput(_eventLogger);
 
 				_simpleExoPlayerView.Player = _player;
+
 				if (_shouldRestorePosition)
 				{
 					if (_playerPosition == C.TimeUnset)
@@ -334,6 +333,7 @@ namespace AdaptiveStreaming.Droid.Exo
 						_player.SeekTo(_playerWindow, _playerPosition);
 					}
 				}
+
 				_player.PlayWhenReady = _shouldAutoPlay;
 				_debugViewHelper = new DebugTextViewHelper(_player, _debugTextView);
 				_debugViewHelper.Start();
@@ -345,7 +345,7 @@ namespace AdaptiveStreaming.Droid.Exo
                 //var intent = (_context as Activity).Intent;
                 //string action = intent.Action;
 
-                global::Android.Net.Uri[] uris = { };
+                global::Android.Net.Uri[] uris;
                 string[] extensions = {};
 
 				uris = new global::Android.Net.Uri[] { Android.Net.Uri.Parse(_stream.Url) };
@@ -382,7 +382,7 @@ namespace AdaptiveStreaming.Droid.Exo
 					return;
 				}
 
-				IMediaSource[] mediaSources = new IMediaSource[uris.Length];
+				var mediaSources = new IMediaSource[uris.Length];
 				
                 for (int i = 0; i < uris.Length; i++)
 				{
@@ -426,7 +426,13 @@ namespace AdaptiveStreaming.Droid.Exo
 			}
 		}
 
-		/*DrmSessionManager<FrameworkMediaCrypto>*/
+        /// <summary>
+        /// Builds the drm session manager.
+        /// </summary>
+        /// <returns>The drm session manager.</returns>
+        /// <param name="uuid">UUID.</param>
+        /// <param name="licenseUrl">License URL.</param>
+        /// <param name="keyRequestProperties">Key request properties.</param>
 		private IDrmSessionManager BuildDrmSessionManager(UUID uuid, string licenseUrl, Dictionary<string, string> keyRequestProperties)
 		{
 			if (Util.SdkInt < 18)
@@ -437,13 +443,13 @@ namespace AdaptiveStreaming.Droid.Exo
 			HttpMediaDrmCallback drmCallback = new HttpMediaDrmCallback(licenseUrl,
 				BuildHttpDataSourceFactory(false), keyRequestProperties);
 
-			return new //StreamingDrmSessionManager(uuid,
-					   //FrameworkMediaDrm.NewInstance(uuid), drmCallback, null, _mainHandler, _eventLogger);
-
-			DefaultDrmSessionManager(uuid,
+			return new DefaultDrmSessionManager(uuid,
 				FrameworkMediaDrm.NewInstance(uuid), drmCallback, null, _mainHandler, _eventLogger);
 		}
 
+        /// <summary>
+        /// Releases the player.
+        /// </summary>
 		private void ReleasePlayer()
 		{
 			if (_player != null)
@@ -509,18 +515,19 @@ namespace AdaptiveStreaming.Droid.Exo
 
 		#region IExoPlayerEventListener implementation
 
-		public void OnLoadingChanged(bool isLoading)
-		{
-			// Do nothing.
-		}
-
 		public void OnPlayerStateChanged(bool playWhenReady, int playbackState)
 		{
 			if (playbackState == Com.Google.Android.Exoplayer2.ExoPlayer.StateEnded)
 			{
 				ShowControls();
 			}
+
 			UpdateButtonVisibilities();
+		}
+
+		public void OnLoadingChanged(bool isLoading)
+		{
+			// Do nothing.
 		}
 
 		public void OnPositionDiscontinuity()
@@ -582,24 +589,6 @@ namespace AdaptiveStreaming.Droid.Exo
 
 		#endregion
 
-		/*#region MappingTrackSelector.IEventListener implementation
-
-        public void OnTracksChanged(MappingTrackSelector.TrackInfo trackSelections)
-        {
-            UpdateButtonVisibilities();
-            MappingTrackSelector.TrackInfo trackInfo = trackSelections;
-            if (trackInfo.HasOnlyUnplayableTracks(C.TrackTypeVideo))
-            {
-                ShowToast(Resource.String.error_unsupported_video);
-            }
-            if (trackInfo.HasOnlyUnplayableTracks(C.TrackTypeAudio))
-            {
-                ShowToast(Resource.String.error_unsupported_audio);
-            }
-        }
-
-        #endregion*/
-
 		#region User controls
 
 		private void UpdateButtonVisibilities()
@@ -613,42 +602,6 @@ namespace AdaptiveStreaming.Droid.Exo
 			{
 				return;
 			}
-
-			/*TrackSelections<MappedTrackInfo> trackSelections = trackSelector.getCurrentSelections();
-
-            if (trackSelections == null)
-            {
-                return;
-            }
-
-            int rendererCount = trackSelections.Length;
-            for (int i = 0; i < rendererCount; i++)
-            {
-                TrackGroupArray trackGroups = trackSelections.info.getTrackGroups(i);
-                if (trackGroups.Length != 0)
-                {
-                    Button button = new Button(this);
-                    int label;
-                    switch (player.getRendererType(i))
-                    {
-                        case C.TrackTypeAudio:
-                            label = Resource.String.audio;
-                            break;
-                        case C.TrackTypeVideo:
-                            label = Resource.String.video;
-                            break;
-                        case C.TrackTypeText:
-                            label = Resource.String.text;
-                            break;
-                        default:
-                            continue;
-                    }
-                    button.Text = label.ToString();
-                    button.Tag = i;
-                    button.SetOnClickListener(this);
-                    debugRootView.AddView(button);
-                }
-            }*/
 		}
 
 		private void ShowControls()
@@ -674,6 +627,7 @@ namespace AdaptiveStreaming.Droid.Exo
 		public void OnTracksChanged(TrackGroupArray p0, TrackSelectionArray p1)
 		{
 			UpdateButtonVisibilities();
+
 			/*MappingTrackSelector.MappedTrackInfo trackInfo = trackSelections;
             if (trackInfo.HasOnlyUnplayableTracks(C.TrackTypeVideo))
             {
@@ -686,5 +640,14 @@ namespace AdaptiveStreaming.Droid.Exo
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Stops the and dispose.
+		/// </summary>
+		public void StopAndDispose()
+		{
+			_player.Stop();
+			//_player.Dispose();
+		}
 	}
 }

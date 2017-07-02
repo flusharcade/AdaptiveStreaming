@@ -1,6 +1,8 @@
 ﻿﻿using System;
-using AdaptiveStreaming.Portable.Models;
+
 using Xamarin.Forms;
+
+using AdaptiveStreaming.Portable.Models;
 
 namespace AdaptiveStreaming.Controls
 {

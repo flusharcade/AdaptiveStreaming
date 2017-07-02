@@ -118,7 +118,7 @@
     <Folder Include="Effects\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="adaptive.Portable\AdaptiveStreaming.Portable.csproj">
+    <ProjectReference Include="AdaptiveStreaming.Portable\AdaptiveStreaming.Portable.csproj">
       <Project>{33E01838-2FAE-4547-B441-95145E5DF630}</Project>
       <Name>AdaptiveStreaming.Portable</Name>
     </ProjectReference>

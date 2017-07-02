@@ -132,7 +132,7 @@
     <Compile Include="Exo\TrackSelectionHelper.cs" />
     <Compile Include="Exo\EventLogger.cs" />
     <Compile Include="Exo\AdaptivePlayer.cs" />
-    <Compile Include="Renderers\AdaptivePlayerViewAndroid.cs" />
+    <Compile Include="Renderers\AdaptivePlayerViewRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -179,7 +179,7 @@
       <Project>{CA11D56D-7C63-49CA-99E7-4D19D0E9F081}</Project>
       <Name>AdaptiveStreaming</Name>
     </ProjectReference>
-    <ProjectReference Include="..\adaptive.Portable\AdaptiveStreaming.Portable.csproj">
+    <ProjectReference Include="..\AdaptiveStreaming.Portable\AdaptiveStreaming.Portable.csproj">
       <Project>{33E01838-2FAE-4547-B441-95145E5DF630}</Project>
       <Name>AdaptiveStreaming.Portable</Name>
     </ProjectReference>

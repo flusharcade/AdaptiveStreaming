@@ -1,15 +1,15 @@
 ﻿<Properties StartupConfiguration="{3B052966-FCC6-435C-8BF8-B36A8DB3B7C9}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Droid/Exo/AdaptivePlayer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Droid/Renderers/AdaptivePlayerViewRenderer.cs">
     <Files>
-      <File FileName="Droid/Exo/AdaptivePlayer.cs" Line="409" Column="1" />
-      <File FileName="Pages/PlayerPage.xaml" Line="11" Column="26" />
-      <File FileName="Pages/PlayerPage.xaml.cs" Line="45" Column="28" />
-      <File FileName="adaptive.Portable/Models/Stream.cs" Line="12" Column="26" />
+      <File FileName="Droid/Renderers/AdaptivePlayerViewRenderer.cs" Line="82" Column="26" />
+      <File FileName="Droid/Exo/AdaptivePlayer.cs" Line="638" Column="29" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/mww121/Desktop/Dev/ReactiveUI/adaptive/adaptive-streaming/Droid/Renderers/AdaptivePlayerViewRenderer.cs" relfile="Droid/Renderers/AdaptivePlayerViewRenderer.cs" line="61" column="27" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.AdaptiveStreaming.Droid AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.9885b64b3330584d45" />
