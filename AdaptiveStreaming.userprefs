@@ -1,7 +1,10 @@
 ﻿<Properties StartupConfiguration="{3B052966-FCC6-435C-8BF8-B36A8DB3B7C9}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="adaptive.Portable/ViewModels/AdaptivePageViewModel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Droid/Exo/AdaptivePlayer.cs">
     <Files>
-      <File FileName="adaptive.Portable/ViewModels/AdaptivePageViewModel.cs" Line="71" Column="13" />
+      <File FileName="Droid/Exo/AdaptivePlayer.cs" Line="409" Column="1" />
+      <File FileName="Pages/PlayerPage.xaml" Line="11" Column="26" />
+      <File FileName="Pages/PlayerPage.xaml.cs" Line="45" Column="28" />
+      <File FileName="adaptive.Portable/Models/Stream.cs" Line="12" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

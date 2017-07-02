@@ -130,8 +130,6 @@
     <Compile Include="Logging\LoggerDroid.cs" />
     <Compile Include="Effects\LabelShadowEffectDroid.cs" />
     <Compile Include="Exo\TrackSelectionHelper.cs" />
-    <Compile Include="Exo\SampleChooserActivity.cs" />
-    <Compile Include="Exo\PlayerActivity.cs" />
     <Compile Include="Exo\EventLogger.cs" />
     <Compile Include="Exo\AdaptivePlayer.cs" />
     <Compile Include="Renderers\AdaptivePlayerViewAndroid.cs" />

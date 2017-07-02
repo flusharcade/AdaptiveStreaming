@@ -17,6 +17,7 @@ namespace AdaptiveStreaming.Pages
     using AdaptiveStreaming.Portable.Logging;
     using AdaptiveStreaming.Controls;
     using AdaptiveStreaming.Converters;
+    using AdaptiveStreaming.Portable.Models;
 
     /// <summary>
     /// adaptive page.
@@ -56,9 +57,13 @@ namespace AdaptiveStreaming.Pages
         /// <param name="navigationParameters">Navigation parameters.</param>
         public void OnNavigatedTo(IDictionary<string, object> navigationParameters)
         {
-            this.Show(navigationParameters);
-        }
+            var stream = new Stream();
+            stream.Url = "https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8";
 
+            this.Show(navigationParameters);
+
+            this.Player.NotifyInitPlayer(stream);
+        }
 
         #endregion
 

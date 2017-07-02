@@ -265,7 +265,7 @@ namespace AdaptiveStreaming.Droid.Exo
         /// </summary>
 		public void InitializePlayer()
 		{
-			if (Util.SdkInt > 23 && _player == null)
+			if (_player == null)
 			{
                 bool preferExtensionDecoders = _stream.PreferExtensionDecoders;
 				UUID drmSchemeUuid = string.IsNullOrEmpty(DrmSchemeUuidExtra)
@@ -339,25 +339,32 @@ namespace AdaptiveStreaming.Droid.Exo
 				_debugViewHelper.Start();
 				_playerNeedsSource = true;
 			}
+
 			if (_playerNeedsSource)
 			{
-				/*string action = intent.Action;
-				global::Android.Net.Uri[] uris;
-				string[] extensions;
-				if (ActionView.Equals(action))
+                //var intent = (_context as Activity).Intent;
+                //string action = intent.Action;
+
+                global::Android.Net.Uri[] uris = { };
+                string[] extensions = {};
+
+				uris = new global::Android.Net.Uri[] { Android.Net.Uri.Parse(_stream.Url) };
+				extensions = new string[] { _stream.ExtensionExtra };
+
+				/*if (ActionView.Equals(action))
 				{
 					uris = new global::Android.Net.Uri[] { intent.Data };
-					extensions = new string[] { intent.GetStringExtra(ExtensionExtra) };
+					extensions = new string[] { _stream.ExtensionExtra };
 				}
 				else if (ActionViewList.Equals(action))
 				{
-					string[] uristrings = intent.GetStringArrayExtra(UriListExtra);
+					string[] uristrings = _stream.UriListExtra;
 					uris = new global::Android.Net.Uri[uristrings.Length];
 					for (int i = 0; i < uristrings.Length; i++)
 					{
 						uris[i] = global::Android.Net.Uri.Parse(uristrings[i]);
 					}
-					extensions = intent.GetStringArrayExtra(ExtensionListExtra);
+					extensions = _stream.ExtensionListExtra;
 					if (extensions == null)
 					{
 						extensions = new string[uristrings.Length];
@@ -367,14 +374,17 @@ namespace AdaptiveStreaming.Droid.Exo
 				{
 					ShowToast(_context.GetString(Resource.String.unexpected_intent_action, action));
 					return;
-				}
+				}*/
+
 				if (Util.MaybeRequestReadExternalStoragePermission((Activity)_context, uris))
 				{
 					// The player will be reinitialized if the permission is granted.
 					return;
 				}
+
 				IMediaSource[] mediaSources = new IMediaSource[uris.Length];
-				for (int i = 0; i < uris.Length; i++)
+				
+                for (int i = 0; i < uris.Length; i++)
 				{
 					mediaSources[i] = BuildMediaSource(uris[i], extensions[i]);
 				}
@@ -382,7 +392,7 @@ namespace AdaptiveStreaming.Droid.Exo
 					: new ConcatenatingMediaSource(mediaSources);
 				_player.Prepare(mediaSource, !_shouldRestorePosition, true);
 				_playerNeedsSource = false;
-				UpdateButtonVisibilities();*/
+                UpdateButtonVisibilities();
 			}
 		}
 

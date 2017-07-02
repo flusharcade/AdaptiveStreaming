@@ -6,6 +6,11 @@ namespace AdaptiveStreaming.Portable.Models
 {
     public class Stream : ObservableObject
     {
+        /// <summary>
+        /// The main URL.
+        /// </summary>
+        public string Url;
+
 		/// <summary>
 		/// The prefer extension decoders.
 		/// </summary>
@@ -22,6 +27,11 @@ namespace AdaptiveStreaming.Portable.Models
 		public string DrmLicenseUrl;
 
 		/// <summary>
+		/// The extension extra.
+		/// </summary>
+		public string ExtensionExtra;
+
+		/// <summary>
 		/// The drm key request properties.
 		/// </summary>
 		public string[] DrmKeyRequestProperties;
@@ -29,16 +39,11 @@ namespace AdaptiveStreaming.Portable.Models
 		/// <summary>
 		/// The URI list extra.
 		/// </summary>
-		public string UriListExtra;
-
-		/// <summary>
-		/// The extension extra.
-		/// </summary>
-		public string ExtensionExtra;
+		public string[] UriListExtra;
 
 		/// <summary>
 		/// The extension list extra.
 		/// </summary>
-		public string ExtensionListExtra;
+		public string[] ExtensionListExtra;
     }
 }
