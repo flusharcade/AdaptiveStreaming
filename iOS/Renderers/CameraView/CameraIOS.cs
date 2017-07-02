@@ -1,10 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CameraIOS.cs" company="Flush Arcade Pty Ltd.">
+// <copyright file="adaptiveIOS.cs" company="Flush Arcade Pty Ltd.">
 //   Copyright (c) 2016 Flush Arcade Pty Ltd. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.iOS.Renderers.CameraView
+namespace AdaptiveStreaming.iOS.Renderers.adaptiveView
 {
 	using System;
 	using System.Threading.Tasks;
@@ -17,16 +17,16 @@ namespace Camera.iOS.Renderers.CameraView
 	using AVFoundation;
 	using CoreGraphics;
 
-	using Camera.iOS.Hardware;
+	using AdaptiveStreaming.iOS.Hardware;
 
-	using Camera.Portable.Enums;
-	using Camera.Portable.Logging;
-	using Camera.Portable.Ioc;
+	using AdaptiveStreaming.Portable.Enums;
+	using AdaptiveStreaming.Portable.Logging;
+	using AdaptiveStreaming.Portable.Ioc;
 
 	/// <summary>
-	/// Camera ios.
+	/// adaptive ios.
 	/// </summary>
-	public sealed class CameraIOS : UIView
+	public sealed class adaptiveIOS : UIView
 	{
 		#region Private Properties
 
@@ -76,19 +76,19 @@ namespace Camera.iOS.Renderers.CameraView
 		private AVCaptureDevice _device;
 
 		/// <summary>
-		/// The camera busy.
+		/// The adaptive busy.
 		/// </summary>
-		private bool _cameraBusy;
+		private bool _adaptiveBusy;
 
 		/// <summary>
-		/// The camera available.
+		/// The adaptive available.
 		/// </summary>
-		private bool _cameraAvailable;
+		private bool _adaptiveAvailable;
 
 		/// <summary>
-		/// The width of the camera button container.
+		/// The width of the adaptive button container.
 		/// </summary>
-		private float _cameraButtonContainerWidth;
+		private float _adaptiveButtonContainerWidth;
 
 		/// <summary>
 		/// The image scale.
@@ -134,9 +134,9 @@ namespace Camera.iOS.Renderers.CameraView
 		#region Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Camera.iOS.Renderers.CameraView.CameraIOS"/> class.
+		/// Initializes a new instance of the <see cref="T:adaptive.iOS.Renderers.adaptiveView.adaptiveIOS"/> class.
 		/// </summary>
-		public CameraIOS()
+		public adaptiveIOS()
 		{
 			_log = IoC.Resolve<ILogger>();
 			_tag = $"{GetType()} ";
@@ -158,8 +158,8 @@ namespace Camera.iOS.Renderers.CameraView
 
 			_mainView.Layer.AddSublayer (_previewLayer);
 
-			// retrieve camera device if available
-			_cameraAvailable = RetrieveCameraDevice ();
+			// retrieve adaptive device if available
+			_adaptiveAvailable = RetrieveadaptiveDevice ();
 
 			Add (_mainView);
 
@@ -183,7 +183,7 @@ namespace Camera.iOS.Renderers.CameraView
 			switch (orientation)
 			{
 				case Orientation.Portrait:
-					previewLayerFrame.Height = UIScreen.MainScreen.Bounds.Height - _cameraButtonContainerWidth;
+					previewLayerFrame.Height = UIScreen.MainScreen.Bounds.Height - _adaptiveButtonContainerWidth;
 					previewLayerFrame.Width = UIScreen.MainScreen.Bounds.Width;
 					break;
 
@@ -191,12 +191,12 @@ namespace Camera.iOS.Renderers.CameraView
 				case Orientation.LandscapeRight:
 					if (_systemVersion >= 8)
 					{
-						previewLayerFrame.Width = UIScreen.MainScreen.Bounds.Width - _cameraButtonContainerWidth;
+						previewLayerFrame.Width = UIScreen.MainScreen.Bounds.Width - _adaptiveButtonContainerWidth;
 						previewLayerFrame.Height = UIScreen.MainScreen.Bounds.Height;
 					}
 					else
 					{
-						previewLayerFrame.Width = UIScreen.MainScreen.Bounds.Height - _cameraButtonContainerWidth;
+						previewLayerFrame.Width = UIScreen.MainScreen.Bounds.Height - _adaptiveButtonContainerWidth;
 						previewLayerFrame.Height = UIScreen.MainScreen.Bounds.Width;
 					}
 					break;
@@ -247,10 +247,10 @@ namespace Camera.iOS.Renderers.CameraView
 		/// <param name="busy">If set to <c>true</c> busy.</param>
 		private void SetBusy(bool busy)
 		{
-			_cameraBusy = busy;
+			_adaptiveBusy = busy;
 
-			// set camera busy 
-			Busy?.Invoke(this, _cameraBusy);
+			// set adaptive busy 
+			Busy?.Invoke(this, _adaptiveBusy);
 		}
 
 		/// <summary>
@@ -363,7 +363,7 @@ namespace Camera.iOS.Renderers.CameraView
 		/// <returns>The photo.</returns>
 		public async Task TakePhoto()
 		{
-			if (!_cameraBusy) 
+			if (!_adaptiveBusy) 
 			{
 				SetBusy(true);
 
@@ -381,13 +381,13 @@ namespace Camera.iOS.Renderers.CameraView
 				catch (Exception error)
 				{
 					_log.WriteLineTime(_tag + "\n" +
-						"TakePhoto() Error with camera output capture \n " +
+						"TakePhoto() Error with adaptive output capture \n " +
 						"ErrorMessage: \n" +
 						error.Message + "\n" +
 						"Stacktrace: \n " +
 						error.StackTrace);
 						
-					IoC.Resolve<ILogger>().WriteLineTime  ("CameraIOS: Error with camera output capture - " + error);
+					IoC.Resolve<ILogger>().WriteLineTime  ("adaptiveIOS: Error with adaptive output capture - " + error);
 				}
 			}
 		}
@@ -400,7 +400,7 @@ namespace Camera.iOS.Renderers.CameraView
 		{
 			NSError err;
 
-			if (_cameraAvailable && _device != null) 
+			if (_adaptiveAvailable && _device != null) 
 			{
 				try 
 				{
@@ -438,7 +438,7 @@ namespace Camera.iOS.Renderers.CameraView
 		{
 			NSError err;
 
-			if (_cameraAvailable && _device != null) 
+			if (_adaptiveAvailable && _device != null) 
 			{
 				try 
 				{
@@ -468,16 +468,16 @@ namespace Camera.iOS.Renderers.CameraView
 		}
 
 		/// <summary>
-		/// Retrieves the camera device.
+		/// Retrieves the adaptive device.
 		/// </summary>
-		/// <returns><c>true</c>, if camera device was retrieved, <c>false</c> otherwise.</returns>
-		public bool RetrieveCameraDevice()
+		/// <returns><c>true</c>, if adaptive device was retrieved, <c>false</c> otherwise.</returns>
+		public bool RetrieveadaptiveDevice()
 		{
 			_device = AVCaptureDevice.DefaultDeviceWithMediaType(AVMediaType.Video);
 
 			if (_device == null) 
 			{
-				_log.WriteLineTime(_tag + "\n" + "RetrieveCameraDevice() No device detected \n ");
+				_log.WriteLineTime(_tag + "\n" + "RetrieveadaptiveDevice() No device detected \n ");
 			
 				return false;
 			}
@@ -486,10 +486,10 @@ namespace Camera.iOS.Renderers.CameraView
 		}
 
 		/// <summary>
-		/// Initializes the camera.
+		/// Initializes the adaptive.
 		/// </summary>
-		/// <returns>The camera.</returns>
-		public void InitializeCamera()
+		/// <returns>The adaptive.</returns>
+		public void Initializeadaptive()
 		{
 			try 
 			{
@@ -511,35 +511,35 @@ namespace Camera.iOS.Renderers.CameraView
 
 				InvokeOnMainThread(delegate 
 					{
-						// capture connection used for rotating camera
+						// capture connection used for rotating adaptive
 						_captureConnection = _previewLayer.Connection;
 						SetStartOrientation();
-						// set orientation before loading camera
+						// set orientation before loading adaptive
 						_captureSession.StartRunning ();
 					});
 			}
 			catch (Exception error) 
 			{
 				_log.WriteLineTime(_tag + "\n" +
-					"InitializeCamera() Camera failed to initialise \n " +
+					"Initializeadaptive() adaptive failed to initialise \n " +
 					"ErrorMessage: \n" +
 					error.Message + "\n" +
 					"Stacktrace: \n " +
 					error.StackTrace);	
 			}
 
-			Available?.Invoke(this, _cameraAvailable);
+			Available?.Invoke(this, _adaptiveAvailable);
 
-			_log.WriteLineTime(_tag + "\n" + "RetrieveCameraDevice() Camera initalised \n ");
+			_log.WriteLineTime(_tag + "\n" + "RetrieveadaptiveDevice() adaptive initalised \n ");
 		}
 
 		/// <summary>
 		/// Sets the widths.
 		/// </summary>
-		/// <param name="cameraButtonContainerWidth">Camera button container width.</param>
-		public void SetWidths(float cameraButtonContainerWidth)
+		/// <param name="adaptiveButtonContainerWidth">adaptive button container width.</param>
+		public void SetWidths(float adaptiveButtonContainerWidth)
 		{
-			_cameraButtonContainerWidth = cameraButtonContainerWidth;
+			_adaptiveButtonContainerWidth = adaptiveButtonContainerWidth;
 		}
 
 		/// <summary>

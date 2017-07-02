@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.Triggers
+namespace AdaptiveStreaming.Triggers
 {
 	using Xamarin.Forms;
 
@@ -38,7 +38,7 @@ namespace Camera.Triggers
 		#region Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Camera.Triggers.VisualElementPopTriggerAction"/> class.
+		/// Initializes a new instance of the <see cref="T:adaptive.Triggers.VisualElementPopTriggerAction"/> class.
 		/// </summary>
 		public VisualElementPopTriggerAction()
 		{

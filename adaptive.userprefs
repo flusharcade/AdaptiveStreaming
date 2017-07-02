@@ -1,0 +1,16 @@
+﻿<Properties StartupConfiguration="{3B052966-FCC6-435C-8BF8-B36A8DB3B7C9}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="packages/Xamarin.Forms.2.3.4.247/build/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20/Xamarin.Forms.targets">
+    <Files>
+      <File FileName="adaptive.Portable/ViewModels/AdaptivePageViewModel.cs" Line="71" Column="13" />
+      <File FileName="packages/Xamarin.Forms.2.3.4.247/build/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20/Xamarin.Forms.targets" Line="60" Column="3" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.AdaptiveStreaming.Droid AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.9885b64b3330584d45" />
+  <MonoDevelop.Ide.ItemProperties.AdaptiveStreaming.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.EE4C388C-C3C0-4136-9034-D63B90531F04" />
+  <MultiItemStartupConfigurations />
+</Properties>

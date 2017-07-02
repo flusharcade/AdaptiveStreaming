@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.iOS
+namespace AdaptiveStreaming.iOS
 {
 	using Foundation;
 	using UIKit;

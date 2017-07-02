@@ -4,19 +4,19 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.iOS
+namespace AdaptiveStreaming.iOS
 {
 	using Foundation;
 	using UIKit;
 
-	using Camera.iOS.Modules;
+	using AdaptiveStreaming.iOS.Modules;
 
-	using Camera.Modules;
-	using Camera.Controls;
+	using AdaptiveStreaming.Modules;
+	using AdaptiveStreaming.Controls;
 
-	using Camera.Portable.Ioc;
-	using Camera.Portable.Modules;
-	using Camera.Portable.Enums;
+	using AdaptiveStreaming.Portable.Ioc;
+	using AdaptiveStreaming.Portable.Modules;
+	using AdaptiveStreaming.Portable.Enums;
 
 	/// <summary>
 	/// App delegate.

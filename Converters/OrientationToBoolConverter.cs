@@ -4,7 +4,7 @@
 //  </copyright>
 // --------------------------------------------------------------------------------------------------
 
-namespace Camera.Converters
+namespace AdaptiveStreaming.Converters
 {
 	using System;
 	using System.Collections.Generic;
@@ -12,9 +12,9 @@ namespace Camera.Converters
 
 	using Xamarin.Forms;
 
-	using Camera.Portable.Enums;
-	using Camera.Portable.Ioc;
-	using Camera.Portable.Logging;
+	using AdaptiveStreaming.Portable.Enums;
+	using AdaptiveStreaming.Portable.Ioc;
+	using AdaptiveStreaming.Portable.Logging;
 
 	/// <summary>
 	/// Orientation to bool converter.

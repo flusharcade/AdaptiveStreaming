@@ -4,18 +4,18 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.UI
+namespace AdaptiveStreaming.UI
 {
 	using System.Threading.Tasks;
 	using System.Collections.Generic;
 
 	using Xamarin.Forms;
 
-	using Camera.Pages;
+	using AdaptiveStreaming.Pages;
 
-	using Camera.Portable.UI;
-	using Camera.Portable.Enums;
-	using Camera.Portable.Ioc;
+	using AdaptiveStreaming.Portable.UI;
+	using AdaptiveStreaming.Portable.Enums;
+	using AdaptiveStreaming.Portable.Ioc;
 
 	/// <summary>
 	/// Navigation service.
@@ -66,8 +66,8 @@ namespace Camera.UI
 			{
 				case PageNames.MainPage:
 					return IoC.Resolve<MainPage> ();
-				case PageNames.CameraPage:
-					return IoC.Resolve<CameraPage> ();
+				case PageNames.adaptivePage:
+					return IoC.Resolve<PlayerPage> ();
 				default:
 					return null;
 			}

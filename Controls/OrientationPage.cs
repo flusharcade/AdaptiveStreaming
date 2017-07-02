@@ -1,16 +1,16 @@
 ﻿// --------------------------------------------------------------------------------------------------
-//  <copyright file="CameraView.cs" company="Flush Arcade Pty Ltd.">
+//  <copyright file="adaptiveView.cs" company="Flush Arcade Pty Ltd.">
 //    Copyright (c) 2016 Flush Arcade Pty Ltd. All rights reserved.
 //  </copyright>
 // --------------------------------------------------------------------------------------------------
 
-namespace Camera.Controls
+namespace AdaptiveStreaming.Controls
 {
 	using System;
 
 	using Xamarin.Forms;
 
-	using Camera.Portable.Enums;
+	using AdaptiveStreaming.Portable.Enums;
 
 	/// <summary>
 	/// Orientation page.

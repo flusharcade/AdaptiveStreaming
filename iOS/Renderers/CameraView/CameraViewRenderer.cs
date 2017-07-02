@@ -1,33 +1,33 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CameraViewRenderer.cs" company="Flush Arcade Pty Ltd.">
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="adaptiveViewRenderer.cs" company="Flush Arcade Pty Ltd.">
 //   Copyright (c) 2016 Flush Arcade Pty Ltd. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-[assembly: Xamarin.Forms.ExportRenderer(typeof(Camera.Controls.CameraView), typeof(Camera.iOS.Renderers.CameraView.CameraViewRenderer))]
+[assembly: Xamarin.Forms.ExportRenderer(typeof(adaptive.Controls.adaptiveView), typeof(adaptive.iOS.Renderers.adaptiveView.adaptiveViewRenderer))]
 
-namespace Camera.iOS.Renderers.CameraView
+namespace AdaptiveStreaming.iOS.Renderers.adaptiveView
 {
 	using System;
 
 	using Xamarin.Forms;
 	using Xamarin.Forms.Platform.iOS;
 
-	using Camera.Controls;
+	using AdaptiveStreaming.Controls;
 
-	using Camera.Portable.Enums;
+	using AdaptiveStreaming.Portable.Enums;
 
 	/// <summary>
-	/// Camera renderer.
+	/// adaptive renderer.
 	/// </summary>
-	public class CameraViewRenderer : ViewRenderer<CameraView, CameraIOS>
+	public class adaptiveViewRenderer : ViewRenderer<adaptiveView, adaptiveIOS>
 	{
 		#region Private Properties
 
 		/// <summary>
-		/// The bodyshop camera IO.
+		/// The bodyshop adaptive IO.
 		/// </summary>
-		private CameraIOS _bodyshopCameraIOS;
+		private adaptiveIOS _bodyshopadaptiveIOS;
 
 		#endregion
 
@@ -37,41 +37,41 @@ namespace Camera.iOS.Renderers.CameraView
 		/// Raises the element changed event.
 		/// </summary>
 		/// <param name="e">E.</param>
-		protected override void OnElementChanged(ElementChangedEventArgs<CameraView> e)
+		protected override void OnElementChanged(ElementChangedEventArgs<adaptiveView> e)
 		{
 			base.OnElementChanged(e);
 
 			if (Control == null)
 			{
-				_bodyshopCameraIOS = new CameraIOS();
+				_bodyshopadaptiveIOS = new adaptiveIOS();
 
-				SetNativeControl(_bodyshopCameraIOS);
+				SetNativeControl(_bodyshopadaptiveIOS);
 			}
 
 			if (e.OldElement != null)
 			{
 				e.OldElement.Flash -= HandleFlash;
-				e.OldElement.OpenCamera -= HandleCameraInitialisation;
+				e.OldElement.Openadaptive -= HandleadaptiveInitialisation;
 				e.OldElement.Focus -= HandleFocus;
 				e.OldElement.Shutter -= HandleShutter;
 				e.OldElement.Widths -= HandleWidths;
 
-				_bodyshopCameraIOS.Busy -= e.OldElement.NotifyBusy;
-				_bodyshopCameraIOS.Available -= e.OldElement.NotifyAvailability;
-				_bodyshopCameraIOS.Photo -= e.OldElement.NotifyPhoto;
+				_bodyshopadaptiveIOS.Busy -= e.OldElement.NotifyBusy;
+				_bodyshopadaptiveIOS.Available -= e.OldElement.NotifyAvailability;
+				_bodyshopadaptiveIOS.Photo -= e.OldElement.NotifyPhoto;
 			}
 
 			if (e.NewElement != null)
 			{
 				e.NewElement.Flash += HandleFlash;
-				e.NewElement.OpenCamera += HandleCameraInitialisation;
+				e.NewElement.Openadaptive += HandleadaptiveInitialisation;
 				e.NewElement.Focus += HandleFocus;
 				e.NewElement.Shutter += HandleShutter;
 				e.NewElement.Widths += HandleWidths;
 
-				_bodyshopCameraIOS.Busy += e.NewElement.NotifyBusy;
-				_bodyshopCameraIOS.Available += e.NewElement.NotifyAvailability;
-				_bodyshopCameraIOS.Photo += e.NewElement.NotifyPhoto;
+				_bodyshopadaptiveIOS.Busy += e.NewElement.NotifyBusy;
+				_bodyshopadaptiveIOS.Available += e.NewElement.NotifyAvailability;
+				_bodyshopadaptiveIOS.Photo += e.NewElement.NotifyPhoto;
 			}
 		}
 
@@ -81,11 +81,11 @@ namespace Camera.iOS.Renderers.CameraView
 		/// <param name="disposing">If set to <c>true</c> disposing.</param>
 		protected override void Dispose(bool disposing)
 		{
-			if (_bodyshopCameraIOS != null)
+			if (_bodyshopadaptiveIOS != null)
 			{
-				// stop output session and dispose camera elements before popping page
-				_bodyshopCameraIOS.StopAndDispose();
-				_bodyshopCameraIOS.Dispose();
+				// stop output session and dispose adaptive elements before popping page
+				_bodyshopadaptiveIOS.StopAndDispose();
+				_bodyshopadaptiveIOS.Dispose();
 			}
 
 			base.Dispose(disposing);
@@ -100,12 +100,12 @@ namespace Camera.iOS.Renderers.CameraView
 		{
 			base.OnElementPropertyChanged(sender, e);
 
-			if (Element != null && _bodyshopCameraIOS != null)
+			if (Element != null && _bodyshopadaptiveIOS != null)
 			{
 				if (e.PropertyName == VisualElement.HeightProperty.PropertyName ||
 					e.PropertyName == VisualElement.WidthProperty.PropertyName)
 				{
-					_bodyshopCameraIOS.SetBounds((nint)Element.Width, (nint)Element.Height);
+					_bodyshopadaptiveIOS.SetBounds((nint)Element.Width, (nint)Element.Height);
 				}
 			}
 		}
@@ -121,7 +121,7 @@ namespace Camera.iOS.Renderers.CameraView
 		/// <param name="e">E.</param>
 		private void HandleWidths (object sender, float e)
 		{
-			_bodyshopCameraIOS.SetWidths (e);
+			_bodyshopadaptiveIOS.SetWidths (e);
 		}
 
 		/// <summary>
@@ -131,7 +131,7 @@ namespace Camera.iOS.Renderers.CameraView
 		/// <param name="e">E.</param>
 		private async void HandleShutter (object sender, EventArgs e)
 		{
-			await _bodyshopCameraIOS.TakePhoto ();
+			await _bodyshopadaptiveIOS.TakePhoto ();
 		}
 
 		/// <summary>
@@ -141,7 +141,7 @@ namespace Camera.iOS.Renderers.CameraView
 		/// <param name="e">E.</param>
 		private void HandleOrientationChange (object sender, Orientation e)
 		{
-			_bodyshopCameraIOS.HandleOrientationChange (e);
+			_bodyshopadaptiveIOS.HandleOrientationChange (e);
 		}
 
 		/// <summary>
@@ -151,17 +151,17 @@ namespace Camera.iOS.Renderers.CameraView
 		/// <param name="e">E.</param>
 		private void HandleFocus (object sender, Point e)
 		{
-			_bodyshopCameraIOS.ChangeFocusPoint (e);
+			_bodyshopadaptiveIOS.ChangeFocusPoint (e);
 		}
 
 		/// <summary>
-		/// Handles the camera initialisation.
+		/// Handles the adaptive initialisation.
 		/// </summary>
 		/// <param name="sender">Sender.</param>
 		/// <param name="args">If set to <c>true</c> arguments.</param>
-		private void HandleCameraInitialisation (object sender, bool args)
+		private void HandleadaptiveInitialisation (object sender, bool args)
 		{
-			_bodyshopCameraIOS.InitializeCamera();
+			_bodyshopadaptiveIOS.Initializeadaptive();
 
 			Element.OrientationChange += HandleOrientationChange;
 		}
@@ -173,7 +173,7 @@ namespace Camera.iOS.Renderers.CameraView
 		/// <param name="args">If set to <c>true</c> arguments.</param>
 		private void HandleFlash (object sender, bool args)
 		{
-			_bodyshopCameraIOS.SwitchFlash (args);
+			_bodyshopadaptiveIOS.SwitchFlash (args);
 		}
 
 		/// <summary>
@@ -183,7 +183,7 @@ namespace Camera.iOS.Renderers.CameraView
 		/// <param name="args">Arguments.</param>
 		private void HandleFocusChange (object sender, Point args)
 		{
-			_bodyshopCameraIOS.ChangeFocusPoint (args);
+			_bodyshopadaptiveIOS.ChangeFocusPoint (args);
 		}
 
 		#endregion

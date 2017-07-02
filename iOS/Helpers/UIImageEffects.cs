@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.iOS.Helpers
+namespace AdaptiveStreaming.iOS.Helpers
 {
 	using UIKit;
 	using CoreGraphics;

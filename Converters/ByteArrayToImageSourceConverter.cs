@@ -4,7 +4,7 @@
 //  </copyright>
 // --------------------------------------------------------------------------------------------------
 
-namespace Camera.Converters
+namespace AdaptiveStreaming.Converters
 {
 	using System;
 	using System.IO;

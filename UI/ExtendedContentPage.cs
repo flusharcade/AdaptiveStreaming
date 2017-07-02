@@ -4,15 +4,15 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.UI
+namespace AdaptiveStreaming.UI
 {
 	using System;
 
-	using Camera.Controls;
+	using AdaptiveStreaming.Controls;
 
-	using Camera.Portable.ViewModels;
-	using Camera.Portable.Enums;
-	using Camera.Portable;
+	using AdaptiveStreaming.Portable.ViewModels;
+	using AdaptiveStreaming.Portable.Enums;
+	using AdaptiveStreaming.Portable;
 
 	/// <summary>
 	/// Extended content page.
@@ -45,7 +45,7 @@ namespace Camera.UI
 		#region Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Camera.UI.ExtendedContentPage"/> class.
+		/// Initializes a new instance of the <see cref="T:adaptive.UI.ExtendedContentPage"/> class.
 		/// </summary>
 		/// <param name="model">Model.</param>
 		public ExtendedContentPage(ViewModelBase model)
@@ -105,7 +105,7 @@ namespace Camera.UI
 		/// <param name="e">E.</param>
 		private async void HandleAlert(object sender, AlertArgs args)
 		{
-			await DisplayAlert("Camera", args.Message, "OK");
+			await DisplayAlert("adaptive", args.Message, "OK");
 
 			args.Tcs.SetResult(true);
 		}

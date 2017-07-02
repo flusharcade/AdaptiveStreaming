@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.Effects
+namespace AdaptiveStreaming.Effects
 {
 	using Xamarin.Forms;
 
@@ -44,9 +44,9 @@ namespace Camera.Effects
 		#region Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Camera.Effects.ShadowEffect"/> class.
+		/// Initializes a new instance of the <see cref="T:adaptive.Effects.ShadowEffect"/> class.
 		/// </summary>
-		public LabelShadowEffect() : base("Camera.LabelShadowEffect")
+		public LabelShadowEffect() : base("adaptive.LabelShadowEffect")
 		{
 		}
 

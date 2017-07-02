@@ -4,12 +4,12 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.Droid.Logging
+namespace AdaptiveStreaming.Droid.Logging
 {
 	using System;
 	using System.Diagnostics;
 
-	using Camera.Portable.Logging;
+	using AdaptiveStreaming.Portable.Logging;
 
 	/// <summary>
 	/// Droid log.

@@ -4,11 +4,11 @@
 //  </copyright>
 // --------------------------------------------------------------------------------------------------
 
-namespace Camera.UI
+namespace AdaptiveStreaming.UI
 {
 	using System.Collections.Generic;
 
-	using Camera.Portable.ViewModels;
+	using AdaptiveStreaming.Portable.ViewModels;
 
 	/// <summary>
 	/// Xamarin navigation extensions.

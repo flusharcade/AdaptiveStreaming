@@ -4,13 +4,13 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.Pages
+namespace AdaptiveStreaming.Pages
 {
 	using System.Collections.Generic;
 
-	using Camera.Portable.ViewModels;
-	using Camera.Portable.Ioc;
-	using Camera.UI;
+	using AdaptiveStreaming.Portable.ViewModels;
+	using AdaptiveStreaming.Portable.Ioc;
+	using AdaptiveStreaming.UI;
 
 	/// <summary>
 	/// Main page.
@@ -20,7 +20,7 @@ namespace Camera.Pages
 		#region Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Camera.Pages.MainPage"/> class.
+		/// Initializes a new instance of the <see cref="T:adaptive.Pages.MainPage"/> class.
 		/// </summary>
 		/// <param name="model">Model.</param>
 		public MainPage (MainPageViewModel model) : base(model)

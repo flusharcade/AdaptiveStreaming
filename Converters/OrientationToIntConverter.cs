@@ -4,16 +4,16 @@
 //  </copyright>
 // --------------------------------------------------------------------------------------------------
 
-namespace Camera.Converters
+namespace AdaptiveStreaming.Converters
 {
 	using System;
 	using System.Linq;
 
 	using Xamarin.Forms;
 
-	using Camera.Portable.Enums;
-	using Camera.Portable.Ioc;
-	using Camera.Portable.Logging;
+	using AdaptiveStreaming.Portable.Enums;
+	using AdaptiveStreaming.Portable.Ioc;
+	using AdaptiveStreaming.Portable.Logging;
 
 	/// <summary>
 	/// Orientation to int converter.

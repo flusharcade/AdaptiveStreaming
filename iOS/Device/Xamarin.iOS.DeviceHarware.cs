@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.iOS.Hardware
+namespace AdaptiveStreaming.iOS.Hardware
 {
 	using System;
 	using System.Runtime.InteropServices;

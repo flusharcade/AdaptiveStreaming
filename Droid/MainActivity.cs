@@ -4,24 +4,24 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.Droid
+namespace AdaptiveStreaming.Droid
 {
 	using Android.App;
 	using Android.Content.PM;
 	using Android.OS;
 
-	using Camera.Droid.Modules;
+	using AdaptiveStreaming.Droid.Modules;
 
-	using Camera.Modules;
-	using Camera.Controls;
+	using AdaptiveStreaming.Modules;
+	using AdaptiveStreaming.Controls;
 
-	using Camera.Portable.Modules;
-	using Camera.Portable.Ioc;
+	using AdaptiveStreaming.Portable.Modules;
+	using AdaptiveStreaming.Portable.Ioc;
 
 	/// <summary>
 	/// Main activity.
 	/// </summary>
-	[Activity(Label = "Camera.Droid", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	[Activity(Label = "AdaptiveStreaming.Droid", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
 	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
 	{
 		#region Protected Methods

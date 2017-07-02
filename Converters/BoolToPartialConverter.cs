@@ -4,7 +4,7 @@
 //  </copyright>
 // --------------------------------------------------------------------------------------------------
 
-namespace Camera.Converters
+namespace AdaptiveStreaming.Converters
 {
 	using System;
 	using System.Collections.Generic;
@@ -12,8 +12,8 @@ namespace Camera.Converters
 
 	using Xamarin.Forms;
 
-	using Camera.Portable.Ioc;
-	using Camera.Portable.Logging;
+	using AdaptiveStreaming.Portable.Ioc;
+	using AdaptiveStreaming.Portable.Logging;
 
 	/// <summary>
 	/// Bool to partial converter.

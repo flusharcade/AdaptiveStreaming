@@ -4,7 +4,7 @@
 //  </copyright>
 // --------------------------------------------------------------------------------------------------
 
-namespace Camera.Controls
+namespace AdaptiveStreaming.Controls
 {
 	using Xamarin.Forms;
 

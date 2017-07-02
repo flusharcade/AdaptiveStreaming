@@ -4,15 +4,15 @@
 //  </copyright>
 // --------------------------------------------------------------------------------------------------
 
-namespace Camera.Converters
+namespace AdaptiveStreaming.Converters
 {
 	using System;
 	using System.Linq;
 
 	using Xamarin.Forms;
 
-	using Camera.Portable.Ioc;
-	using Camera.Portable.Logging;
+	using AdaptiveStreaming.Portable.Ioc;
+	using AdaptiveStreaming.Portable.Logging;
 
 	/// <summary>
 	/// Bool to string converter.

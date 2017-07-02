@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.UI
+namespace AdaptiveStreaming.UI
 {
 	using System.Collections.Generic;
 

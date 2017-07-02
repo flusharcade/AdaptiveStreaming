@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.Triggers
+namespace AdaptiveStreaming.Triggers
 {
 	using Xamarin.Forms;
 

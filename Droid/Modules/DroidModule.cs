@@ -4,16 +4,16 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.Droid.Modules
+namespace AdaptiveStreaming.Droid.Modules
 {
 	using Autofac;
 
-	using Camera.Droid.Extras;
-	using Camera.Droid.Logging;
+	using AdaptiveStreaming.Droid.Extras;
+	using AdaptiveStreaming.Droid.Logging;
 
-	using Camera.Portable.Extras;
-	using Camera.Portable.Logging;
-	using Camera.Portable.Ioc;
+	using AdaptiveStreaming.Portable.Extras;
+	using AdaptiveStreaming.Portable.Logging;
+	using AdaptiveStreaming.Portable.Ioc;
 
 	/// <summary>
 	/// Droid module.

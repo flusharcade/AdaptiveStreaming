@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.Modules
+namespace AdaptiveStreaming.Modules
 {
 	using System.Windows.Input;
 
@@ -12,11 +12,11 @@ namespace Camera.Modules
 
 	using Xamarin.Forms;
 
-	using Camera.Portable.Ioc;
-	using Camera.Pages;
-	using Camera.UI;
+	using AdaptiveStreaming.Portable.Ioc;
+	using AdaptiveStreaming.Pages;
+	using AdaptiveStreaming.UI;
 
-	using Camera.Portable.UI;
+	using AdaptiveStreaming.Portable.UI;
 
 	/// <summary>
 	/// Xamarin forms module.
@@ -32,7 +32,7 @@ namespace Camera.Modules
 		public void Register(ContainerBuilder builder)
 		{
 			builder.RegisterType<MainPage> ().SingleInstance();
-			builder.RegisterType<CameraPage> ().SingleInstance();
+			builder.RegisterType<PlayerPage> ().SingleInstance();
 
 			builder.RegisterType<Command> ().As<ICommand>().InstancePerDependency();
 

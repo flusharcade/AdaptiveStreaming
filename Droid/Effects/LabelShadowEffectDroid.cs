@@ -4,10 +4,10 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-[assembly: Xamarin.Forms.ResolutionGroupName("Camera")]
-[assembly: Xamarin.Forms.ExportEffect(typeof(Camera.Droid.Effects.LabelShadowEffectDroid), "LabelShadowEffect")]
+[assembly: Xamarin.Forms.ResolutionGroupName("adaptive")]
+[assembly: Xamarin.Forms.ExportEffect(typeof(AdaptiveStreaming.Droid.Effects.LabelShadowEffectDroid), "LabelShadowEffect")]
 
-namespace Camera.Droid.Effects
+namespace AdaptiveStreaming.Droid.Effects
 {
 	using System;
 	using System.Linq;
@@ -15,7 +15,7 @@ namespace Camera.Droid.Effects
 	using Xamarin.Forms;
 	using Xamarin.Forms.Platform.Android;
 
-	using Camera.Effects;
+	using AdaptiveStreaming.Effects;
 
 	/// <summary>
 	/// Label shadow effect.

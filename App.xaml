@@ -1,11 +1,11 @@
-﻿<Application
+<Application
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:t="clr-namespace:Camera.Triggers;assembly=Camera"
-	xmlns:controls="clr-namespace:Camera.Controls;assembly=Camera"
-	xmlns:converters="clr-namespace:Camera.Converters;assembly=Camera"
-	xmlns:resx="clr-namespace:Camera.Portable.Resources;assembly=Camera.Portable"
-	x:Class="Camera.App">
+	xmlns:t="clr-namespace:AdaptiveStreaming.Triggers;assembly=AdaptiveStreaming"
+	xmlns:controls="clr-namespace:AdaptiveStreaming.Controls;assembly=AdaptiveStreaming"
+	xmlns:converters="clr-namespace:AdaptiveStreaming.Converters;assembly=AdaptiveStreaming"
+	xmlns:resx="clr-namespace:AdaptiveStreaming.Portable.Resources;assembly=AdaptiveStreaming.Portable"
+	x:Class="AdaptiveStreaming.App">
 	<Application.Resources>
 		<ResourceDictionary>
 			<!-- converters -->

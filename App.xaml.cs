@@ -6,11 +6,11 @@
 
 [assembly: Xamarin.Forms.Xaml.XamlCompilation(Xamarin.Forms.Xaml.XamlCompilationOptions.Compile)]
 
-namespace Camera
+namespace AdaptiveStreaming
 {
 	using Xamarin.Forms;
 
-	using Camera.Portable.Ioc;
+	using AdaptiveStreaming.Portable.Ioc;
 
 	/// <summary>
 	/// The App.
@@ -20,7 +20,7 @@ namespace Camera
 		#region Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Camera.App"/> class.
+		/// Initializes a new instance of the <see cref="T:adaptive.App"/> class.
 		/// </summary>
 		public App()
 		{

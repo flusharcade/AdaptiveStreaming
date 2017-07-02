@@ -4,14 +4,14 @@
 //  </copyright>
 // --------------------------------------------------------------------------------------------------
 
-namespace Camera.Controls
+namespace AdaptiveStreaming.Controls
 {
 	using System;
 	using System.Threading.Tasks;
 
 	using Xamarin.Forms;
 
-	using Camera.Portable.Enums;
+	using AdaptiveStreaming.Portable.Enums;
 
 	/// <summary>
 	///  This is the control used to embed into Xamarin Forms that will yield a custom rendered for tapping focus
@@ -197,7 +197,7 @@ namespace Camera.Controls
 		#region Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Camera.Controls.FocusView"/> class.
+		/// Initializes a new instance of the <see cref="T:adaptive.Controls.FocusView"/> class.
 		/// </summary>
 		public FocusView()
 		{

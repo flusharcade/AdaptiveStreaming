@@ -4,10 +4,10 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-[assembly: Xamarin.Forms.ExportRenderer(typeof(Camera.Controls.CustomImage), 
-                                        typeof(Camera.iOS.Renderers.CustomImage.CustomImageRenderer))]
+[assembly: Xamarin.Forms.ExportRenderer(typeof(adaptive.Controls.CustomImage), 
+                                        typeof(adaptive.iOS.Renderers.CustomImage.CustomImageRenderer))]
 
-namespace Camera.iOS.Renderers.CustomImage
+namespace AdaptiveStreaming.iOS.Renderers.CustomImage
 {
 	using System;
 	using System.Threading.Tasks;
@@ -21,11 +21,11 @@ namespace Camera.iOS.Renderers.CustomImage
 
 	using UIKit;
 
-	using Camera.Controls;
-	using Camera.iOS.Extensions;
-	using Camera.iOS.Helpers;
-	using Camera.Portable.Logging;
-	using Camera.Portable.Ioc;
+	using AdaptiveStreaming.Controls;
+	using AdaptiveStreaming.iOS.Extensions;
+	using AdaptiveStreaming.iOS.Helpers;
+	using AdaptiveStreaming.Portable.Logging;
+	using AdaptiveStreaming.Portable.Ioc;
 
 	/// <summary>
 	/// Custom image renderer.

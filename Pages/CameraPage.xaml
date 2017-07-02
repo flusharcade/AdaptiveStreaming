@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ui:ExtendedContentPage xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:controls="clr-namespace:Camera.Controls;assembly=Camera"
-	xmlns:ui="clr-namespace:Camera.UI;assembly=Camera"
-	x:Class="Camera.Pages.CameraPage"
+	xmlns:controls="clr-namespace:adaptive.Controls;assembly=adaptive"
+	xmlns:ui="clr-namespace:adaptive.UI;assembly=adaptive"
+	x:Class="adaptive.Pages.adaptivePage"
 	BackgroundColor="#F2F2F2">
 
 	<Grid x:Name="MainLayout" BackgroundColor="Black" 
@@ -27,7 +27,7 @@
 			<ColumnDefinition Width="100"/>
 		</Grid.ColumnDefinitions>
 
-		<controls:CameraView x:Name="CameraView" BackgroundColor="Black" Grid.Row="0" 
+		<controls:adaptiveView x:Name="adaptiveView" BackgroundColor="Black" Grid.Row="0" 
 			Grid.RowSpan="{Binding PageOrientation, Converter={StaticResource orientationToIntConverter}, ConverterParameter='7, 6'}" 
 			Grid.Column="0" Grid.ColumnSpan="{Binding PageOrientation, Converter={StaticResource orientationToIntConverter}, ConverterParameter='5, 6'}"/>
 
@@ -36,7 +36,7 @@
 			Grid.RowSpan="{Binding PageOrientation, Converter={StaticResource orientationToIntConverter}, ConverterParameter='7, 6'}" 
 			Grid.Column="0" Grid.ColumnSpan="{Binding PageOrientation, Converter={StaticResource orientationToIntConverter}, ConverterParameter='5, 6'}"/>
 
-		<Grid x:Name="CameraButtonContainerPortrait" ColumnSpacing="5" 
+		<Grid x:Name="adaptiveButtonContainerPortrait" ColumnSpacing="5" 
 			IsEnabled="{Binding PageOrientation, Converter={StaticResource orientationToBoolConverter}, ConverterParameter='false, true'}}" 
 			Opacity="0" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6">
 			<Grid.RowDefinitions>
@@ -54,7 +54,7 @@
 			<ContentView BackgroundColor="Black" 
 				Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"/>
 
-			<controls:CustomImage x:Name="CameraButtonPortrait" Path="photo_camera_button.png" 
+			<controls:CustomImage x:Name="adaptiveButtonPortrait" Path="photo_adaptive_button.png" 
 					TintOn="false" WidthRequest="50" HeightRequest="50" 
 					HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0" Grid.Column="2">
 				<controls:CustomImage.GestureRecognizers>
@@ -86,7 +86,7 @@
 		<controls:LoadingView x:Name="LoadingView" 
 			Grid.Row="0" Grid.RowSpan="7" Grid.Column="0" Grid.ColumnSpan="6"/>
 
-		<Grid x:Name="CameraButtonContainerLandscape" RowSpacing="5" 
+		<Grid x:Name="adaptiveButtonContainerLandscape" RowSpacing="5" 
 				IsEnabled="{Binding PageOrientation, Converter={StaticResource orientationToBoolConverter}, ConverterParameter='true, false'}}" 
 				Opacity="0" Grid.Row="0" Grid.RowSpan="7" 
 				Grid.Column="{Binding PageOrientation, Converter={StaticResource orientationToIntConverter}, ConverterParameter='5, 4'}">
@@ -105,7 +105,7 @@
 			<ContentView BackgroundColor="Black"
 				Grid.Row="0" Grid.RowSpan="5" Grid.Column="0"/>
 
-			<controls:CustomImage x:Name="CameraButtonLandscape" Path="photo_camera_button.png" 
+			<controls:CustomImage x:Name="adaptiveButtonLandscape" Path="photo_adaptive_button.png" 
 					TintOn="false" WidthRequest="50" 
 					HeightRequest="50" 
 					HorizontalOptions="Center" VerticalOptions="Center" 

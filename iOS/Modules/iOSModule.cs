@@ -4,16 +4,16 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.iOS.Modules
+namespace AdaptiveStreaming.iOS.Modules
 {
 	using Autofac;
 
-	using Camera.iOS.Extras;
-	using Camera.iOS.Logging;
+	using AdaptiveStreaming.iOS.Extras;
+	using AdaptiveStreaming.iOS.Logging;
 
-	using Camera.Portable.Extras;
-	using Camera.Portable.Ioc;
-	using Camera.Portable.Logging;
+	using AdaptiveStreaming.Portable.Extras;
+	using AdaptiveStreaming.Portable.Ioc;
+	using AdaptiveStreaming.Portable.Logging;
 
 	/// <summary>
 	/// IOS Module.

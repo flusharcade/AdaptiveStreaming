@@ -1,20 +1,20 @@
-// --------------------------------------------------------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="FocusViewRendererTouchAttribute.cs" company="Flush Arcade Pty Ltd.">
 //   Copyright (c) 2016 Flush Arcade Pty Ltd. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-[assembly: Xamarin.Forms.ExportRendererAttribute (typeof(Camera.Controls.FocusView), 
-                                                  typeof(Camera.iOS.Renderers.FocusView.FocusViewRendererTouchAttribute))]
+[assembly: Xamarin.Forms.ExportRendererAttribute (typeof(adaptive.Controls.FocusView), 
+                                                  typeof(adaptive.iOS.Renderers.FocusView.FocusViewRendererTouchAttribute))]
 
-namespace Camera.iOS.Renderers.FocusView
+namespace AdaptiveStreaming.iOS.Renderers.FocusView
 {
 	using Xamarin.Forms.Platform.iOS;
 
 	using Foundation;
 	using UIKit;
 
-	using Camera.Controls;
+	using AdaptiveStreaming.Controls;
 
 	/// <summary>
 	/// Focus view renderer touch attribute.

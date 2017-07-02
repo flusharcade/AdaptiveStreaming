@@ -1,49 +1,49 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CameraPage.cs" company="Flush Arcade Pty Ltd.">
+// <copyright file="adaptivePage.cs" company="Flush Arcade Pty Ltd.">
 //   Copyright (c) 2016 Flush Arcade Pty Ltd. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.Pages
+namespace adaptive.Pages
 {
 	using System;
 	using System.Collections.Generic;
 
 	using Xamarin.Forms;
 
-	using Camera.UI;
-	using Camera.Portable.ViewModels;
-	using Camera.Portable.Enums;
-	using Camera.Portable.Logging;
-	using Camera.Controls;
-	using Camera.Converters;
+	using adaptive.UI;
+	using adaptive.Portable.ViewModels;
+	using adaptive.Portable.Enums;
+	using adaptive.Portable.Logging;
+	using adaptive.Controls;
+	using adaptive.Converters;
 
 	/// <summary>
-	/// Camera page.
+	/// adaptive page.
 	/// </summary>
-	public partial class CameraPage : ExtendedContentPage, INavigableXamarinFormsPage
+	public partial class adaptivePage : ExtendedContentPage, INavigableXamarinFormsPage
 	{
 		#region Private Properties
 
 		/// <summary>
-		/// The camera button container width
+		/// The adaptive button container width
 		/// </summary>
-		private float CAMERA_BUTTON_CONTAINER_WIDTH = 70f;
+		private float adaptive_BUTTON_CONTAINER_WIDTH = 70f;
 
 		/// <summary>
 		/// The model.
 		/// </summary>
-		private CameraPageViewModel _model;
+		private adaptivePageViewModel _model;
 
 		#endregion
 
 		#region Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Camera.Pages.MainPage"/> class.
+		/// Initializes a new instance of the <see cref="T:adaptive.Pages.MainPage"/> class.
 		/// </summary>
 		/// <param name="model">Model.</param>
-		public CameraPage(CameraPageViewModel model) : base(model)
+		public adaptivePage(adaptivePageViewModel model) : base(model)
 		{
 			BindingContext = model;
 			_model = model;
@@ -53,11 +53,11 @@ namespace Camera.Pages
 			Appearing += HandleAppearing;
 			Disappearing += HandleDisappearing;
 
-			// handler for camera view
-			CameraView.Photo += HandlePictureTaken;
-			CameraView.AvailabilityChange += HandleCameraAvailability;
-			CameraView.Loading += HandleLoading;
-			CameraView.Busy += HandleBusy;
+			// handler for adaptive view
+			adaptiveView.Photo += HandlePictureTaken;
+			adaptiveView.AvailabilityChange += HandleadaptiveAvailability;
+			adaptiveView.Loading += HandleLoading;
+			adaptiveView.Busy += HandleBusy;
 
 			// handler for focusing
 			FocusView.TouchFocus += HandleFocusChange;
@@ -79,11 +79,11 @@ namespace Camera.Pages
 
 #endif
 
-			_model.CameraLoading = false;
+			_model.adaptiveLoading = false;
 
-			LoadingView.SetBinding(VisualElement.IsVisibleProperty, new Binding("CameraLoading"));
+			LoadingView.SetBinding(VisualElement.IsVisibleProperty, new Binding("adaptiveLoading"));
 
-			_model.CanCapture = CameraView.CameraAvailable;
+			_model.CanCapture = adaptiveView.adaptiveAvailable;
 
 			switch (PageOrientation)
 			{
@@ -100,11 +100,11 @@ namespace Camera.Pages
 					break;
 			}
 
-			CameraView.NotifyOpenCamera(true);
+			adaptiveView.NotifyOpenadaptive(true);
 
-			// camera must store these widths for IOS on orientation changes for camera preview layer resizing
+			// adaptive must store these widths for IOS on orientation changes for adaptive preview layer resizing
 #if __IOS__
-				CameraView.NotifyWidths (CAMERA_BUTTON_CONTAINER_WIDTH);
+				adaptiveView.NotifyWidths (adaptive_BUTTON_CONTAINER_WIDTH);
 #endif
 
 			this.Show(navigationParameters);
@@ -120,7 +120,7 @@ namespace Camera.Pages
 			return;
 
 			if (TetrixGrid.TetrixGridLayout.Orientation == Orientation.Portrait)
-			if ((e.Y + FocusView.TargetHeight) >= (CameraButtonContainerPortrait.Y))
+			if ((e.Y + FocusView.TargetHeight) >= (adaptiveButtonContainerPortrait.Y))
 			return;
 
 			if ((TetrixGrid.TetrixGridLayout.Orientation != Orientation.Portrait) || model.FilmOn)
@@ -172,7 +172,7 @@ namespace Camera.Pages
 		/// <param name="e">If set to <c>true</c> e.</param>
 		private void HandleBusy(object sender, bool e)
 		{
-			_model.CameraLoading = e;
+			_model.adaptiveLoading = e;
 		}
 
 		/// <summary>
@@ -182,7 +182,7 @@ namespace Camera.Pages
 		/// <param name="e">If set to <c>true</c> e.</param>
 		private void HandleLoading(object sender, bool e)
 		{
-			_model.CameraLoading = e;
+			_model.adaptiveLoading = e;
 		}
 
 		#endregion
@@ -210,18 +210,18 @@ namespace Camera.Pages
 		/// <param name="arg">Argument.</param>
 		public void HandleOrientationChange(object sender, Orientation arg)
 		{
-			FocusView.Orientation = CameraView.Orientation = OrientationPage.PageOrientation = _model.PageOrientation = arg;
+			FocusView.Orientation = adaptiveView.Orientation = OrientationPage.PageOrientation = _model.PageOrientation = arg;
 
 			// bindings will not work with column width properties so we have to perform this manually
 			switch (PageOrientation)
 			{
 				case Orientation.LandscapeLeft:
 				case Orientation.LandscapeRight:
-					MainLayout.ColumnDefinitions[5].Width = new GridLength(CAMERA_BUTTON_CONTAINER_WIDTH, 
+					MainLayout.ColumnDefinitions[5].Width = new GridLength(adaptive_BUTTON_CONTAINER_WIDTH, 
 					                                                       GridUnitType.Absolute);
 					break;
 				case Orientation.Portrait:
-					MainLayout.ColumnDefinitions[4].Width = new GridLength(CAMERA_BUTTON_CONTAINER_WIDTH, 
+					MainLayout.ColumnDefinitions[4].Width = new GridLength(adaptive_BUTTON_CONTAINER_WIDTH, 
 					                                                       GridUnitType.Absolute);
 					break;
 			}
@@ -231,7 +231,7 @@ namespace Camera.Pages
 				FocusView.Reset();
 			}
 
-			CameraView.NotifyOrientationChange(arg);
+			adaptiveView.NotifyOrientationChange(arg);
 		}
 
 		/// <summary>
@@ -243,24 +243,24 @@ namespace Camera.Pages
 		{
 			if (_model.CanCapture)
 			{
-				CameraView.NotifyFocus(arg);
+				adaptiveView.NotifyFocus(arg);
 			}
 		}
 
 		/// <summary>
-		/// Handles the camera availability.
+		/// Handles the adaptive availability.
 		/// </summary>
 		/// <param name="sender">Sender.</param>
 		/// <param name="available">If set to <c>true</c> available.</param>
-		public void HandleCameraAvailability(object sender, bool available)
+		public void HandleadaptiveAvailability(object sender, bool available)
 		{
 			_model.CanCapture = available;
 
 			if (available)
 			{
-				_model.CameraLoading = false;
+				_model.adaptiveLoading = false;
 
-				// wait until camera is available before animating focus target, we have to invoke on UI thread as this is run asynchronously
+				// wait until adaptive is available before animating focus target, we have to invoke on UI thread as this is run asynchronously
 				Device.BeginInvokeOnMainThread(() =>
 				{
 					// set starting list opacity based on orientation
@@ -271,11 +271,11 @@ namespace Camera.Pages
 					// these bindings are created after page intitalizes
 					PhotoEditLayout.SetBinding(VisualElement.IsVisibleProperty, new Binding("PhotoEditOn"));
 
-					// camera button layouts
-					CameraButtonContainerLandscape.SetBinding(VisualElement.OpacityProperty, new Binding("PageOrientation", converter: new OrientationToDoubleConverter(), converterParameter: "1, 1"));
-					CameraButtonContainerLandscape.SetBinding(VisualElement.IsVisibleProperty, new Binding("PageOrientation", converter: new OrientationToBoolConverter(), converterParameter: "true, false"));
-					CameraButtonContainerPortrait.SetBinding(VisualElement.OpacityProperty, new Binding("PageOrientation", converter: new OrientationToDoubleConverter(), converterParameter: "0, 1"));
-					CameraButtonContainerPortrait.SetBinding(VisualElement.IsVisibleProperty, new Binding("PageOrientation", converter: new OrientationToBoolConverter(), converterParameter: "false, true"));
+					// adaptive button layouts
+					adaptiveButtonContainerLandscape.SetBinding(VisualElement.OpacityProperty, new Binding("PageOrientation", converter: new OrientationToDoubleConverter(), converterParameter: "1, 1"));
+					adaptiveButtonContainerLandscape.SetBinding(VisualElement.IsVisibleProperty, new Binding("PageOrientation", converter: new OrientationToBoolConverter(), converterParameter: "true, false"));
+					adaptiveButtonContainerPortrait.SetBinding(VisualElement.OpacityProperty, new Binding("PageOrientation", converter: new OrientationToDoubleConverter(), converterParameter: "0, 1"));
+					adaptiveButtonContainerPortrait.SetBinding(VisualElement.IsVisibleProperty, new Binding("PageOrientation", converter: new OrientationToBoolConverter(), converterParameter: "false, true"));
 
 					FocusView.Reset();
 				});
@@ -289,7 +289,7 @@ namespace Camera.Pages
 		/// <param name="args">Arguments.</param>
 		public void HandleShutter(object sender, EventArgs args)
 		{
-			CameraView.NotifyShutter();
+			adaptiveView.NotifyShutter();
 		}
 
 		/// <summary>
@@ -300,7 +300,7 @@ namespace Camera.Pages
 		public void HandleFlash(object sender, EventArgs args)
 		{
 			_model.IsFlashOn = !_model.IsFlashOn;
-			CameraView.NotifyFlash(_model.IsFlashOn);
+			adaptiveView.NotifyFlash(_model.IsFlashOn);
 		}
 
 		/// <summary>

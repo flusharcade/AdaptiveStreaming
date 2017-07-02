@@ -8,7 +8,7 @@ using System;
 
 using UIKit;
 
-namespace Camera.iOS.Extensions
+namespace AdaptiveStreaming.iOS.Extensions
 {
 	/// <summary>
 	/// UIC olor extensions.

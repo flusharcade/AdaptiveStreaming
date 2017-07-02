@@ -1,10 +1,10 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui:ExtendedContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:ui="clr-namespace:Camera.UI;assembly=Camera"
-	xmlns:e="clr-namespace:Camera.Effects;assembly=Camera"
-	xmlns:t="clr-namespace:Camera.Triggers;assembly=Camera"
-	x:Class="Camera.Pages.MainPage"
+	xmlns:ui="clr-namespace:AdaptiveStreaming.UI;assembly=AdaptiveStreaming"
+	xmlns:e="clr-namespace:AdaptiveStreaming.Effects;assembly=AdaptiveStreaming"
+	xmlns:t="clr-namespace:AdaptiveStreaming.Triggers;assembly=AdaptiveStreaming"
+	x:Class="AdaptiveStreaming.Pages.MainPage"
 	BackgroundColor="White"
 	Title="Welcome">
 
@@ -21,7 +21,7 @@
 				<ColumnDefinition Width="*"/>
 			</Grid.ColumnDefinitions>
 
-			<Image x:Name="Image" Source="camera.png" HeightRequest="120" WidthRequest="120" 
+			<Image x:Name="Image" Source="adaptive.png" HeightRequest="120" WidthRequest="120" 
 					Grid.Row="0" Grid.Column="0"/>
 
 			<Label x:Name="DesciptionLabel" Text="{Binding DescriptionMessage}" TextColor="Black" 
@@ -35,8 +35,8 @@
 				</Label.Effects>
 			</Label>
 			
-			<Button x:Name="CameraButton" Text="{Binding CameraTitle}" 
-				Command="{Binding CameraCommand}" Style="{StaticResource BaseButtonStyle}" Grid.Row="2" Grid.Column="0">
+			<Button x:Name="adaptiveButton" Text="{Binding AdaptiveTitle}" 
+				Command="{Binding adaptiveCommand}" Style="{StaticResource BaseButtonStyle}" Grid.Row="2" Grid.Column="0">
 				<Button.Triggers>
 					<EventTrigger Event="Clicked">
                     	<t:ButtonClickedTrigger/>

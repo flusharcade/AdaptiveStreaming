@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.Droid.Extras
+namespace AdaptiveStreaming.Droid.Extras
 {
 	using System.Threading.Tasks;
 
@@ -14,7 +14,7 @@ namespace Camera.Droid.Extras
 
 	using Xamarin.Forms;
 
-	using Camera.Portable.Extras;
+	using AdaptiveStreaming.Portable.Extras;
 
 	/// <summary>
 	/// The android methods interface

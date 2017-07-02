@@ -4,14 +4,14 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Camera.iOS.Extras
+namespace AdaptiveStreaming.iOS.Extras
 {
 	using System.Threading.Tasks;
 	using System;
 
 	using UIKit;
 
-	using Camera.Portable.Extras;
+	using AdaptiveStreaming.Portable.Extras;
 
 	/// <summary>
 	/// The methods interface

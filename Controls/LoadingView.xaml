@@ -1,9 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	x:Class="Camera.Controls.LoadingView"
-	xmlns:controls="clr-namespace:Camera.Controls;assembly=LogIt.XamForms"
-	xmlns:converters="clr-namespace:Camera.Converters;assembly=LogIt.XamForms"
+	x:Class="AdaptiveStreaming.Controls.LoadingView"
+	xmlns:controls="clr-namespace:AdaptiveStreaming.Controls;assembly=AdaptiveStreaming"
+	xmlns:converters="clr-namespace:AdaptiveStreaming.Converters;assembly=AdaptiveStreaming"
 	BackgroundColor="White">
 
     <Grid x:Name="MainLayout" BackgroundColor="Black">
